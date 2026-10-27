@@ -1,5 +1,9 @@
 # Cold-run gate — transcript
 
+> **History, not scored evidence.** These runs were made before `cold-run.py` recorded raw JSON, so
+> what survives is excerpts. The scored walks live in [`walks/`](../../walks/CONTEXT.md); this page
+> stays because the first, failed run is why the door lines exist.
+
 **Three transcripts, two configurations** — and the gate row repeated to **n = 5**, since a claim
 measured once is an anecdote. One question against the shipped map, on `claude-opus-5`, in sessions
 with **no** memory, no project instructions and no coaching: the system prompt names two

@@ -1,0 +1,31 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "fixture": true,
+  "question_id": "fixture-services",
+  "question": "What is Services?",
+  "configuration": "catalog_in_context",
+  "model": "fixture",
+  "effort": "fixture",
+  "recorded_at": "fixture",
+  "map_commit": "fixture",
+  "territory_commit": "fixture",
+  "catalog": {
+    "path": "CATALOG.md",
+    "sha256": "4648fd2efc4132fcb0d0a8bab59faad94fb08cde376ac46e890dbc0f5f246c55"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "cards/02-the-agents-offer.md",
+      "sha256": "f9b52b4fe7f8fa14ac553d41df5c39dbd19268053b054345c9cae0de1ccb870e"
+    }
+  ],
+  "listings": [],
+  "turns": 2,
+  "max_turns": 12,
+  "final_stop_reason": "end_turn",
+  "final_answer": "Services is the vendor list: vetted third-party businesses (inspectors, lenders, movers), not the agent's own offer.",
+  "message_ids": [],
+  "transcript": [],
+  "fixture_note": "Opened the neighbor card instead of the expected one; the answer happens to be right."
+}
