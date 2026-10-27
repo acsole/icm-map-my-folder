@@ -164,7 +164,7 @@ The map does not edit its territory, and neither does this revision. Both findin
 | `walks/` | new — the contract, the first question, and the verdicts it produces |
 | `reference/worked-example/cold-run-transcript.md` | a note at the top: history, not scored evidence |
 | `README.md` | an offline "check it yourself" section, links to this page and `EXPLAINED.md`, credits |
-| `docs/index.html` | the self-test output in place of the unreproducible bad-card output, the offline scorer, credits |
+| `docs/index.html` | the self-test output in place of the unreproducible bad-card output, the offline scorer, credits; the sharing metadata and footer links now point to this repository and its page, with a separate link to the original repository |
 | `LICENSE` | a second copyright line for the revision; the original line unchanged |
 | `EXPLAINED.md`, `CHANGES.md` | new |
 
