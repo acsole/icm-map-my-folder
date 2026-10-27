@@ -40,8 +40,8 @@ Then: **"Map `~/path/to/your/folder`."** Give a path, not a description.
 **To read a map that already exists** — including the one shipped here — add its `CATALOG.md`. Add a
 card only when the catalog sends you to one.
 
-**Do not add `reference/worked-example/cards/` to a project.** Seven cards about somebody else's
-repo will crowd out your own folder and teach the model to answer from the wrong territory. The
+**Do not add `reference/worked-example/cards/` or its districts to a project.** Cards about somebody
+else's repo will crowd out your own folder and teach the model to answer from the wrong territory. The
 worked example is a sample of output, not payload.
 
 ## First-run prompts
@@ -51,7 +51,7 @@ worked example is a sample of output, not payload.
 | A map of your folder | `Map ~/code/whatever. Start with the enumeration; don't open anything yet.` |
 | To know if it is even mappable | `Run the territory check on ~/code/whatever and stop.` |
 | To read the shipped example | `What is Services?` — then check that it opened **one card** and stopped |
-| To check a map you already have | `python3 reference/checks/refusal-checks.py --map <map-dir> --territory <folder>` |
+| To check a map you already have | `python3 reference/checks/refusal-checks.py --map <map-dir> --territory <folder>`, once per folder of cards, then `python3 reference/checks/catalog-checks.py --map <map-dir>` |
 
 ## What it is
 
@@ -63,6 +63,9 @@ worked example is a sample of output, not payload.
   reads stop at two). [`reference/walks.md`](reference/walks.md)
 - **Two refusals**, one of them runnable: no photocopy, no slurping. [`rules.md`](rules.md),
   [`reference/checks/refusal-checks.py`](reference/checks/refusal-checks.py)
+- **One screen per catalog** — seven rows at most; a row may open a district, a catalog one level
+  down under the same rule, checked by
+  [`reference/checks/catalog-checks.py`](reference/checks/catalog-checks.py).
 - **A worked example** — a full map of a real repo, `NFTYoginis/your-market-realtor`, with the
   commands and output behind every state verdict.
   [`reference/worked-example/`](reference/worked-example/)
@@ -84,12 +87,15 @@ something that no longer exists.
 ## The worked example
 
 `NFTYoginis/your-market-realtor` — one specialist engine, one region blueprint, four populated
-markets, a public site. Seven cards, and the ceiling was reached: everything else is one line in
+markets, a public site. The top catalog is full at seven rows, and the engine's row opens a district
+for the work an agent is paid for — the jobs, the first turn, the frameworks, the output templates,
+the intake checklists. Everything else is one line in
 [`notes.md`](reference/worked-example/notes.md) with the test it failed.
 
     reference/worked-example/
       CATALOG.md               ← start here
       cards/                   ← one card, when the catalog sends you
+      districts/engine/        ← the engine's own catalog and cards, when row 1 sends you
       notes.md                 ← every noun that got no card, and why
       verification-log.md      ← the commands and output behind every state verdict
       cold-run-transcript.md   ← a fresh session, no memory, asked one question
@@ -106,6 +112,10 @@ Clone the territory, then run the checks. Neither needs a network or a package.
     python3 reference/checks/refusal-checks.py --self-test
     python3 reference/checks/refusal-checks.py \
         --map reference/worked-example --territory ./your-market-realtor
+    python3 reference/checks/refusal-checks.py \
+        --map reference/worked-example/districts/engine --territory ./your-market-realtor
+    python3 reference/checks/catalog-checks.py --self-test
+    python3 reference/checks/catalog-checks.py --map reference/worked-example
     python3 reference/checks/score-walk.py --self-test
     python3 reference/checks/score-walk.py --walks walks/ --map . --territory ./your-market-realtor
 
@@ -127,8 +137,9 @@ framing at all — and its pass bar, written before any run is scored.
 Without a key, the same walk can be recorded through the Claude Code CLI, signed in with a Claude
 subscription: [`cold-run-claude-code.py`](reference/checks/cold-run-claude-code.py), same arguments.
 Its transcripts are marked as a different harness and scored under their own verdict, never pooled
-with API runs. `q01-services` recorded this way **passes**; why it took two attempts is in
-[`CHANGES.md`](CHANGES.md).
+with API runs. Three questions are recorded this way: two pass, and the third — written by an
+outsider who had seen only the territory's README — fails, after finding a gap in the map that was
+then fixed. Why, run by run, is in [`CHANGES.md`](CHANGES.md) § 6.
 
 The runs in `cold-run-transcript.md` predate the recorder: they survive as excerpts, not raw JSON,
 so the scorer does not count them. Until API runs are recorded, the API verdict reads `fail`, and
@@ -143,7 +154,9 @@ worked example and every finding on the map are his:
 
 **This revision is by Andrés Curcio** ([@acsole](https://github.com/acsole)), made from the
 competition judges' feedback with the original author's permission. It adds the offline walk scorer,
-the self-tests and their fixtures, `EXPLAINED.md` and `CHANGES.md`. [`CHANGES.md`](CHANGES.md) lists
+a second walk recorder that needs no API key, the self-tests and their fixtures, the district rule
+with its catalog checks, the engine's district in the worked example, `EXPLAINED.md` and
+`CHANGES.md`. [`CHANGES.md`](CHANGES.md) lists
 every file it touched and why.
 
 ## Licence

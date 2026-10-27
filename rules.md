@@ -29,8 +29,13 @@ A noun that passes all three is then tested against the seven types in
 
 - [ ] **It fails all seven types → it gets NO card.** One line in `notes.md`, naming the path and why
       it failed. This is not a shortfall in the map; it is the map doing its job.
-- [ ] **It passes a type but the catalog is full → it gets NO card.** Name it in the Does-not-hit
-      line of the nearest card and record it in `notes.md` under *held at the ceiling*.
+- [ ] **It passes a type but its catalog is full → it gets NO card**, unless its area already
+      holds enough real nouns to open a district (`reference/card-types.md` § The ceiling). Otherwise
+      name it in the Does-not-hit line of the nearest card and record it in `notes.md` under *held
+      at the ceiling*.
+- [ ] **Every catalog, top or district, passes its own check.** Seven rows at most, one card per
+      row, every card reached by exactly one row, no counts in a catalog —
+      [`reference/checks/catalog-checks.py`](reference/checks/catalog-checks.py).
 
 ## The movement test — is this a movement or a wish?
 

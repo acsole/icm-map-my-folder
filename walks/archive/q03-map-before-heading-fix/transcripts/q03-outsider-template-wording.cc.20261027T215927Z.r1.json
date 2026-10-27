@@ -1,0 +1,354 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q03-outsider-template-wording",
+  "question": "If I rename or restructure a section in a region/ template file, what in rules.md or the framework files depends on that exact wording, and would it break users' existing region packs, which the upgrade path tells them to keep?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T22:00:22+00:00",
+  "map_commit": "8857214979ec6f613b390d2c56b538d8b3e64f49+dirty",
+  "territory_commit": "702e79cdeed5c4b4b262d5456586cbccee4b0d3f",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "9caff7e11911c3a55c54686529cd23f4f7155d551cc4f45496816e91d6d146d9"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/cards/02-the-region-blueprint.md",
+      "sha256": "43c946f7cd4ed23ebb3843905609abfc636f71f8e1687f39cdb3714549726588"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/rules.md",
+      "sha256": "c16939547fc31798a3a5f28f0d0c0e9827a22052f8d81b17fa1fa8e6972242d3"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/frameworks/pricing.md",
+      "sha256": "2c42ca0a06b13267ade68c5ed1ca81381d0b705619c33e3cb577c5c74e0f2ad9"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/frameworks/buyer-fit.md",
+      "sha256": "fe7794241c251f46f4de676fd1158b249417aab5df085deb3cd92378aa767fd6"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/frameworks/international-buyers.md",
+      "sha256": "286cf2c18ab711999fdeeece0155ff660161a35f41c012e14eb82039f3b8c44d"
+    },
+    {
+      "root": "repo",
+      "path": "README.md",
+      "sha256": "c78a298848a30dc810c3fbd4f16998374117859dfbdf75bd829a4d8fc04cfe92"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/region/market.md",
+      "sha256": "190eaf550f5705087231bea06a8eefcbeb5079b7f3af2e3f9a1897ba13eb9a7c"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/region/services.md",
+      "sha256": "7f4eb380000a34bfb3164e9866bcd32826267a31c6efb9ffe5b6dd5288d31656"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/templates/listing.md",
+      "sha256": "367f03bccd678503a826d49817d9ff5060652c3877b66c8f47cde67d097af0c1"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/templates/pricing-memo.md",
+      "sha256": "6df2454993f49c945ff63e6032328e6ecd6d8ddf35355802e39a3ccb5f6c53c9"
+    },
+    {
+      "root": "repo",
+      "path": "case-studies/lisbon-portugal/region/market.md",
+      "sha256": "9fe81995e1e8d1dc261a113046dfe2b47f15b66794cd0d522a39de565dab629a"
+    }
+  ],
+  "listings": [
+    "repo:.:specialist/**/*.md",
+    "repo:.:*.md"
+  ],
+  "turns": 14,
+  "final_stop_reason": "end_turn",
+  "final_answer": "I've finished reading the engine files and the templates. Here's the answer.\n\n**Short answer:** Renaming a section in the `region/` blueprint won't break any existing pack, because the upgrade path never touches them. The risk runs the other way. Five places outside `region/` point at specific section names or marker strings. If you rename a section and also update those references to match, everyone who upgrades keeps their old pack (as instructed) and ends up with an engine that refers to sections their pack doesn't have. Some of those references fail silently.\n\n## What depends on region wording\n\n| Where | What it refers to | How strict |\n|---|---|---|\n| `rules.md:59` | the literal `[PLACEHOLDER]` string in `reference/region/*.md` | **Exact.** This is the only exact-string dependency in `rules.md`. Change the marker and the empty-region check stops firing. |\n| `rules.md:27-33, 45` | **filenames** only (`region/market.md`, etc.), plus \"per the rules in `region/services.md`\" | Filename-level. It never names a section heading, so renaming a section is safe here; renaming a file is not. |\n| `frameworks/pricing.md:46` | `region/market.md` under **\"Pricing Adjustment Magnitudes\"** | Named section |\n| `frameworks/international-buyers.md:13` | `region/market.md`'s **\"Foreign Buyer Activity\"** section | Named section (`:82` also mentions it in looser lowercase) |\n| `templates/listing.md:11` | a **\"Buyer-disclosure conventions\"** section in `region/market.md`: \"If the section is absent, skip\" | **Fails silently.** A renamed or missing heading reads as \"this market has no conventions.\" |\n\nOut of scope for your question but in the same family: `region/market.md:48, 60` tells users to write the sentinel phrases \"Not a meaningful segment\" and \"None beyond legal minimum\", which the specialist uses as skip signals.\n\n## How these references actually behave\n\nThey're prose instructions read by an LLM, not parsed headings, so loose matches work. Lisbon already proves it. Its `market.md` uses \"Adjustment magnitudes for pricing memos\" (template: \"Pricing adjustment magnitudes\") and \"Foreign-buyer activity\" (hyphenated). Lisbon has **no** \"Buyer-disclosure conventions\" section at all, so under `listing.md:11` its listings currently skip market disclosures entirely.\n\nSo a cosmetic rename is low-risk. Restructuring is riskier: splitting a section, merging it into another, or moving it to another file. The engine is told to look in a specific place, and when it doesn't find it there, it skips without saying so.\n\n## Existing packs and the upgrade path\n\n- **Packs are copies, not references.** Editing the blueprint changes nothing in any existing pack or case study. The engine only reads the blueprint as live data for a market that hasn't been filled in yet.\n- **Upgrades skip `region/`.** README `:270-272` says to replace everything in `specialist/` *except* `reference/region/` and keep your populated folder. The v1→v2 migration (`:217`, `:280`) also says to drop the old region files in as they are.\n- **The only failure is a mismatch.** If you rename a section *and* update `pricing.md`, `international-buyers.md` or `listing.md` to match, upgraded users run new references against old headings. With the loose references they'll probably still get matched. With `listing.md`'s \"if absent, skip\" they won't, and nothing will warn them.\n- **One less obvious catch:** `region/services.md:58-65` holds the specialist's own **\"Rules for the specialist\"**: never invent vendors, the 12-month date check, one name rather than three. `rules.md:45` hands that behaviour to this file. Since users keep their `region/`, **any change you make to those rules never reaches existing users.** It only reaches people who start from the blueprint.\n\n## If you go ahead\n\n- Keep the old heading as an alias, or have consumers match loosely (\"the foreign-buyer activity section, however titled\").\n- Change `listing.md:11` from \"if absent, skip\" to \"if absent, say so.\"\n- Keep the exact `[PLACEHOLDER]` marker.\n- Move behavioural rules out of `services.md` and into `rules.md` (or a template), where upgrades actually deliver them.\n\nNote on the map: its card for the region blueprint covers who an edit reaches (future copies plus the live read-path at `rules.md:27-33, :59`). It doesn't cover the section-name references in the frameworks and templates, or the rules embedded in `services.md`. I found those by reading the files directly, not from the map.",
+  "message_ids": [
+    "msg_011CgTVXxpMQcsK1Q6pLtvbR",
+    "msg_011CgTVXxpMQcsK1Q6pLtvbR",
+    "msg_011CgTVYDokuuDfo7agMnEXw",
+    "msg_011CgTVYDokuuDfo7agMnEXw",
+    "msg_011CgTVYDokuuDfo7agMnEXw",
+    "msg_011CgTVYDokuuDfo7agMnEXw",
+    "msg_011CgTVYc8vHqHXc9KiMUC3N",
+    "msg_011CgTVYc8vHqHXc9KiMUC3N",
+    "msg_011CgTVYc8vHqHXc9KiMUC3N",
+    "msg_011CgTVYc8vHqHXc9KiMUC3N",
+    "msg_011CgTVYc8vHqHXc9KiMUC3N",
+    "msg_011CgTVYyBwy2vSCE2qnPP32",
+    "msg_011CgTVYyBwy2vSCE2qnPP32",
+    "msg_011CgTVYyBwy2vSCE2qnPP32",
+    "msg_011CgTVZVNuC8AqKgYczWnMW",
+    "msg_011CgTVZVNuC8AqKgYczWnMW",
+    "msg_011CgTVZVNuC8AqKgYczWnMW",
+    "msg_011CgTVZVNuC8AqKgYczWnMW",
+    "msg_011CgTVZw7DDAZTi7VFSA6Lv",
+    "msg_011CgTVZw7DDAZTi7VFSA6Lv"
+  ],
+  "session_id": "fb9a47d0-c398-4419-9730-540c92c87e93",
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 35455,
+    "cache_read_input_tokens": 82735,
+    "output_tokens": 4692,
+    "output_tokens_details": {
+      "thinking_tokens": 1870
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 35455,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2247,
+        "cache_read_input_tokens": 31664,
+        "cache_creation_input_tokens": 6719,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 6719
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTVXxpMQcsK1Q6pLtvbR",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTVXxpMQcsK1Q6pLtvbR",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\cards\\02-the-region-blueprint.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTVYDokuuDfo7agMnEXw",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTVYDokuuDfo7agMnEXw",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\rules.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTVYDokuuDfo7agMnEXw",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "specialist/**/*.md",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTVYDokuuDfo7agMnEXw",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "*.md",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTVYc8vHqHXc9KiMUC3N",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTVYc8vHqHXc9KiMUC3N",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\frameworks\\pricing.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 8,
+      "message_id": "msg_011CgTVYc8vHqHXc9KiMUC3N",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\frameworks\\buyer-fit.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 9,
+      "message_id": "msg_011CgTVYc8vHqHXc9KiMUC3N",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\frameworks\\international-buyers.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 10,
+      "message_id": "msg_011CgTVYc8vHqHXc9KiMUC3N",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\README.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 11,
+      "message_id": "msg_011CgTVYyBwy2vSCE2qnPP32",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 12,
+      "message_id": "msg_011CgTVYyBwy2vSCE2qnPP32",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\region\\market.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 13,
+      "message_id": "msg_011CgTVYyBwy2vSCE2qnPP32",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\region\\services.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 14,
+      "message_id": "msg_011CgTVZVNuC8AqKgYczWnMW",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 15,
+      "message_id": "msg_011CgTVZVNuC8AqKgYczWnMW",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\templates\\listing.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 16,
+      "message_id": "msg_011CgTVZVNuC8AqKgYczWnMW",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\templates\\pricing-memo.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 17,
+      "message_id": "msg_011CgTVZVNuC8AqKgYczWnMW",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\case-studies\\lisbon-portugal\\region\\market.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 18,
+      "message_id": "msg_011CgTVZw7DDAZTi7VFSA6Lv",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 19,
+      "message_id": "msg_011CgTVZw7DDAZTi7VFSA6Lv",
+      "text": "I've finished reading the engine files and the templates. Here's the answer.\n\n**Short answer:** Renaming a section in the `region/` blueprint won't break any existing pack, because the upgrade path never touches them. The risk runs the other way. Five places outside `region/` point at specific section names or marker strings. If you rename a section and also update those references to match, everyone who upgrades keeps their old pack (as instructed) and ends up with an engine that refers to sections their pack doesn't have. Some of those references fail silently.\n\n## What depends on region wording\n\n| Where | What it refers to | How strict |\n|---|---|---|\n| `rules.md:59` | the literal `[PLACEHOLDER]` string in `reference/region/*.md` | **Exact.** This is the only exact-string dependency in `rules.md`. Change the marker and the empty-region check stops firing. |\n| `rules.md:27-33, 45` | **filenames** only (`region/market.md`, etc.), plus \"per the rules in `region/services.md`\" | Filename-level. It never names a section heading, so renaming a section is safe here; renaming a file is not. |\n| `frameworks/pricing.md:46` | `region/market.md` under **\"Pricing Adjustment Magnitudes\"** | Named section |\n| `frameworks/international-buyers.md:13` | `region/market.md`'s **\"Foreign Buyer Activity\"** section | Named section (`:82` also mentions it in looser lowercase) |\n| `templates/listing.md:11` | a **\"Buyer-disclosure conventions\"** section in `region/market.md`: \"If the section is absent, skip\" | **Fails silently.** A renamed or missing heading reads as \"this market has no conventions.\" |\n\nOut of scope for your question but in the same family: `region/market.md:48, 60` tells users to write the sentinel phrases \"Not a meaningful segment\" and \"None beyond legal minimum\", which the specialist uses as skip signals.\n\n## How these references actually behave\n\nThey're prose instructions read by an LLM, not parsed headings, so loose matches work. Lisbon already proves it. Its `market.md` uses \"Adjustment magnitudes for pricing memos\" (template: \"Pricing adjustment magnitudes\") and \"Foreign-buyer activity\" (hyphenated). Lisbon has **no** \"Buyer-disclosure conventions\" section at all, so under `listing.md:11` its listings currently skip market disclosures entirely.\n\nSo a cosmetic rename is low-risk. Restructuring is riskier: splitting a section, merging it into another, or moving it to another file. The engine is told to look in a specific place, and when it doesn't find it there, it skips without saying so.\n\n## Existing packs and the upgrade path\n\n- **Packs are copies, not references.** Editing the blueprint changes nothing in any existing pack or case study. The engine only reads the blueprint as live data for a market that hasn't been filled in yet.\n- **Upgrades skip `region/`.** README `:270-272` says to replace everything in `specialist/` *except* `reference/region/` and keep your populated folder. The v1→v2 migration (`:217`, `:280`) also says to drop the old region files in as they are.\n- **The only failure is a mismatch.** If you rename a section *and* update `pricing.md`, `international-buyers.md` or `listing.md` to match, upgraded users run new references against old headings. With the loose references they'll probably still get matched. With `listing.md`'s \"if absent, skip\" they won't, and nothing will warn them.\n- **One less obvious catch:** `region/services.md:58-65` holds the specialist's own **\"Rules for the specialist\"**: never invent vendors, the 12-month date check, one name rather than three. `rules.md:45` hands that behaviour to this file. Since users keep their `region/`, **any change you make to those rules never reaches existing users.** It only reaches people who start from the blueprint.\n\n## If you go ahead\n\n- Keep the old heading as an alias, or have consumers match loosely (\"the foreign-buyer activity section, however titled\").\n- Change `listing.md:11` from \"if absent, skip\" to \"if absent, say so.\"\n- Keep the exact `[PLACEHOLDER]` marker.\n- Move behavioural rules out of `services.md` and into `rules.md` (or a template), where upgrades actually deliver them.\n\nNote on the map: its card for the region blueprint covers who an edit reaches (future copies plus the live read-path at `rules.md:27-33, :59`). It doesn't cover the section-name references in the frameworks and templates, or the rules embedded in `services.md`. I found those by reading the files directly, not from the map.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

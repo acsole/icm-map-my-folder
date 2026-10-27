@@ -1,0 +1,129 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q02-showing-notes",
+  "question": "Can the specialist write showing notes?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T21:59:26+00:00",
+  "map_commit": "8857214979ec6f613b390d2c56b538d8b3e64f49+dirty",
+  "territory_commit": "702e79cdeed5c4b4b262d5456586cbccee4b0d3f",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "9caff7e11911c3a55c54686529cd23f4f7155d551cc4f45496816e91d6d146d9"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/cards/1.2-the-job-set.md",
+      "sha256": "21e51aae702e7774ff250ffeabb0765f94072fdadc401148e0836a55ba0bc413"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/rules.md",
+      "sha256": "c16939547fc31798a3a5f28f0d0c0e9827a22052f8d81b17fa1fa8e6972242d3"
+    }
+  ],
+  "listings": [],
+  "turns": 3,
+  "final_stop_reason": "end_turn",
+  "final_answer": "Yes. Showing notes is one of the specialist's five jobs, and the routing does support it. There is one problem in how the rules are written, covered at the end.\n\n**Where it's supported** (I checked `specialist/rules.md` directly, and it matches the map's card 1.2):\n- **Routing table, line 30:** a Showing notes job reads `checklists/showing-intake.md` and `templates/showing-note.md`.\n- **Output, line 44:** Showing notes → `templates/showing-note.md`.\n- **Scope, line 83:** \"You support five jobs. That is the contract.\"\n- **Reuse later, lines 77–79:** showing notes are meant to be kept. When a matching or pricing job runs later for the same buyer or property, the specialist should check for earlier showing notes and cite them by tag. Friction tags carry forward across matching sessions.\n\n**The problem:** two sentences in the same file are left over from v1, when there were only three jobs, and they leave Showing notes out:\n- Line 7: \"Confirm the job first. **Listing, matching, or pricing?**\"\n- Line 18: \"**No work outside the three jobs.** Politely redirect.\"\n\nNothing actually routes on these lines; the table does. But the model reads them as instructions, so a strict reading of line 18 could make it turn down a showing-notes request, or the new Services lookup job. The fix would be to update both lines to list all five jobs. The map notes this problem but doesn't fix it. I didn't change anything either.",
+  "message_ids": [
+    "msg_011CgTVWbK1ccikcP363Q26r",
+    "msg_011CgTVWbK1ccikcP363Q26r",
+    "msg_011CgTVWqodyXK495oqbkamQ",
+    "msg_011CgTVWqodyXK495oqbkamQ",
+    "msg_011CgTVX6EZ9M5EPpBHeHRzz",
+    "msg_011CgTVX6EZ9M5EPpBHeHRzz"
+  ],
+  "session_id": "332745fc-0fb8-4ec1-ae4b-31e9cb385d2c",
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3193,
+    "cache_read_input_tokens": 11814,
+    "output_tokens": 837,
+    "output_tokens_details": {
+      "thinking_tokens": 143
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 3193,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 522,
+        "cache_read_input_tokens": 4550,
+        "cache_creation_input_tokens": 2275,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2275
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTVWbK1ccikcP363Q26r",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTVWbK1ccikcP363Q26r",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\cards\\1.2-the-job-set.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTVWqodyXK495oqbkamQ",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTVWqodyXK495oqbkamQ",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\rules.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTVX6EZ9M5EPpBHeHRzz",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTVX6EZ9M5EPpBHeHRzz",
+      "text": "Yes. Showing notes is one of the specialist's five jobs, and the routing does support it. There is one problem in how the rules are written, covered at the end.\n\n**Where it's supported** (I checked `specialist/rules.md` directly, and it matches the map's card 1.2):\n- **Routing table, line 30:** a Showing notes job reads `checklists/showing-intake.md` and `templates/showing-note.md`.\n- **Output, line 44:** Showing notes → `templates/showing-note.md`.\n- **Scope, line 83:** \"You support five jobs. That is the contract.\"\n- **Reuse later, lines 77–79:** showing notes are meant to be kept. When a matching or pricing job runs later for the same buyer or property, the specialist should check for earlier showing notes and cite them by tag. Friction tags carry forward across matching sessions.\n\n**The problem:** two sentences in the same file are left over from v1, when there were only three jobs, and they leave Showing notes out:\n- Line 7: \"Confirm the job first. **Listing, matching, or pricing?**\"\n- Line 18: \"**No work outside the three jobs.** Politely redirect.\"\n\nNothing actually routes on these lines; the table does. But the model reads them as instructions, so a strict reading of line 18 could make it turn down a showing-notes request, or the new Services lookup job. The fix would be to update both lines to list all five jobs. The map notes this problem but doesn't fix it. I didn't change anything either.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

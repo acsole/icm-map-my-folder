@@ -53,10 +53,20 @@ of cards and a page of one-liners; if everything got a card, the tests were not 
 
 ## The ceiling
 
-**Seven cards.** Not seven types each with a card — seven cards total, and a small territory may
-deserve three. A noun that passes a type after the catalog is full does not force an eighth card: it
-goes in the nearest card's Does-not-hit line, where it is more useful anyway, and gets a notes line
-saying it was held at the ceiling.
+**Seven rows per catalog.** Not seven types each with a card — seven rows on one screen, and a small
+territory may deserve three. A noun that passes a type after the catalog is full does not force an
+eighth row: it goes in the nearest card's Does-not-hit line, where it is more useful anyway, and gets
+a notes line saying it was held at the ceiling.
+
+**A row may open a district.** When one area of the territory has more real nouns than one row can
+carry, that row points to a **district**: a catalog one level down, under the same rule — seven rows
+at most, routing only, one card per row. The top catalog still fits on one screen, and so does every
+district. Open one only when the nouns are there and each has passed its type test; a district built
+to hold a bigger number is a fake city with a second floor.
+
+The reading cost is one more file when a reader browses by concept (catalog, district, card), and
+none when they arrive holding a file: the top catalog's *hand on a file* table routes straight to
+the card. Districts are one level deep; a district never opens another.
 
 Three real cards beat a fake city.
 

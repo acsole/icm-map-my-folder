@@ -1,0 +1,103 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q02-showing-notes",
+  "question": "Can the specialist write showing notes?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T22:10:03+00:00",
+  "map_commit": "8857214979ec6f613b390d2c56b538d8b3e64f49+dirty",
+  "territory_commit": "702e79cdeed5c4b4b262d5456586cbccee4b0d3f",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "9caff7e11911c3a55c54686529cd23f4f7155d551cc4f45496816e91d6d146d9"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/cards/1.2-the-job-set.md",
+      "sha256": "66204bdc09b6295e8b872dab71554a2bb3ad1e56b3fcd115fbc402d855649069"
+    }
+  ],
+  "listings": [],
+  "turns": 2,
+  "final_stop_reason": "end_turn",
+  "final_answer": "**Yes.** Showing notes is one of the specialist's five jobs. The others are Listing, Matching, Pricing and Services lookup. Its routing row in `specialist/rules.md:27-31` sends it to its own files, and `rules.md:41-45` gives it its own template. `rules.md:83` also says there are five jobs. The engine decides which files to read based on the job name, so Showing notes is a supported path.\n\n**One catch:** two sentences in the same file still describe v1, which had only three jobs:\n- `rules.md:7`: \"Listing, matching, or pricing?\"\n- `rules.md:18`: \"No work outside the three jobs\"\n\nThe routing table doesn't use either sentence, so they don't change what the engine does. But line 18 reads like a scope rule, and it leaves out Showing notes and Services lookup, the two jobs v2 added. A model following that line literally could turn down a showing-notes request. The map flags this problem but doesn't fix it. The fix would be to change both sentences to match the five-job list.\n\nTwo smaller points:\n- `identity.md` labels Showing notes as a \"supporting\" job, not a \"core\" one. That's a ranking, not a limit on what the specialist will do.\n- The five jobs are listed in four places: the routing row, the template line, the welcome menu (`welcome.md:27-31`) and `identity.md:13-24`. If you change one, you need to change all four, because nothing checks that they match.\n\nThis answer comes from the map's card on the job set (1.2), which quotes `rules.md` line by line at commit `702e79c`. I didn't open `rules.md` itself. If the repo has changed since that commit, the file wins over the card.",
+  "message_ids": [
+    "msg_011CgTWKm4woGWfNxNSsrwQL",
+    "msg_011CgTWKm4woGWfNxNSsrwQL",
+    "msg_011CgTWKxY2KayYLqSDxLmCW",
+    "msg_011CgTWKxY2KayYLqSDxLmCW"
+  ],
+  "session_id": "1fe90923-ded4-46b0-aacb-b2f7cff1b974",
+  "usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 956,
+    "cache_read_input_tokens": 7264,
+    "output_tokens": 848,
+    "output_tokens_details": {
+      "thinking_tokens": 186
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 956,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 676,
+        "cache_read_input_tokens": 3632,
+        "cache_creation_input_tokens": 956,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 956
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTWKm4woGWfNxNSsrwQL",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTWKm4woGWfNxNSsrwQL",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\cards\\1.2-the-job-set.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTWKxY2KayYLqSDxLmCW",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTWKxY2KayYLqSDxLmCW",
+      "text": "**Yes.** Showing notes is one of the specialist's five jobs. The others are Listing, Matching, Pricing and Services lookup. Its routing row in `specialist/rules.md:27-31` sends it to its own files, and `rules.md:41-45` gives it its own template. `rules.md:83` also says there are five jobs. The engine decides which files to read based on the job name, so Showing notes is a supported path.\n\n**One catch:** two sentences in the same file still describe v1, which had only three jobs:\n- `rules.md:7`: \"Listing, matching, or pricing?\"\n- `rules.md:18`: \"No work outside the three jobs\"\n\nThe routing table doesn't use either sentence, so they don't change what the engine does. But line 18 reads like a scope rule, and it leaves out Showing notes and Services lookup, the two jobs v2 added. A model following that line literally could turn down a showing-notes request. The map flags this problem but doesn't fix it. The fix would be to change both sentences to match the five-job list.\n\nTwo smaller points:\n- `identity.md` labels Showing notes as a \"supporting\" job, not a \"core\" one. That's a ranking, not a limit on what the specialist will do.\n- The five jobs are listed in four places: the routing row, the template line, the welcome menu (`welcome.md:27-31`) and `identity.md:13-24`. If you change one, you need to change all four, because nothing checks that they match.\n\nThis answer comes from the map's card on the job set (1.2), which quotes `rules.md` line by line at commit `702e79c`. I didn't open `rules.md` itself. If the repo has changed since that commit, the file wins over the card.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

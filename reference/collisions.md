@@ -32,6 +32,12 @@ renaming anything, you are telling the reader which one they are holding.
 | **services** | `services.md` — the agent's vetted list of *other people's* businesses: inspectors, lenders, movers | the agent's own services, which is what "services" means everywhere else in real estate |
 | **case study** | a populated market kept in the repo as evidence the architecture ports | a client success story — which is what the phrase means everywhere else in business |
 | **docs** | a folder on disk, `docs/` | the **site root** on the web: `/your-market-realtor/` → 200, `/your-market-realtor/docs/` → 404 |
+| **template** | something copied once and filled: the blank `services.md` (`specialist/README.md:88`, "template provided"), a populated market used "as a starting template" (`README.md:223`) | `specialist/reference/templates/` — the **output shape** the specialist follows on every run (`rules.md:37`, "Templates ARE the output structure"; `CONTRIBUTING.md:32`, "template structures") |
+
+**template** was found in the revision's collision pass, before the engine's district was written:
+an edit to the first reaches no existing market; an edit to the second changes the next answer in
+every market. See cards [`02`](worked-example/cards/02-the-region-blueprint.md) and
+[`1.5`](worked-example/districts/engine/cards/1.5-the-output-templates.md).
 
 **region** is the one that costs the most. Both senses are a folder named `region` holding six files
 with identical names, and the difference between them is the difference between an edit that reaches

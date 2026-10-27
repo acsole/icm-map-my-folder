@@ -27,7 +27,7 @@ job.
 **Does not hit:** `[VERIFY]`. It is the most visible bracketed token in the territory — 78
 occurrences across 8 files — and nothing in `specialist/` reads it; every occurrence sits under
 `case-studies/`, marking vendor contacts in illustrative entries. It directs a human, so it fails the
-marker test, and at the seven-card ceiling it gets no card of its own (see `notes.md`). Visibility is
+marker test, and with its catalog full it gets no card of its own (see `notes.md`). Visibility is
 not a branch.
 
 **Done when:** you can name the file and line that branches on the value. A bracketed token nothing

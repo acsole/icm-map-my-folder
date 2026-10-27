@@ -36,8 +36,11 @@ identical from outside, and this is the step that decides half the Hits lines.
 
 **7. Cards. Last.** Now the Hits lines are lookups (type table in `rules.md`), the state lines have
 evidence, and the words mean one thing each. Writing cards before step 6 means writing them twice.
+If one area has more cards than a row can carry, give it a district — a catalog one level down —
+rather than an eighth row (`card-types.md` § The ceiling).
 
-Then run [`checks/refusal-checks.py`](checks/refusal-checks.py). A map that fails its own checks
+Then run [`checks/refusal-checks.py`](checks/refusal-checks.py) on every folder of cards and
+[`checks/catalog-checks.py`](checks/catalog-checks.py) on the map. A map that fails its own checks
 does not ship.
 
 ---
@@ -46,9 +49,12 @@ does not ship.
 
 Four steps. Most reads stop at two.
 
-**1. Catalog.** One screen. Find the row your file lives under.
+**1. Catalog.** One screen. Find the row your file lives under. If you are holding a file, the
+*hand on a file* table sends you straight to its card.
 
-**2. One card.** The one the catalog pointed at. Read *What it is*.
+**2. One card.** The one the catalog pointed at. Read *What it is*. If the row opened a district
+instead, read that district's catalog — one more screen, same rule — and take the one card it
+points at.
 
 **3. Its Hits line — only if you are changing something.** If you are answering a question, you are
 already done; the Hits line is about blast radius and costs you a paragraph you will not use.

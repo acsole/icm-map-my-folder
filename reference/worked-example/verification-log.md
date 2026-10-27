@@ -13,7 +13,8 @@ from a clone of `NFTYoginis/your-market-realtor` at `702e79c`, 2026-08-18.
     62
 
 Clone level with origin, so every local check below is a check against the shared truth. 62 files
-enumerated, 7 carded — the count this map states anywhere else comes from that command.
+enumerated, 7 carded at first and 12 once the revision added the engine's district — the file count
+this map states anywhere else comes from that command.
 
 ---
 
@@ -124,9 +125,66 @@ moment, which is why card 07 records the movement (disk → origin → served) r
 
 ---
 
+## g) The engine's district — cards 1.2 to 1.6
+
+Added in the revision, run against the same commit (`git rev-parse --short HEAD` → `702e79c`).
+
+    $ grep -n "three jobs\|five jobs\|Listing, matching, or pricing" specialist/rules.md
+    7:- **Confirm the job first.** Listing, matching, or pricing? State which one before starting.
+    18:- **No work outside the three jobs.** Politely redirect.
+    83:You support five jobs. That is the contract. Common drift requests to redirect:
+    85:- "Draft an email to my seller" → redirect to one of the five jobs or the agent's CRM.
+    $ sed -n '11p' docs/v1-to-v2-spec.md
+    … v1 shipped May 2026 with three jobs (listing description, buyer-property fit ranking,
+      pricing with comps). v2 (also May 2026) expands to five jobs …
+
+The routing table (`rules.md:27-31`) has five rows. Lines 7 and 18 count v1's three: **LEFTOVER**,
+replaced by the five-row table, never removed. Card 1.2.
+
+    $ grep -n "welcome.md" specialist/rules.md specialist/identity.md
+    specialist/rules.md:35:`welcome.md` controls first-turn behavior …
+    specialist/identity.md:36:Open every new conversation with the welcome menu defined in `welcome.md` …
+
+Two readers in the engine: **LIVE**. Card 1.3.
+
+    $ sed -n '4p' specialist/reference/frameworks/international-buyers.md
+    > **Called by:** `templates/listing.md` Variant C …; `frameworks/buyer-fit.md` …; `frameworks/pricing.md` …
+    $ sed -n '15p' specialist/reference/frameworks/pricing.md
+    If any are missing, stop and use `checklists/listing-intake.md` to gather them before pricing:
+    $ grep -n "Services lookup →" specialist/rules.md
+    45:- Services lookup → no template; produce a 3–6 line response per the rules in `region/services.md`
+
+Frameworks, templates and checklists are each named by routing rows (`rules.md:27-30`): **LIVE**.
+The three lines above are the surprising reaches on cards 1.4, 1.6 and 1.5.
+
+## h) The engine reads `market.md` by section heading — card 02, found by an outsider's walk
+
+    $ grep -rnE 'region/market.md.{0,40}("|section)' specialist/reference/
+    frameworks/international-buyers.md:82: … `region/market.md`'s foreign-buyer activity section.
+    frameworks/pricing.md:46: … live in `region/market.md` under "Pricing Adjustment Magnitudes" …
+    templates/listing.md:11: … check `region/market.md` for a **"Buyer-disclosure conventions"** section …
+
+    $ grep -n "^#" specialist/reference/region/market.md        # the blank has all three
+    38:## Foreign buyer activity
+    50:## Buyer-disclosure conventions
+    64:## Pricing adjustment magnitudes
+
+    $ grep -niE "^#+ .*(adjust|magnitud|foreign|disclosure)" case-studies/*/region/market.md
+    jerusalem:   35 Foreign buyer activity · 43 Pricing adjustment magnitudes
+    khao-lak:    43 Foreign buyer activity · 53 Buyer-disclosure conventions · 64 Pricing adjustment magnitudes
+    lisbon:      19 Adjustment magnitudes for pricing memos · 37 Foreign-buyer activity
+    novato:      32 Foreign buyer activity · 38 Pricing adjustment magnitudes
+
+Three engine lines name a `market.md` section by heading. Lisbon's two are headed differently from
+the blank's, and only Khao Lak carries the disclosure section, which the listing template reads only
+"if present". Not found by the first Walk A; found when a walk on a question the mapmaker did not
+write left the map to look for it.
+
 ## What was reported, not repaired
 
 - `specialist/identity.md:52` says `reference/region/` holds **5 files**; six exist, and
   `README.md` / `CONTRIBUTING.md` / `docs/index.html` all say six. Card 04, Does-not-hit.
 - `CONTRIBUTING.md:12` names a path that has never existed. Card 06 — deliberately left open; it is
   the clearest ghost on the map.
+- `specialist/rules.md:7` and `:18` still count three jobs where the engine routes five. Card 1.2 —
+  left open for the same reason.

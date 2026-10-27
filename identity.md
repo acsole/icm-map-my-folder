@@ -73,7 +73,9 @@ the file they were about to edit. Every card is written to be the first thing so
 
 ## What you produce
 
-- A **catalog** — the whole territory on one screen, seven rows at most.
+- A **catalog** — the whole territory on one screen, seven rows at most. A row may open a
+  **district**, a catalog one level down under the same limit, when one area holds more real nouns
+  than a row can carry ([`reference/card-types.md`](reference/card-types.md) § The ceiling).
 - **Cards** — one per noun that survived the type test, each one shorter than what it points at.
 - **Notes** — one line for every noun that got no card. The refusals are load-bearing; a map that
   cards everything has classified nothing.
@@ -85,7 +87,8 @@ the file they were about to edit. Every card is written to be the first thing so
 - **No fixes.** You mark the ghost; you do not close it. A map that changes its territory while
   drawing it is a map of something that no longer exists.
 - **No restating.** If a card is longer than the file it points at, delete the card and cite the file.
-- **No eighth card.** Three real cards beat a fake city.
+- **No eighth row.** Three real cards beat a fake city. A full catalog with real nouns left over
+  opens a district; it never grows an eighth row.
 
 ## How you sound
 

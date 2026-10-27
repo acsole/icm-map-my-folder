@@ -1,0 +1,122 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q02-showing-notes",
+  "question": "Can the specialist write showing notes?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T22:09:48+00:00",
+  "map_commit": "8857214979ec6f613b390d2c56b538d8b3e64f49+dirty",
+  "territory_commit": "702e79cdeed5c4b4b262d5456586cbccee4b0d3f",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "9caff7e11911c3a55c54686529cd23f4f7155d551cc4f45496816e91d6d146d9"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/CATALOG.md",
+      "sha256": "e433212d00869c7bed4239da11bd306929527f05489437ca68e702d23f23aa44"
+    },
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/cards/1.2-the-job-set.md",
+      "sha256": "66204bdc09b6295e8b872dab71554a2bb3ad1e56b3fcd115fbc402d855649069"
+    }
+  ],
+  "listings": [],
+  "turns": 3,
+  "final_stop_reason": "end_turn",
+  "final_answer": "Yes. Showing notes is one of the specialist's five jobs. The others are Listing, Matching, Pricing and Services lookup. The routing table in `specialist/rules.md` (lines 27–31) sends Showing notes to its own files, and lines 41–45 give it its own output template. The welcome menu (`welcome.md:27-31`) and `identity.md:13-24` list it too. `identity.md` calls it a \"supporting\" job rather than a \"core\" one, but that only ranks the jobs. It doesn't change what the specialist is allowed to do.\n\nThere's a catch. Two sentences in `rules.md` still describe the old version, which had three jobs. Line 7 asks \"Listing, matching, or pricing?\" and line 18 says \"No work outside the three jobs.\" Nothing routes on line 18, since the table makes the routing decisions. But a model reading the file could still take it as a rule and refuse a showing-notes request. The map reports this mismatch but doesn't fix it. If the specialist ever turns down showing notes, line 18 is the likely cause. Deleting it or changing it to say five jobs would fix that, because line 83 of the same file already says five.\n\nThis comes from the project's map (card 1.2, \"The Job Set\"), which quotes those line numbers from the commit it was built against. I didn't open `rules.md` itself. If the file and the map disagree, the file is right.",
+  "message_ids": [
+    "msg_011CgTWJaecLjrKYUNDwWxso",
+    "msg_011CgTWJaecLjrKYUNDwWxso",
+    "msg_011CgTWJaecLjrKYUNDwWxso",
+    "msg_011CgTWJvnZnxwpP6znudStj",
+    "msg_011CgTWJvnZnxwpP6znudStj"
+  ],
+  "session_id": "cadc5063-523e-4f0f-877a-79f0aaec98f9",
+  "usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 2097,
+    "cache_read_input_tokens": 7264,
+    "output_tokens": 776,
+    "output_tokens_details": {
+      "thinking_tokens": 106
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 2097,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 476,
+        "cache_read_input_tokens": 3632,
+        "cache_creation_input_tokens": 2097,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2097
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTWJaecLjrKYUNDwWxso",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTWJaecLjrKYUNDwWxso",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\CATALOG.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTWJaecLjrKYUNDwWxso",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\cards\\1.2-the-job-set.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTWJvnZnxwpP6znudStj",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTWJvnZnxwpP6znudStj",
+      "text": "Yes. Showing notes is one of the specialist's five jobs. The others are Listing, Matching, Pricing and Services lookup. The routing table in `specialist/rules.md` (lines 27–31) sends Showing notes to its own files, and lines 41–45 give it its own output template. The welcome menu (`welcome.md:27-31`) and `identity.md:13-24` list it too. `identity.md` calls it a \"supporting\" job rather than a \"core\" one, but that only ranks the jobs. It doesn't change what the specialist is allowed to do.\n\nThere's a catch. Two sentences in `rules.md` still describe the old version, which had three jobs. Line 7 asks \"Listing, matching, or pricing?\" and line 18 says \"No work outside the three jobs.\" Nothing routes on line 18, since the table makes the routing decisions. But a model reading the file could still take it as a rule and refuse a showing-notes request. The map reports this mismatch but doesn't fix it. If the specialist ever turns down showing notes, line 18 is the likely cause. Deleting it or changing it to say five jobs would fix that, because line 83 of the same file already says five.\n\nThis comes from the project's map (card 1.2, \"The Job Set\"), which quotes those line numbers from the commit it was built against. I didn't open `rules.md` itself. If the file and the map disagree, the file is right.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

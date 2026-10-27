@@ -82,6 +82,7 @@ Now the names, each on top of an idea you already have.
 | **Type** | what kind of thing it is — the blank form is a BLUEPRINT, a city is an INSTANCE, and so on |
 | **State** | whether anything still uses it: LIVE, LEFTOVER (replaced and never removed), GHOST (named but missing) |
 | **Walk A / Walk B** | making a map / reading one. Kept apart, because mixing them is how a two-step read becomes a tour |
+| **District** | a smaller fuse box behind one switch. When one part of the house has more circuits than one label can describe, that label opens a panel of its own — still one screen, still at most seven labels |
 | **Gate** | a check a script runs. A card that fails one does not ship |
 | **Cold run** | asking a model with no memory one question, and recording what it opened |
 

@@ -1,0 +1,148 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q02-showing-notes",
+  "question": "Can the specialist write showing notes?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T21:58:22+00:00",
+  "map_commit": "8857214979ec6f613b390d2c56b538d8b3e64f49+dirty",
+  "territory_commit": "702e79cdeed5c4b4b262d5456586cbccee4b0d3f",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "9caff7e11911c3a55c54686529cd23f4f7155d551cc4f45496816e91d6d146d9"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/CATALOG.md",
+      "sha256": "e433212d00869c7bed4239da11bd306929527f05489437ca68e702d23f23aa44"
+    },
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/cards/1.2-the-job-set.md",
+      "sha256": "21e51aae702e7774ff250ffeabb0765f94072fdadc401148e0836a55ba0bc413"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/rules.md",
+      "sha256": "c16939547fc31798a3a5f28f0d0c0e9827a22052f8d81b17fa1fa8e6972242d3"
+    }
+  ],
+  "listings": [],
+  "turns": 4,
+  "final_stop_reason": "end_turn",
+  "final_answer": "Yes. Showing notes is one of the specialist's five jobs. One sentence in its own rules file says otherwise, though, and a model following that file could refuse the job.\n\n**Where the rules allow it** (`specialist/rules.md`):\n- **Routing table, line 30:** \"Showing notes\" has its own row. It reads `checklists/showing-intake.md` and `templates/showing-note.md`.\n- **Line 44:** its output must follow `templates/showing-note.md`.\n- **Line 83:** \"You support five jobs. That is the contract.\"\n- **Lines 77–79:** showing notes are kept as input for later jobs. When the agent runs a matching or pricing job for the same buyer or property, the specialist should cite earlier showing notes by tag. Their \"friction tags\" (the problems a buyer noticed) carry over from one session to the next.\n\n**The conflict:** two sentences in the same file are left over from v1, which had only three jobs:\n- **Line 7:** \"Listing, matching, or pricing? State which one before starting.\"\n- **Line 18:** \"No work outside the three jobs. Politely redirect.\"\n\nNothing routes on these lines; the routing table decides which job runs. But line 18 reads like a scope rule, so a model could take it literally and turn away showing notes (and services lookup, the other job v2 added). `docs/v1-to-v2-spec.md:11` says v2 replaced three jobs with five, so five is the intended scope. Changing lines 7 and 18 to name all five jobs would remove the problem.\n\nThe job list also appears in `welcome.md:27-31` (the first-turn menu) and `identity.md:13-24`. Nothing checks that these lists match. I checked only `rules.md`, so I haven't confirmed those two files list showing notes. I also didn't open the showing-note template or intake checklist.",
+  "message_ids": [
+    "msg_011CgTVQvdgzvtrdP6owQpvE",
+    "msg_011CgTVQvdgzvtrdP6owQpvE",
+    "msg_011CgTVRVNS4tFuWnVYaz5VK",
+    "msg_011CgTVRo927aHiU4Ytx2j8c",
+    "msg_011CgTVRo927aHiU4Ytx2j8c",
+    "msg_011CgTVS48BHUy674TJmedQy",
+    "msg_011CgTVS48BHUy674TJmedQy"
+  ],
+  "session_id": "c83579cd-3491-4d46-83b9-b43f485c130d",
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 4302,
+    "cache_read_input_tokens": 17717,
+    "output_tokens": 1120,
+    "output_tokens_details": {
+      "thinking_tokens": 206
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 4302,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 665,
+        "cache_read_input_tokens": 5643,
+        "cache_creation_input_tokens": 2291,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2291
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTVQvdgzvtrdP6owQpvE",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTVQvdgzvtrdP6owQpvE",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\CATALOG.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTVRVNS4tFuWnVYaz5VK",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\cards\\1.2-the-job-set.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTVRo927aHiU4Ytx2j8c",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTVRo927aHiU4Ytx2j8c",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\rules.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTVS48BHUy674TJmedQy",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTVS48BHUy674TJmedQy",
+      "text": "Yes. Showing notes is one of the specialist's five jobs. One sentence in its own rules file says otherwise, though, and a model following that file could refuse the job.\n\n**Where the rules allow it** (`specialist/rules.md`):\n- **Routing table, line 30:** \"Showing notes\" has its own row. It reads `checklists/showing-intake.md` and `templates/showing-note.md`.\n- **Line 44:** its output must follow `templates/showing-note.md`.\n- **Line 83:** \"You support five jobs. That is the contract.\"\n- **Lines 77–79:** showing notes are kept as input for later jobs. When the agent runs a matching or pricing job for the same buyer or property, the specialist should cite earlier showing notes by tag. Their \"friction tags\" (the problems a buyer noticed) carry over from one session to the next.\n\n**The conflict:** two sentences in the same file are left over from v1, which had only three jobs:\n- **Line 7:** \"Listing, matching, or pricing? State which one before starting.\"\n- **Line 18:** \"No work outside the three jobs. Politely redirect.\"\n\nNothing routes on these lines; the routing table decides which job runs. But line 18 reads like a scope rule, so a model could take it literally and turn away showing notes (and services lookup, the other job v2 added). `docs/v1-to-v2-spec.md:11` says v2 replaced three jobs with five, so five is the intended scope. Changing lines 7 and 18 to name all five jobs would remove the problem.\n\nThe job list also appears in `welcome.md:27-31` (the first-turn menu) and `identity.md:13-24`. Nothing checks that these lists match. I checked only `rules.md`, so I haven't confirmed those two files list showing notes. I also didn't open the showing-note template or intake checklist.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

@@ -1,0 +1,129 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q02-showing-notes",
+  "question": "Can the specialist write showing notes?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T21:59:07+00:00",
+  "map_commit": "8857214979ec6f613b390d2c56b538d8b3e64f49+dirty",
+  "territory_commit": "702e79cdeed5c4b4b262d5456586cbccee4b0d3f",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "9caff7e11911c3a55c54686529cd23f4f7155d551cc4f45496816e91d6d146d9"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/cards/1.2-the-job-set.md",
+      "sha256": "21e51aae702e7774ff250ffeabb0765f94072fdadc401148e0836a55ba0bc413"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/rules.md",
+      "sha256": "c16939547fc31798a3a5f28f0d0c0e9827a22052f8d81b17fa1fa8e6972242d3"
+    }
+  ],
+  "listings": [],
+  "turns": 3,
+  "final_stop_reason": "end_turn",
+  "final_answer": "Yes, it can. Showing notes is one of the specialist's five jobs. But two leftover sentences in the same file say otherwise, and they could lead the model to refuse.\n\n**Why the answer is yes** (`specialist/rules.md`):\n- **Routing table, line 30:** gives Showing notes its own row. That job reads `checklists/showing-intake.md` and `templates/showing-note.md`.\n- **Template list, line 44:** sets `templates/showing-note.md` as the format for its output.\n- **Line 83:** \"You support five jobs. That is the contract.\"\n- **Lines 75–79:** a v2 section treats showing notes as lasting data. Later matching and pricing jobs for the same buyer or property should cite them by tag.\n\n**The two lines that contradict this.** The original version of the rules (v1) had only three jobs, and two sentences were never updated:\n- **Line 7:** \"Confirm the job first. Listing, matching, or pricing?\" Showing notes isn't offered.\n- **Line 18:** \"No work outside the three jobs.\" This reads like a scope rule. Nothing actually uses it to choose a job (the routing table does that), but a model could still follow it and turn down showing notes or services lookup, the two jobs v2 added.\n\n`identity.md` labels showing notes a \"supporting\" job rather than a \"core\" one. That ranks the jobs; it doesn't remove showing notes from scope.\n\n**If you want to fix it:** update lines 7 and 18 to list all five jobs. The job list also appears in `welcome.md:27-31` and `identity.md:13-24`, and nothing checks that these places agree, so any future change to the jobs has to be made in all of them.\n\nI checked the map's card for the job list (1.2) against the actual `rules.md`, and they match.",
+  "message_ids": [
+    "msg_011CgTVVA99i8cCUUiq3Hrsd",
+    "msg_011CgTVVA99i8cCUUiq3Hrsd",
+    "msg_011CgTVVPZJHQFgzyoi9eu29",
+    "msg_011CgTVVPZJHQFgzyoi9eu29",
+    "msg_011CgTVVb27z39AWnXucGA62",
+    "msg_011CgTVVb27z39AWnXucGA62"
+  ],
+  "session_id": "9896f98d-11d5-4cd6-885d-eeb9bd13367b",
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3207,
+    "cache_read_input_tokens": 11799,
+    "output_tokens": 930,
+    "output_tokens_details": {
+      "thinking_tokens": 138
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 3207,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 601,
+        "cache_read_input_tokens": 4535,
+        "cache_creation_input_tokens": 2304,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2304
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTVVA99i8cCUUiq3Hrsd",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTVVA99i8cCUUiq3Hrsd",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\cards\\1.2-the-job-set.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTVVPZJHQFgzyoi9eu29",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTVVPZJHQFgzyoi9eu29",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\rules.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTVVb27z39AWnXucGA62",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTVVb27z39AWnXucGA62",
+      "text": "Yes, it can. Showing notes is one of the specialist's five jobs. But two leftover sentences in the same file say otherwise, and they could lead the model to refuse.\n\n**Why the answer is yes** (`specialist/rules.md`):\n- **Routing table, line 30:** gives Showing notes its own row. That job reads `checklists/showing-intake.md` and `templates/showing-note.md`.\n- **Template list, line 44:** sets `templates/showing-note.md` as the format for its output.\n- **Line 83:** \"You support five jobs. That is the contract.\"\n- **Lines 75–79:** a v2 section treats showing notes as lasting data. Later matching and pricing jobs for the same buyer or property should cite them by tag.\n\n**The two lines that contradict this.** The original version of the rules (v1) had only three jobs, and two sentences were never updated:\n- **Line 7:** \"Confirm the job first. Listing, matching, or pricing?\" Showing notes isn't offered.\n- **Line 18:** \"No work outside the three jobs.\" This reads like a scope rule. Nothing actually uses it to choose a job (the routing table does that), but a model could still follow it and turn down showing notes or services lookup, the two jobs v2 added.\n\n`identity.md` labels showing notes a \"supporting\" job rather than a \"core\" one. That ranks the jobs; it doesn't remove showing notes from scope.\n\n**If you want to fix it:** update lines 7 and 18 to list all five jobs. The job list also appears in `welcome.md:27-31` and `identity.md:13-24`, and nothing checks that these places agree, so any future change to the jobs has to be made in all of them.\n\nI checked the map's card for the job list (1.2) against the actual `rules.md`, and they match.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

@@ -1,7 +1,8 @@
 # Notes — nouns that got no card
 
-The map is 7 cards over 62 files (`find . -path ./.git -prune -o -type f -print | wc -l`). This page is the rest, one line each, and it is not an appendix:
-a map that cards everything has classified nothing.
+The map is 12 cards over 62 files (`find . -path ./.git -prune -o -type f -print | wc -l`) — seven on
+the top catalog, the engine's six in its district, card 01 shared by both. This page is the rest, one
+line each, and it is not an appendix: a map that cards everything has classified nothing.
 
 ## Failed all seven type tests
 
@@ -21,9 +22,14 @@ not a corner cut.
 
 ## Inside another card's boundary — no card of their own
 
-- `specialist/reference/frameworks/`, `checklists/`, `templates/` (10 files, ~40 KB) — the engine's
-  own consumables. Card 01.
-- `specialist/welcome.md`, `identity.md`, `rules.md`, `examples.md`, `README.md` — card 01.
+- `specialist/identity.md`, `examples.md`, `README.md` — card 01, now row 1.1 of the engine's
+  district. `identity.md` lists the job set too (`:13-24`); that list is named on card 1.2 rather
+  than carded twice. Whether a run reads `examples.md` depends on how the folder is loaded into a
+  Project, not on any routing row: **UNVERIFIED**, settled by a walk that asks about an example.
+- *Moved out of this section in the revision:* `specialist/reference/frameworks/`, `checklists/`,
+  `templates/`, `welcome.md` and the job set in `rules.md` were classified as inside card 01. A
+  question about any one of them needed card 01 plus the territory — the map's own sign of a
+  mis-scoped card — so the engine's row became a district and each got its own card (1.2–1.6).
 - `docs/og-image.png` and the five `.md` files under `docs/` — card 07, which is where the fact that
   they are *served* lives.
 - `case-studies/<slug>/region/README.md` (4 files) — named inside card 03 as the seventh file that is
@@ -31,7 +37,7 @@ not a corner cut.
 
 ## Held at the ceiling
 
-Passed a type test, got no card, because seven is the ceiling and it is a real one.
+Passed a type test, got no card, because its catalog is full and the ceiling is a real one.
 
 - **`[VERIFY]`** — 78 occurrences across 8 files, all under `case-studies/`. Passes the INSTRUCTION
   test (it directs a human to check a vendor contact; delete it and no run changes) and fails the

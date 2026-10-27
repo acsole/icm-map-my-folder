@@ -31,10 +31,10 @@ repo, so nobody could reproduce it.
 | Note | Status | Where |
 |---|---|---|
 | 1. Offline cold run | **Done.** Runner and scorer are separate; the scorer needs nothing installed | [`score-walk.py`](reference/checks/score-walk.py), [`cold-run.py`](reference/checks/cold-run.py), [`walks/`](walks/CONTEXT.md) |
-| 4. Gates shown failing | **Done.** Both checkers ship broken fixtures and a `--self-test` | [`reference/checks/fixtures/`](reference/checks/fixtures/) |
-| 2. Bigger shelf | **Not yet.** Designed, not built — see *Next* below | — |
+| 4. Gates shown failing | **Done.** All three checkers ship broken fixtures and a `--self-test` | [`reference/checks/fixtures/`](reference/checks/fixtures/) |
+| 2. Bigger shelf | **Done in part.** The district rule, its checks, and the engine's district: 12 cards where there were 7. Not yet three times the size — see *Next* | [`districts/engine/`](reference/worked-example/districts/engine/CATALOG.md), [`catalog-checks.py`](reference/checks/catalog-checks.py) |
 | 3. Business territory | **Not yet.** Designed, not built | — |
-| Walks recorded through Claude Code | **Done.** `q01-services`, five runs: **pass** | [`q01-services.claude-code-headless.check.md`](walks/verdicts/q01-services.claude-code-headless.check.md) |
+| Walks recorded through Claude Code | **Done.** Three questions, five runs each: `q01` **pass**, `q02` **pass**, `q03` (an outsider's) **fail** — see § 6 | [`walks/verdicts/`](walks/verdicts/) |
 | Walks recorded through the API | **Not yet.** The recorder exists; recording needs a key and has not been run. That verdict reads `fail: 0 of 5 runs recorded` | [`q01-services.check.md`](walks/verdicts/q01-services.check.md) |
 
 The last row is deliberate. The scorer could have been fed the old API runs, but those survive only
@@ -141,6 +141,106 @@ territory, which fails W3 and W4 for that run and is inside the four-of-five spr
 spread the original API evidence reported — four runs at one read, one at two with a territory file —
 measured again, by a different harness, without a key. No email address appeared in any transcript.
 
+### 5. A bigger map that still fits on one screen — the district rule
+
+**The problem.** The judges asked for a bigger shelf; the instrument said "no eighth card". Deleting
+the ceiling would break the best thing about the map — a catalog you read on one screen.
+
+**The rule now.** Seven *rows per catalog*, not seven cards per map. A row may open a **district**: a
+catalog one level down, under the same rule — seven rows at most, routing only, one card per row.
+Districts are one level deep. Written into [`identity.md`](identity.md),
+[`rules.md`](rules.md), [`card-types.md`](reference/card-types.md) § The ceiling and
+[`walks.md`](reference/walks.md), with the cost declared where the rule is: browsing by concept
+costs one more file (catalog, district, card); arriving with a file in hand costs none, because the
+top catalog's *hand on a file* table routes straight to the card.
+
+**The checks.** [`catalog-checks.py`](reference/checks/catalog-checks.py), offline:
+
+| Gate | It fails when… |
+|---|---|
+| E one card, one row | a card no row reaches, a card two rows reach, or a row that links to nothing |
+| F thin catalog | a catalog over seven rows, a district inside a district, or a catalog stating a count of cards, rows or files |
+
+Its `--self-test` runs seven small maps in [`fixtures/catalog/`](reference/checks/fixtures/catalog/README.md),
+six broken one way each. On its first run against the real map, F failed: the top catalog said
+"Seven cards, and the ceiling was reached" — a count that the district would have made false. It
+now names the rule instead of the number.
+
+**The district.** The first map held the engine in one card. A question about its jobs, frameworks,
+templates or checklists needed card 01 *and* the territory — by the map's own rule, the sign of a
+mis-scoped card. Row 1 of the top catalog now opens
+[`districts/engine/`](reference/worked-example/districts/engine/CATALOG.md), Walk A run again on
+`specialist/` at the same commit, `702e79c`:
+
+| Card | Type · State | What it carries that the map lacked |
+|---|---|---|
+| 1.1 The Engine | ENGINE · LIVE | unchanged — card 01, now reached from the district |
+| 1.2 The Job Set | MARKER · LIVE, two LEFTOVER sentences | `rules.md:7` and `:18` still count v1's three jobs; the table routes five |
+| 1.3 The First Turn | ENGINE · LIVE | the menu reads each market's `region/market.md`, and an empty region pack replaces it |
+| 1.4 The Frameworks | ENGINE · LIVE | the method is here; the numbers it applies are in each market's `region/market.md` |
+| 1.5 The Output Templates | ENGINE · LIVE | showing notes are durable input, cited by tag later; Services lookup has no template |
+| 1.6 The Intake Checklists | ENGINE · LIVE | Pricing asks from `listing-intake.md` though its routing row lists no checklist |
+
+Each verdict's command and output is in [`verification-log.md`](reference/worked-example/verification-log.md)
+§ g. The collision pass ran first and found one new word, **template** — a blank copied once, or the
+output shape every run follows — now in [`collisions.md`](reference/collisions.md).
+[`notes.md`](reference/worked-example/notes.md) records what moved out of card 01 and why, and one
+new **UNVERIFIED**: whether a run reads `examples.md` at all.
+
+Gabriel's seven cards are unchanged in substance. One line on card 05 said "at the seven-card
+ceiling"; it now says "with its catalog full", because the old phrasing stated the rule this
+revision replaced.
+
+**Walking the bigger map.** Changing the top catalog changed what every catalog-in-context walk had
+in its context, so the five `q01` runs recorded before it fail W1 now — W1 working as designed. They
+were archived ([`walks/archive/q01-map-before-district/`](walks/archive/q01-map-before-district/README.md))
+and `q01` was recorded again. Two questions were added: `q02`, written by the builder for the new
+district, and `q03`, written by **an outsider** — a fresh, isolated session given only the
+territory's public README and asked what a new maintainer would ask (the first of its three
+questions was taken, by order). Results are in § 6.
+
+**Rejected.** Raising the ceiling to twenty-one cards on one catalog (no longer one screen); one
+card per engine file (most would fail the Does-not-hit test — no plausible wrong reach); and
+re-pinning the map to the territory's newest commit (the three later commits touch only
+`docs/index.html`; re-pinning would re-verify every card for no change in `specialist/`).
+
+### 6. Three questions walked through Claude Code — two pass, the outsider's does not
+
+| Question | Written by | Verdict | What the walks showed |
+|---|---|---|---|
+| `q01` What is Services? | builder | **pass** | unchanged by the district: card 04, stop |
+| `q02` Can the specialist write showing notes? | builder | **pass**, second attempt | all five reached card 1.2 straight from the *hand on a file* table and named both leftover sentences |
+| `q03` If I rename a section in a `region/` template file, what depends on that wording…? | outsider | **fail**, twice | it found a gap no builder walk had; the fix closed the gap in the answers but not the reading |
+
+**`q02`, first attempt: a stop condition too loose.** Every run answered correctly, then opened
+`rules.md` to re-read the lines the card had just quoted — the card's *Done when* did not say not to.
+The card was fixed, the bar was not; four of five new runs stayed on the map, inside the spread.
+Archived: [`walks/archive/q02-map-before-done-when-fix/`](walks/archive/q02-map-before-done-when-fix/README.md).
+
+**`q03`, first attempt: a gap in the map.** Every run left the map for eleven to fourteen territory
+files, and was right to. Three engine lines name sections *inside* `market.md` by heading
+(`frameworks/pricing.md:46`, `frameworks/international-buyers.md:82`, `templates/listing.md:11`),
+and Lisbon's headings already differ from the blank's. No card said so; the question file, written
+by the builder, claimed the opposite. Card 02 now says it, with the evidence in
+[`verification-log.md`](reference/worked-example/verification-log.md) § h, and the question file
+keeps its wrong claim with the correction beneath it. Archived:
+[`walks/archive/q03-map-before-heading-fix/`](walks/archive/q03-map-before-heading-fix/README.md).
+
+**`q03`, second attempt: still a fail, and it is reported as one.** All five answers now cite the
+three heading lines and Lisbon's drift, so the gap is closed in what the reader *knows*. But every run
+still opened ten to twenty-one territory files, and three of five took card 04 instead of card 02.
+Two findings, both about the map, neither fixed tonight:
+
+1. **The question routes to two cards.** "A `region/` template file" matches card 02's row (the blank
+   `region/` folder) and card 04's *hand on a file* row (`market.md` and the other five filenames).
+   By the map's own rule, a question that needs two cards means one of them is mis-scoped.
+2. **"What depends on this exact wording?" is an audit, and readers treat it as one.** A card can
+   name the dependencies; it cannot make a careful reader stop before checking that the list is
+   complete. Whether a map should answer that question at all, or point at the `grep` that does, is
+   an open design question — not one to settle by loosening the bar after seeing the runs.
+
+The bar for `q03` was not changed. The verdict on disk reads `fail`, and that is the honest reading.
+
 ---
 
 ## Decisions, and what was rejected
@@ -178,16 +278,20 @@ The map does not edit its territory, and neither does this revision. Both findin
 2. **The engine contradicts itself on how many jobs it does.** `specialist/rules.md:18` says
    *"No work outside the three jobs"*. The routing table in the same file (lines 27–31) lists five,
    and line 83 says *"You support five jobs"*. A model that obeys line 18 could refuse two jobs the
-   agent is paid for. No card covers it, because no card covers the jobs — which is the judges'
-   second note, seen from inside the territory.
+   agent is paid for. When this was first found, no card covered it, because no card covered the
+   jobs — the judges' second note, seen from inside the territory. It is now card 1.2 of the
+   engine's district (§ 5), together with a second v1 sentence it led to, `rules.md:7`.
 
 ## Next — designed, not built
 
-- **A bigger map without breaking "one screen".** Change "seven cards per map" to "seven rows per
-  catalog", and let a catalog row point to a sub-catalog. The catalog still fits on one screen; the
-  shelf grows. The first new district is the engine and its jobs — where finding 2 lives. Three new
-  gates: every card reached by exactly one row, no catalog over seven rows, and a staleness check
-  against the territory's current commit.
+- **The two `q03` findings.** Decide which card owns "a `region/` template file" — card 02 or 04 —
+  and route the *hand on a file* table to one; and decide whether an audit question ("what depends
+  on this wording?") should end on a card or on the `grep` that answers it. Then walk `q03` again,
+  bar unchanged, and walk the outsider's other two questions.
+- **The rest of the bigger map.** The district rule and the engine's district are built (§ 5). Still
+  to do: a district for the public edge — the working documents `docs/` serves, the root README —
+  and a staleness gate that compares the map's pinned commit with the territory's current one and
+  names the cards whose cited files changed.
 - **A second territory with a business behind it,** mapped with the instrument unchanged. Two
   territories under the same gates show that the instrument generalizes; one shows that it worked
   once.
@@ -207,6 +311,11 @@ The map does not edit its territory, and neither does this revision. Both findin
 |---|---|
 | `reference/checks/score-walk.py` | new — the offline scorer; one verdict per harness |
 | `reference/checks/cold-run-claude-code.py` | new — the recorder through the Claude Code CLI, with the isolation above |
+| `reference/checks/catalog-checks.py` | new — gates E and F for catalogs and districts, with `fixtures/catalog/` |
+| `identity.md`, `rules.md`, `reference/card-types.md`, `reference/walks.md` | the district rule: seven rows per catalog, a row may open a district one level down |
+| `reference/collisions.md` | a sixth collision, **template** |
+| `reference/worked-example/districts/engine/` | new — the engine's district: its catalog and cards 1.2–1.6 |
+| `reference/worked-example/CATALOG.md`, `notes.md`, `verification-log.md`, `cards/05-the-marker-set.md` | row 1 opens the district; the count removed from the catalog; what moved out of card 01; § g evidence; one phrase on card 05 |
 | `reference/checks/cold-run.py` | rewritten as the recorder; same tools, same prompt, same configurations |
 | `reference/checks/refusal-checks.py` | `--self-test` added; checks unchanged |
 | `reference/checks/fixtures/` | new — broken cards and broken transcripts, each with its expected failure |
@@ -217,5 +326,5 @@ The map does not edit its territory, and neither does this revision. Both findin
 | `LICENSE` | a second copyright line for the revision; the original line unchanged |
 | `EXPLAINED.md`, `CHANGES.md` | new |
 
-Nothing in `identity.md`, `rules.md`, `examples.md`, the other `reference/*.md` files, or the cards,
-catalog, notes and verification log of the worked example was changed.
+Nothing else in the instrument or the worked example was changed: `examples.md`, `state.md`,
+`card-shape.md`, and cards 01–04, 06 and 07 are as Gabriel wrote them.
