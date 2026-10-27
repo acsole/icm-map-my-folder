@@ -229,7 +229,7 @@ keeps its wrong claim with the correction beneath it. Archived:
 **`q03`, second attempt: still a fail, and it is reported as one.** All five answers now cite the
 three heading lines and Lisbon's drift, so the gap is closed in what the reader *knows*. But every run
 still opened ten to twenty-one territory files, and three of five took card 04 instead of card 02.
-Two findings, both about the map, neither fixed tonight:
+Two findings, both about the map, taken up in § 7:
 
 1. **The question routes to two cards.** "A `region/` template file" matches card 02's row (the blank
    `region/` folder) and card 04's *hand on a file* row (`market.md` and the other five filenames).
@@ -240,6 +240,69 @@ Two findings, both about the map, neither fixed tonight:
    an open design question — not one to settle by loosening the bar after seeing the runs.
 
 The bar for `q03` was not changed. The verdict on disk reads `fail`, and that is the honest reading.
+
+### 7. The second round on `q03` — four defects in the map, one rule for audits
+
+**What the second attempt's answers said.** The transcripts do not record why a reader picks a card,
+but the answers say why they kept reading. Four causes, all in the map:
+
+1. **One file, two rows.** The top catalog's *hand on a file* table sent `market.md` to card 04 by
+   name and `specialist/reference/region/` to card 02 by folder. The blank's `market.md` matched
+   both. Three of five runs took card 04.
+2. **Two cards disagreed.** Card 04 said the engine addresses slots by filename; card 02 now said it
+   also reads sections by heading. Runs that took card 04 believed it and went to look (r1, r3).
+3. **The list was incomplete.** Card 02 named `international-buyers.md:82`; a run found the same
+   section named at `:13` too (r4). A careful reader was right not to trust it.
+4. **The reader cannot search.** Both harnesses give `Read` and a listing, nothing else. One run said
+   it outright: "A full-text search of `specialist/` … would settle it" (r2). Without search, an
+   audit is reading every file.
+
+**Which card owns the question — decided from the types, not from the bar.** "A `region/` template
+file" is a file of the blank: a BLUEPRINT, and what an edit to the blank reaches is card 02's *Hits*.
+Card 04 is the role a filename plays in every market. The expected card stayed 02; the map was
+made to agree with that, not the other way round.
+
+**How the map answers an audit — a rule in the instrument.** A card may answer "what depends on
+this?" only if it carries the complete list, the command that produced it and the commit it ran at,
+and its stop condition says to answer from the list. If the list is too long, the card hands over
+the command and the count instead. Written into [`card-shape.md`](reference/card-shape.md) and the
+*Done when* check in [`rules.md`](rules.md).
+
+**The command.** [`heading-refs.py`](reference/checks/heading-refs.py) lists every engine line that
+names a blank region file *and* one of that file's section headings — whole, or by its distinctive
+word. Its limit is stated where it is used: a line that relies on a section without naming the file
+is not found. Its `--self-test` plants three references and two decoys; it was also shown failing
+when a decoy was added to the expected list. Run on the territory, it found more than the card had:
+four sections of `market.md`, not three, and two sections of `regulations.md` — and Lisbon has no
+seasonality section at all, though `pricing.md:80` applies seasonality from it. The mapmaker's
+classification is in [`verification-log.md`](reference/worked-example/verification-log.md) § h,
+which now says its first version was incomplete.
+
+**The fixes, all to the map.** The two hand-table rows are disjoint; card 04 says filename is how a
+slot is found, not all the engine relies on, and points to card 02; card 02 carries the complete,
+classified list with the command and the commit, and a stop condition for audits.
+
+**Result of the third attempt — still `fail`, and the remaining cause is named.**
+
+| Attempt | Card reached | Territory files per run | Answer correct |
+|---|---|---|---|
+| 1 | 02, five of five | 11–14 | yes, with a map that lacked the dependency |
+| 2 | 02 twice, 04 three times | 10–21 | two of five missed "copy" |
+| 3 | **02, five of five** | **1–5** | four of five pass W6 |
+
+The audit rule worked: one run wrote "I didn't re-read the engine files; the card says its list is
+complete at commit `702e79c`." What is left:
+
+- **Every run opened the territory's `README.md`**, to check the question's own premise — that the
+  upgrade path tells users to keep their region packs (`README.md:270-272`, and the v1 note at
+  `:217`). No card carries the upgrade path. That is a real noun missing from the map, and it
+  belongs to the public edge — the district planned next. It is not added here: changing the map
+  round after round against one question until it passes is fitting the map to the test. It will be
+  carded where it belongs, and `q03` walked again then.
+- **Three of five still re-read the two verbatim lines** the card quotes, the same habit `q02` showed
+  once in five. The card says not to; some readers check anyway. Measured, not hidden.
+
+The bar for `q03` was not changed at any point. All three rounds are in [`walks/archive/`](walks/archive/).
 
 ---
 
@@ -284,10 +347,9 @@ The map does not edit its territory, and neither does this revision. Both findin
 
 ## Next — designed, not built
 
-- **The two `q03` findings.** Decide which card owns "a `region/` template file" — card 02 or 04 —
-  and route the *hand on a file* table to one; and decide whether an audit question ("what depends
-  on this wording?") should end on a card or on the `grep` that answers it. Then walk `q03` again,
-  bar unchanged, and walk the outsider's other two questions.
+- **`q03`, after the public edge district.** Card the upgrade path (`README.md:270-272`, `:217`)
+  where it belongs, then walk `q03` again, bar unchanged — and walk the outsider's other two
+  questions, so the next fix is tested on questions it was not shaped by.
 - **The rest of the bigger map.** The district rule and the engine's district are built (§ 5). Still
   to do: a district for the public edge — the working documents `docs/` serves, the root README —
   and a staleness gate that compares the map's pinned commit with the territory's current one and
@@ -312,6 +374,8 @@ The map does not edit its territory, and neither does this revision. Both findin
 | `reference/checks/score-walk.py` | new — the offline scorer; one verdict per harness |
 | `reference/checks/cold-run-claude-code.py` | new — the recorder through the Claude Code CLI, with the isolation above |
 | `reference/checks/catalog-checks.py` | new — gates E and F for catalogs and districts, with `fixtures/catalog/` |
+| `reference/checks/heading-refs.py` | new — the audit command for section-heading dependencies, with `fixtures/heading-refs/` |
+| `reference/card-shape.md` | how a card answers a question that quotes the territory, and an audit |
 | `identity.md`, `rules.md`, `reference/card-types.md`, `reference/walks.md` | the district rule: seven rows per catalog, a row may open a district one level down |
 | `reference/collisions.md` | a sixth collision, **template** |
 | `reference/worked-example/districts/engine/` | new — the engine's district: its catalog and cards 1.2–1.6 |
@@ -326,5 +390,6 @@ The map does not edit its territory, and neither does this revision. Both findin
 | `LICENSE` | a second copyright line for the revision; the original line unchanged |
 | `EXPLAINED.md`, `CHANGES.md` | new |
 
-Nothing else in the instrument or the worked example was changed: `examples.md`, `state.md`,
-`card-shape.md`, and cards 01–04, 06 and 07 are as Gabriel wrote them.
+Nothing else in the instrument or the worked example was changed: `examples.md`, `state.md`, and
+cards 01, 03, 06 and 07 are as Gabriel wrote them. Cards 02 and 04 keep every line he wrote; what
+the revision added to them is marked as added, with the walk that found it.

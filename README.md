@@ -138,8 +138,9 @@ Without a key, the same walk can be recorded through the Claude Code CLI, signed
 subscription: [`cold-run-claude-code.py`](reference/checks/cold-run-claude-code.py), same arguments.
 Its transcripts are marked as a different harness and scored under their own verdict, never pooled
 with API runs. Three questions are recorded this way: two pass, and the third — written by an
-outsider who had seen only the territory's README — fails, after finding a gap in the map that was
-then fixed. Why, run by run, is in [`CHANGES.md`](CHANGES.md) § 6.
+outsider who had seen only the territory's README — fails. Over three rounds it found gaps the
+mapmaker had not seen, each fixed in the map with the bar untouched; what it still finds missing is
+named. Why, run by run, is in [`CHANGES.md`](CHANGES.md) §§ 6–7.
 
 The runs in `cold-run-transcript.md` predate the recorder: they survive as excerpts, not raw JSON,
 so the scorer does not count them. Until API runs are recorded, the API verdict reads `fail`, and

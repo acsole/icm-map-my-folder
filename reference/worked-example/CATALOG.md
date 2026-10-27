@@ -21,14 +21,14 @@ rather than reading on.
 
 | You are holding | Go to |
 |---|---|
-| `contracts.md` · `glossary.md` · `market.md` · `neighborhoods.md` · `regulations.md` · `services.md` | **4** |
+| a file in the blank `specialist/reference/region/` — its `market.md` included | **2** |
+| a slot by name — `contracts.md` · `glossary.md` · `market.md` · `neighborhoods.md` · `regulations.md` · `services.md` — as the same job in every market, not one file | **4** |
 | `specialist/rules.md` | [**1.2**](districts/engine/cards/1.2-the-job-set.md) |
 | `specialist/welcome.md` | [**1.3**](districts/engine/cards/1.3-the-first-turn.md) |
 | `specialist/reference/frameworks/` | [**1.4**](districts/engine/cards/1.4-the-frameworks.md) |
 | `specialist/reference/templates/` | [**1.5**](districts/engine/cards/1.5-the-output-templates.md) |
 | `specialist/reference/checklists/` | [**1.6**](districts/engine/cards/1.6-the-intake-checklists.md) |
 | anything else under `specialist/` that is not `reference/region/` | [**1.1**](cards/01-the-engine.md) |
-| `specialist/reference/region/` | **2** |
 | anything under `case-studies/` | **3** |
 | a bracketed value — `[PLACEHOLDER]`, `[N/A]`, `[VERIFY]` | **5** |
 | `CONTRIBUTING.md` · `README.md` | **6** |

@@ -1,0 +1,153 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q03-outsider-template-wording",
+  "question": "If I rename or restructure a section in a region/ template file, what in rules.md or the framework files depends on that exact wording, and would it break users' existing region packs, which the upgrade path tells them to keep?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T22:53:49+00:00",
+  "map_commit": "e4f91f0e4982ddfe5f7c71d466b95440de4b02b5+dirty",
+  "territory_commit": "702e79cdeed5c4b4b262d5456586cbccee4b0d3f",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "4ef1a0c271e48ace80df487a279159e3fe158fb13b04d7ef7470648549298dd0"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/cards/02-the-region-blueprint.md",
+      "sha256": "4b11f0805c4319d08ee20625e2dbc6a2f11c29b5f209ba921db4a4dc4ce17ada"
+    },
+    {
+      "root": "repo",
+      "path": "README.md",
+      "sha256": "c78a298848a30dc810c3fbd4f16998374117859dfbdf75bd829a4d8fc04cfe92"
+    }
+  ],
+  "listings": [
+    "repo:.:*.md"
+  ],
+  "turns": 4,
+  "final_stop_reason": "end_turn",
+  "final_answer": "A heading rename can break things, and the upgrade path is what makes it break. `rules.md` doesn't depend on any section heading, but a few framework and output-template lines do. If you rename a heading and update the engine files to match, every user who followed the upgrade instructions keeps a region pack with the old heading. Their engine then expects a heading their pack doesn't have, and in at least one case it fails without any warning.\n\n**`rules.md` depends on file names, not headings.** Lines 27–33 send the engine to `region/*.md`, and line 59 makes a decision based on what it finds in those files. Renaming a section inside a file doesn't touch either. Renaming one of the six files would.\n\n**Lines that quote a heading word for word** (these break if you reword it):\n- `frameworks/pricing.md:46` quotes \"Pricing Adjustment Magnitudes\", the market overview's adjustment section.\n- `templates/listing.md:11` quotes \"Buyer-disclosure conventions\". That's an output template, not a framework, but it's the same kind of dependency. It's used \"only if present\", so after a rename the listing job just stops using it. Nothing errors.\n\n**Lines that refer to a section by topic** (rewording is fine; removing or merging the section breaks them):\n- `market.md`:\n  - seasonality: `pricing.md:3`, `:80`, `pricing-memo.md:45`\n  - foreign-buyer activity: `international-buyers.md:3`, `:13`, `:82`, `pricing.md:82`\n  - adjustment magnitudes: `pricing.md:3`, `:7`, `pricing-memo.md:39`\n- `regulations.md`:\n  - ownership: `pricing.md:65`, `listing.md:103`, `pricing-memo.md:52`\n  - foreign-buyer rules: `international-buyers.md:3`, `:59`\n\n**Why the upgrade path matters.** I checked the README's update instructions: \"Replace the universal files (everything in `specialist/` *except* the `reference/region/` folder). Keep your populated `region/` folder\" (`README.md:270-272`). The v1→v2 note at `:217` also says \"Everything else upgrades cleanly.\" So an upgrade replaces the engine and keeps each user's region files as they were. That leaves you two choices:\n- **Rename only in the blank template:** existing packs are fine, but new users get a heading the engine doesn't recognise.\n- **Rename in the template and in the engine:** new users are fine, but every kept pack still has the old heading, so the two verbatim lines above stop matching. That's every user who upgrades.\n\nEither way, the template and existing packs can't match the engine at the same time unless you also tell users to edit their own packs. As written, the upgrade notes promise they don't need to.\n\n**Some packs already don't match.** The Lisbon case study rewords two headings and has no seasonality or disclosure section at all. Anyone who set up by copying Lisbon (one of the README's setup paths) is already missing those dependencies. Editing the blank template doesn't change any of the four existing case studies.\n\n**Safe options:**\n1. Leave those two quoted headings exactly as they are.\n2. Have the engine accept both the old and new wording.\n3. Add a step to the upgrade FAQ telling users to rename the heading in their own pack.\n\nAll of this comes from the map's dependency list, which was taken at commit `702e79c` (mapped 2026-08-18). The map says that list covers every heading in these files, so I didn't re-read `rules.md` or the framework files. The only thing I checked directly was the README's upgrade text. If the repo has changed since August, re-run `reference/checks/heading-refs.py` from the map folder to update the list. I can only read files here, so I couldn't run it.",
+  "message_ids": [
+    "msg_011CgTZdX5fnsvkTinjaTWds",
+    "msg_011CgTZdX5fnsvkTinjaTWds",
+    "msg_011CgTZdonkuajwipy739vgV",
+    "msg_011CgTZdonkuajwipy739vgV",
+    "msg_011CgTZeCk8iWf7hEZTgNbUy",
+    "msg_011CgTZeCk8iWf7hEZTgNbUy",
+    "msg_011CgTZePkg7ACy88aT2cCm9",
+    "msg_011CgTZePkg7ACy88aT2cCm9"
+  ],
+  "session_id": "a9d4688b-f42e-41a9-98e7-f19a989f2ee3",
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 13542,
+    "cache_read_input_tokens": 20983,
+    "output_tokens": 3044,
+    "output_tokens_details": {
+      "thinking_tokens": 1504
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 13542,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2308,
+        "cache_read_input_tokens": 8864,
+        "cache_creation_input_tokens": 7638,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 7638
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTZdX5fnsvkTinjaTWds",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTZdX5fnsvkTinjaTWds",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\cards\\02-the-region-blueprint.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTZdonkuajwipy739vgV",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTZdonkuajwipy739vgV",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "*.md",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTZeCk8iWf7hEZTgNbUy",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTZeCk8iWf7hEZTgNbUy",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\README.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTZePkg7ACy88aT2cCm9",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTZePkg7ACy88aT2cCm9",
+      "text": "A heading rename can break things, and the upgrade path is what makes it break. `rules.md` doesn't depend on any section heading, but a few framework and output-template lines do. If you rename a heading and update the engine files to match, every user who followed the upgrade instructions keeps a region pack with the old heading. Their engine then expects a heading their pack doesn't have, and in at least one case it fails without any warning.\n\n**`rules.md` depends on file names, not headings.** Lines 27–33 send the engine to `region/*.md`, and line 59 makes a decision based on what it finds in those files. Renaming a section inside a file doesn't touch either. Renaming one of the six files would.\n\n**Lines that quote a heading word for word** (these break if you reword it):\n- `frameworks/pricing.md:46` quotes \"Pricing Adjustment Magnitudes\", the market overview's adjustment section.\n- `templates/listing.md:11` quotes \"Buyer-disclosure conventions\". That's an output template, not a framework, but it's the same kind of dependency. It's used \"only if present\", so after a rename the listing job just stops using it. Nothing errors.\n\n**Lines that refer to a section by topic** (rewording is fine; removing or merging the section breaks them):\n- `market.md`:\n  - seasonality: `pricing.md:3`, `:80`, `pricing-memo.md:45`\n  - foreign-buyer activity: `international-buyers.md:3`, `:13`, `:82`, `pricing.md:82`\n  - adjustment magnitudes: `pricing.md:3`, `:7`, `pricing-memo.md:39`\n- `regulations.md`:\n  - ownership: `pricing.md:65`, `listing.md:103`, `pricing-memo.md:52`\n  - foreign-buyer rules: `international-buyers.md:3`, `:59`\n\n**Why the upgrade path matters.** I checked the README's update instructions: \"Replace the universal files (everything in `specialist/` *except* the `reference/region/` folder). Keep your populated `region/` folder\" (`README.md:270-272`). The v1→v2 note at `:217` also says \"Everything else upgrades cleanly.\" So an upgrade replaces the engine and keeps each user's region files as they were. That leaves you two choices:\n- **Rename only in the blank template:** existing packs are fine, but new users get a heading the engine doesn't recognise.\n- **Rename in the template and in the engine:** new users are fine, but every kept pack still has the old heading, so the two verbatim lines above stop matching. That's every user who upgrades.\n\nEither way, the template and existing packs can't match the engine at the same time unless you also tell users to edit their own packs. As written, the upgrade notes promise they don't need to.\n\n**Some packs already don't match.** The Lisbon case study rewords two headings and has no seasonality or disclosure section at all. Anyone who set up by copying Lisbon (one of the README's setup paths) is already missing those dependencies. Editing the blank template doesn't change any of the four existing case studies.\n\n**Safe options:**\n1. Leave those two quoted headings exactly as they are.\n2. Have the engine accept both the old and new wording.\n3. Add a step to the upgrade FAQ telling users to rename the heading in their own pack.\n\nAll of this comes from the map's dependency list, which was taken at commit `702e79c` (mapped 2026-08-18). The map says that list covers every heading in these files, so I didn't re-read `rules.md` or the framework files. The only thing I checked directly was the README's upgrade text. If the repo has changed since August, re-run `reference/checks/heading-refs.py` from the map folder to update the list. I can only read files here, so I couldn't run it.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

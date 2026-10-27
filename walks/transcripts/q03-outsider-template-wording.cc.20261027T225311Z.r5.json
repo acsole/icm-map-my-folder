@@ -1,0 +1,294 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q03-outsider-template-wording",
+  "question": "If I rename or restructure a section in a region/ template file, what in rules.md or the framework files depends on that exact wording, and would it break users' existing region packs, which the upgrade path tells them to keep?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T22:56:48+00:00",
+  "map_commit": "e4f91f0e4982ddfe5f7c71d466b95440de4b02b5+dirty",
+  "territory_commit": "702e79cdeed5c4b4b262d5456586cbccee4b0d3f",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "4ef1a0c271e48ace80df487a279159e3fe158fb13b04d7ef7470648549298dd0"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/cards/02-the-region-blueprint.md",
+      "sha256": "4b11f0805c4319d08ee20625e2dbc6a2f11c29b5f209ba921db4a4dc4ce17ada"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/frameworks/pricing.md",
+      "sha256": "2c42ca0a06b13267ade68c5ed1ca81381d0b705619c33e3cb577c5c74e0f2ad9"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/templates/listing.md",
+      "sha256": "367f03bccd678503a826d49817d9ff5060652c3877b66c8f47cde67d097af0c1"
+    },
+    {
+      "root": "repo",
+      "path": ".git/refs/heads/main",
+      "sha256": "c86b8b44a60026d7bff16ee732dd1b2943f2595de3fa5602e61a9aa920bc9a67"
+    },
+    {
+      "root": "repo",
+      "path": "README.md",
+      "sha256": "c78a298848a30dc810c3fbd4f16998374117859dfbdf75bd829a4d8fc04cfe92"
+    },
+    {
+      "root": "repo",
+      "path": ".git/packed-refs",
+      "sha256": "60856f9db7e64ea2d05f35b2e9b48fd236c1db3903622ae3e695ddfe23297f4e"
+    }
+  ],
+  "listings": [
+    "map:.:reference/worked-example/**/*",
+    "repo:.:**/*.md",
+    "repo:.:.git/refs/heads/*",
+    "repo:.:.git/{packed-refs,refs/remotes/origin/*,FETCH_HEAD}"
+  ],
+  "turns": 11,
+  "final_stop_reason": "end_turn",
+  "final_answer": "I used the map's Region Blueprint card for the dependency list and checked it against the repo. **Yes, there are dependencies on the wording, and the breakage lands on existing packs, though not in the way you might expect.**\n\n## What depends on section wording\n\n**Two headings are quoted word for word and break if reworded:**\n- **\"Pricing Adjustment Magnitudes\"** in `market.md`: `frameworks/pricing.md:46` tells the specialist to look under that heading. I checked it and it's there.\n- **\"Buyer-disclosure conventions\"** in `market.md`: `templates/listing.md:11` checks for it, and \"If the section is absent, skip.\" I checked this one too. It's the risky one: rename it and listings quietly stop including local disclosures, with no error.\n\n**Some sections are referred to by topic, so rewording is fine but removing or merging them breaks things:**\n- In `market.md`:\n  - seasonality (`pricing.md:3`, `:80`; `pricing-memo.md:45`)\n  - foreign-buyer activity (`international-buyers.md:3`, `:13`, `:82`; `pricing.md:82`)\n  - adjustment magnitudes (`pricing.md:3`, `:7`; `pricing-memo.md:39`)\n- In `regulations.md`:\n  - ownership (`pricing.md:65`, `listing.md:103`, `pricing-memo.md:52`)\n  - foreign-buyer rules (`international-buyers.md:3`, `:59`)\n\n**`rules.md` doesn't depend on section wording.** It sends requests to the `region/*.md` files by path (lines 27–33) and checks whether they're still unfilled (line 59). Changing headings won't affect it, but renaming or removing one of the six files would. I didn't open `rules.md` myself; this comes from the map.\n\n## Would it break existing region packs?\n\nThe template edit alone won't touch them. The upgrade path (README lines 270–272) says to replace everything in `specialist/` except `reference/region/` and keep your filled-in `region/` folder. The v1 migration note (line 217) also says to carry your old region files over. So existing packs never see the new template.\n\nThe problem is that you can't keep both sides consistent:\n- **Rename only in the template:** new packs stop matching the engine.\n- **Also update `pricing.md` / `listing.md` to the new name:** every pack users kept under the upgrade path stops matching. `listing.md` would skip disclosures without saying so, and pricing would lose its adjustment magnitudes.\n\nPacks copied from `case-studies/` are already out of step: the map says Lisbon has two reworded headings and no seasonality or disclosure section at all.\n\n**Safer options:** leave those two headings as they are, or have the engine files accept both the old and new name (e.g. \"under 'X' (or the older 'Y')\"). If you restructure topic sections, keep each topic present somewhere in the same file.\n\n## One caveat\n\nThe map says this list is complete at commit `702e79c`, but your local checkout is at `236aae0` (both local `main` and `origin/main`). Both word-for-word references are still at the cited lines. I couldn't re-run the map's check script (`reference/checks/heading-refs.py`) from here, so run it before treating the list as complete for the current commit.",
+  "message_ids": [
+    "msg_011CgTZqLNqTbpSx74GmMsUX",
+    "msg_011CgTZqLNqTbpSx74GmMsUX",
+    "msg_011CgTZqLNqTbpSx74GmMsUX",
+    "msg_011CgTZqkSSEdCAXT9syxP3g",
+    "msg_011CgTZqkSSEdCAXT9syxP3g",
+    "msg_011CgTZrCZK7RWcruw6GpKx6",
+    "msg_011CgTZrCZK7RWcruw6GpKx6",
+    "msg_011CgTZrCZK7RWcruw6GpKx6",
+    "msg_011CgTZrCZK7RWcruw6GpKx6",
+    "msg_011CgTZrkipxGuTBggVhBqmw",
+    "msg_011CgTZrkipxGuTBggVhBqmw",
+    "msg_011CgTZrkipxGuTBggVhBqmw",
+    "msg_011CgTZs5YQiVDY2SuBaaj9D",
+    "msg_011CgTZs5YQiVDY2SuBaaj9D",
+    "msg_011CgTZsZnmwvhZXdgtByR2o",
+    "msg_011CgTZsoCgULBfnjnZ1RbdQ",
+    "msg_011CgTZsoCgULBfnjnZ1RbdQ"
+  ],
+  "session_id": "530c20a1-0d47-4d49-ac44-5c2b36e94be2",
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 15576,
+    "cache_read_input_tokens": 72752,
+    "output_tokens": 3854,
+    "output_tokens_details": {
+      "thinking_tokens": 1662
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15576,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1869,
+        "cache_read_input_tokens": 19133,
+        "cache_creation_input_tokens": 159,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 159
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTZqLNqTbpSx74GmMsUX",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTZqLNqTbpSx74GmMsUX",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "reference/worked-example/**/*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTZqLNqTbpSx74GmMsUX",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "**/*.md",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTZqkSSEdCAXT9syxP3g",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTZqkSSEdCAXT9syxP3g",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\cards\\02-the-region-blueprint.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTZrCZK7RWcruw6GpKx6",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTZrCZK7RWcruw6GpKx6",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\frameworks\\pricing.md",
+            "offset": 40,
+            "limit": 12
+          }
+        }
+      ]
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTZrCZK7RWcruw6GpKx6",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\templates\\listing.md",
+            "limit": 15
+          }
+        }
+      ]
+    },
+    {
+      "turn": 8,
+      "message_id": "msg_011CgTZrCZK7RWcruw6GpKx6",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": ".git/refs/heads/*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 9,
+      "message_id": "msg_011CgTZrkipxGuTBggVhBqmw",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 10,
+      "message_id": "msg_011CgTZrkipxGuTBggVhBqmw",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\.git\\refs\\heads\\main"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 11,
+      "message_id": "msg_011CgTZrkipxGuTBggVhBqmw",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\README.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 12,
+      "message_id": "msg_011CgTZs5YQiVDY2SuBaaj9D",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 13,
+      "message_id": "msg_011CgTZs5YQiVDY2SuBaaj9D",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": ".git/{packed-refs,refs/remotes/origin/*,FETCH_HEAD}",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 14,
+      "message_id": "msg_011CgTZsZnmwvhZXdgtByR2o",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\.git\\packed-refs"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 15,
+      "message_id": "msg_011CgTZsoCgULBfnjnZ1RbdQ",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 16,
+      "message_id": "msg_011CgTZsoCgULBfnjnZ1RbdQ",
+      "text": "I used the map's Region Blueprint card for the dependency list and checked it against the repo. **Yes, there are dependencies on the wording, and the breakage lands on existing packs, though not in the way you might expect.**\n\n## What depends on section wording\n\n**Two headings are quoted word for word and break if reworded:**\n- **\"Pricing Adjustment Magnitudes\"** in `market.md`: `frameworks/pricing.md:46` tells the specialist to look under that heading. I checked it and it's there.\n- **\"Buyer-disclosure conventions\"** in `market.md`: `templates/listing.md:11` checks for it, and \"If the section is absent, skip.\" I checked this one too. It's the risky one: rename it and listings quietly stop including local disclosures, with no error.\n\n**Some sections are referred to by topic, so rewording is fine but removing or merging them breaks things:**\n- In `market.md`:\n  - seasonality (`pricing.md:3`, `:80`; `pricing-memo.md:45`)\n  - foreign-buyer activity (`international-buyers.md:3`, `:13`, `:82`; `pricing.md:82`)\n  - adjustment magnitudes (`pricing.md:3`, `:7`; `pricing-memo.md:39`)\n- In `regulations.md`:\n  - ownership (`pricing.md:65`, `listing.md:103`, `pricing-memo.md:52`)\n  - foreign-buyer rules (`international-buyers.md:3`, `:59`)\n\n**`rules.md` doesn't depend on section wording.** It sends requests to the `region/*.md` files by path (lines 27–33) and checks whether they're still unfilled (line 59). Changing headings won't affect it, but renaming or removing one of the six files would. I didn't open `rules.md` myself; this comes from the map.\n\n## Would it break existing region packs?\n\nThe template edit alone won't touch them. The upgrade path (README lines 270–272) says to replace everything in `specialist/` except `reference/region/` and keep your filled-in `region/` folder. The v1 migration note (line 217) also says to carry your old region files over. So existing packs never see the new template.\n\nThe problem is that you can't keep both sides consistent:\n- **Rename only in the template:** new packs stop matching the engine.\n- **Also update `pricing.md` / `listing.md` to the new name:** every pack users kept under the upgrade path stops matching. `listing.md` would skip disclosures without saying so, and pricing would lose its adjustment magnitudes.\n\nPacks copied from `case-studies/` are already out of step: the map says Lisbon has two reworded headings and no seasonality or disclosure section at all.\n\n**Safer options:** leave those two headings as they are, or have the engine files accept both the old and new name (e.g. \"under 'X' (or the older 'Y')\"). If you restructure topic sections, keep each topic present somewhere in the same file.\n\n## One caveat\n\nThe map says this list is complete at commit `702e79c`, but your local checkout is at `236aae0` (both local `main` and `origin/main`). Both word-for-word references are still at the cited lines. I couldn't re-run the map's check script (`reference/checks/heading-refs.py`) from here, so run it before treating the list as complete for the current commit.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

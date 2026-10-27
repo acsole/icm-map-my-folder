@@ -157,28 +157,60 @@ Two readers in the engine: **LIVE**. Card 1.3.
 Frameworks, templates and checklists are each named by routing rows (`rules.md:27-30`): **LIVE**.
 The three lines above are the surprising reaches on cards 1.4, 1.6 and 1.5.
 
-## h) The engine reads `market.md` by section heading — card 02, found by an outsider's walk
+## h) The engine leans on sections inside the region files — card 02, found by an outsider's walks
 
-    $ grep -rnE 'region/market.md.{0,40}("|section)' specialist/reference/
-    frameworks/international-buyers.md:82: … `region/market.md`'s foreign-buyer activity section.
-    frameworks/pricing.md:46: … live in `region/market.md` under "Pricing Adjustment Magnitudes" …
-    templates/listing.md:11: … check `region/market.md` for a **"Buyer-disclosure conventions"** section …
+The first version of this section listed three lines. It was incomplete: a later walk found a
+fourth (`international-buyers.md:13`) the card did not carry. The list below replaces it, and it is
+produced by a command rather than by reading, so it can be re-run.
 
-    $ grep -n "^#" specialist/reference/region/market.md        # the blank has all three
-    38:## Foreign buyer activity
-    50:## Buyer-disclosure conventions
-    64:## Pricing adjustment magnitudes
+    $ python3 reference/checks/heading-refs.py --territory .           --blank specialist/reference/region --engine specialist
+    market.md | Seasonality | exact | specialist/reference/frameworks/pricing.md:3  > **Depends on:** `region/market.m
+    market.md | Seasonality | exact | specialist/reference/frameworks/pricing.md:80  3. **Seasonality factor.** Apply 
+    market.md | Seasonality | exact | specialist/reference/templates/pricing-memo.md:45  - Seasonality (per `region/ma
+    market.md | Foreign buyer activity | exact | specialist/reference/frameworks/international-buyers.md:3  > **Depend
+    market.md | Foreign buyer activity | exact | specialist/reference/frameworks/international-buyers.md:13  - **Listi
+    market.md | Foreign buyer activity | exact | specialist/reference/frameworks/international-buyers.md:82  1. The lo
+    market.md | Foreign buyer activity | topic | specialist/reference/frameworks/pricing.md:82  5. **Foreign-buyer dem
+    market.md | Buyer-disclosure conventions | exact | specialist/reference/templates/listing.md:11  Before producing 
+    market.md | Pricing adjustment magnitudes | topic | specialist/examples.md:178  - Magnitudes applied per `region/m
+    market.md | Pricing adjustment magnitudes | topic | specialist/reference/frameworks/pricing.md:3  > **Depends on:*
+    market.md | Pricing adjustment magnitudes | topic | specialist/reference/frameworks/pricing.md:7  How you arrive a
+    market.md | Pricing adjustment magnitudes | exact | specialist/reference/frameworks/pricing.md:46  These are *what
+    market.md | Pricing adjustment magnitudes | topic | specialist/reference/templates/pricing-memo.md:39  24 bullets
+    regulations.md | Property tax / annual fees | topic | specialist/reference/frameworks/pricing.md:65  In some marke
+    regulations.md | Ownership registration | topic | specialist/reference/templates/listing.md:103  | Ownership statu
+    regulations.md | Ownership registration | exact | specialist/reference/templates/pricing-memo.md:52  The "specific
+    regulations.md | Foreign-buyer rules | topic | specialist/reference/frameworks/international-buyers.md:3  > **Depe
+    regulations.md | Foreign-buyer rules | topic | specialist/reference/frameworks/international-buyers.md:59  | Tax b
+    services.md | Inspectors | exact | specialist/identity.md:24  5. **Local-services lookup**  vendor retrieval from
+    services.md | Lenders / mortgage brokers | topic | specialist/identity.md:24  5. **Local-services lookup**  vendo
+    services.md | Stagers | exact | specialist/identity.md:24  5. **Local-services lookup**  vendor retrieval from th
+    
+    21 line(s) name a section of a blueprint file. Lines that rely on a section without naming its file are outside th
 
-    $ grep -niE "^#+ .*(adjust|magnitud|foreign|disclosure)" case-studies/*/region/market.md
-    jerusalem:   35 Foreign buyer activity · 43 Pricing adjustment magnitudes
-    khao-lak:    43 Foreign buyer activity · 53 Buyer-disclosure conventions · 64 Pricing adjustment magnitudes
-    lisbon:      19 Adjustment magnitudes for pricing memos · 37 Foreign-buyer activity
-    novato:      32 Foreign buyer activity · 38 Pricing adjustment magnitudes
+The command reports every line under `specialist/` that names a blank region file **and** one of
+that file's section headings — whole (`exact`) or by its distinctive word (`topic`). Its limit, stated
+where it is used: a line that relies on a section without naming its file is not found.
 
-Three engine lines name a `market.md` section by heading. Lisbon's two are headed differently from
-the blank's, and only Khao Lak carries the disclosure section, which the listing template reads only
-"if present". Not found by the first Walk A; found when a walk on a question the mapmaker did not
-write left the map to look for it.
+Classified by the mapmaker — the command reports, the map judges:
+
+| Kind | Lines | What breaks |
+|---|---|---|
+| heading quoted verbatim | `frameworks/pricing.md:46` ("Pricing Adjustment Magnitudes"), `templates/listing.md:11` ("Buyer-disclosure conventions", read only if present) | rewording the heading |
+| `market.md` sections by topic | seasonality: `pricing.md:3`, `:80`, `pricing-memo.md:45` · foreign-buyer activity: `international-buyers.md:3`, `:13`, `:82`, `pricing.md:82` · magnitudes: `pricing.md:3`, `:7`, `pricing-memo.md:39` | removing the section |
+| `regulations.md` sections by topic | ownership: `pricing.md:65`, `listing.md:103`, `pricing-memo.md:52` · foreign-buyer rules: `international-buyers.md:3`, `:59` | removing the section |
+| not a section dependency | `examples.md:178` (a worked example, not a rule); `pricing.md:65` matched "Property tax" on the word *property* but is about ownership; `identity.md:24` lists vendor categories as examples | — |
+
+    $ grep -niE "^#+ .*(season|foreign|disclosure|magnitud)" case-studies/*/region/market.md
+    jerusalem:   Seasonality · Foreign buyer activity · Pricing adjustment magnitudes
+    khao-lak:    Seasonality · Foreign buyer activity · Buyer-disclosure conventions · Pricing adjustment magnitudes
+    lisbon:      Adjustment magnitudes for pricing memos · Foreign-buyer activity
+    novato:      Seasonality · Foreign buyer activity · Pricing adjustment magnitudes
+    $ grep -ci season case-studies/lisbon-portugal/region/market.md
+    0
+
+Lisbon has reworded two headings and has no seasonality section at all, though `pricing.md:80`
+applies seasonality "per `region/market.md`". Only Khao Lak carries the disclosure section.
 
 ## What was reported, not repaired
 

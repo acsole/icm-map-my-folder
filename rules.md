@@ -87,7 +87,9 @@ Look the line up. Do not reason about it per card.
 - [ ] **Hits** — from the table above.
 - [ ] **Does not hit** — per the checks above.
 - [ ] **Done when** — a stop condition phrased as an instruction a cold model can act on. Not
-      *"once you understand X"*; something it can check and then stop.
+      *"once you understand X"*; something it can check and then stop. If the card lists what
+      depends on something, the list is complete, the command and commit that produced it are on
+      the card, and the stop condition says to answer from it (`reference/card-shape.md`).
 
 Their presence is check **D** in [`reference/checks/refusal-checks.py`](reference/checks/refusal-checks.py) —
 mechanical, so a card cannot ship one line short by accident.

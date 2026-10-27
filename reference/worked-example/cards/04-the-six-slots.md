@@ -21,7 +21,9 @@ counterpart, no reader in the machinery.
 
 **Why it is shaped that way:** the routing table addresses slots by filename, so populating a market
 is filling names rather than inventing structure — and a new slot is not a new file, it is a new
-routing row.
+routing row. *(Revision:)* filename is how a slot is **found**, not all the engine relies on — it
+also names sections inside `market.md` and `regulations.md`. Editing a slot's sections in the blank
+is card 02, which carries the complete list.
 
 **Source path:** `specialist/reference/region/`
 

@@ -1,0 +1,129 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q02-showing-notes",
+  "question": "Can the specialist write showing notes?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T22:52:40+00:00",
+  "map_commit": "e4f91f0e4982ddfe5f7c71d466b95440de4b02b5+dirty",
+  "territory_commit": "702e79cdeed5c4b4b262d5456586cbccee4b0d3f",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "4ef1a0c271e48ace80df487a279159e3fe158fb13b04d7ef7470648549298dd0"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/CATALOG.md",
+      "sha256": "e433212d00869c7bed4239da11bd306929527f05489437ca68e702d23f23aa44"
+    },
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/cards/1.2-the-job-set.md",
+      "sha256": "66204bdc09b6295e8b872dab71554a2bb3ad1e56b3fcd115fbc402d855649069"
+    }
+  ],
+  "listings": [],
+  "turns": 3,
+  "final_stop_reason": "end_turn",
+  "final_answer": "Yes. \"Showing notes\" is one of the five jobs the specialist does. The others are Listing, Matching, Pricing and Services lookup. Showing notes has its own routing row in `specialist/rules.md:27-31` and its own template line at `rules.md:41-45`. It also appears in the welcome menu (`welcome.md:27-31`) and in the job list at `identity.md:13-24`. `rules.md:83` says there are five jobs, and `docs/v1-to-v2-spec.md:11` confirms that version 2 went from three jobs to five.\n\n**One catch:** `rules.md` still has two leftover sentences from version 1, which only had three jobs:\n- `rules.md:7`: \"Listing, matching, or pricing?\"\n- `rules.md:18`: \"No work outside the three jobs\"\n\nThe routing table is what actually decides which job runs, and line 18 isn't part of it. But a model reading the file could take line 18 as a scope rule and refuse showing notes, since it was one of the two jobs added in version 2. The map points this out but doesn't fix it. Removing or updating those two lines would make the file agree with itself.\n\n`identity.md` calls showing notes a \"supporting\" job rather than a \"core\" one. That's a ranking only; it doesn't take the job out of scope.\n\nThis all comes from the map's card for the job set (district card 1.2), which quotes the files at the commit the map was made from (`702e79c`). I didn't open `rules.md` myself, so if the repo has changed since then, the file is what counts.",
+  "message_ids": [
+    "msg_011CgTZaFavXwikE8TQ4vnRp",
+    "msg_011CgTZaFavXwikE8TQ4vnRp",
+    "msg_011CgTZaSp7NrLG2ZS8QLgnM",
+    "msg_011CgTZaSp7NrLG2ZS8QLgnM",
+    "msg_011CgTZabXVPasgkjdfG14tT",
+    "msg_011CgTZabXVPasgkjdfG14tT"
+  ],
+  "session_id": "a6455fa0-947b-457f-be29-2d2a746f0778",
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2050,
+    "cache_read_input_tokens": 12126,
+    "output_tokens": 851,
+    "output_tokens_details": {
+      "thinking_tokens": 111
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 2050,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 554,
+        "cache_read_input_tokens": 4798,
+        "cache_creation_input_tokens": 916,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 916
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTZaFavXwikE8TQ4vnRp",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTZaFavXwikE8TQ4vnRp",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\CATALOG.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTZaSp7NrLG2ZS8QLgnM",
+      "text": "Whether a job exists is the job set → card 1.2.",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTZaSp7NrLG2ZS8QLgnM",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\cards\\1.2-the-job-set.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTZabXVPasgkjdfG14tT",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTZabXVPasgkjdfG14tT",
+      "text": "Yes. \"Showing notes\" is one of the five jobs the specialist does. The others are Listing, Matching, Pricing and Services lookup. Showing notes has its own routing row in `specialist/rules.md:27-31` and its own template line at `rules.md:41-45`. It also appears in the welcome menu (`welcome.md:27-31`) and in the job list at `identity.md:13-24`. `rules.md:83` says there are five jobs, and `docs/v1-to-v2-spec.md:11` confirms that version 2 went from three jobs to five.\n\n**One catch:** `rules.md` still has two leftover sentences from version 1, which only had three jobs:\n- `rules.md:7`: \"Listing, matching, or pricing?\"\n- `rules.md:18`: \"No work outside the three jobs\"\n\nThe routing table is what actually decides which job runs, and line 18 isn't part of it. But a model reading the file could take line 18 as a scope rule and refuse showing notes, since it was one of the two jobs added in version 2. The map points this out but doesn't fix it. Removing or updating those two lines would make the file agree with itself.\n\n`identity.md` calls showing notes a \"supporting\" job rather than a \"core\" one. That's a ranking only; it doesn't take the job out of scope.\n\nThis all comes from the map's card for the job set (district card 1.2), which quotes the files at the commit the map was made from (`702e79c`). I didn't open `rules.md` myself, so if the repo has changed since then, the file is what counts.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

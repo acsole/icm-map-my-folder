@@ -1,0 +1,103 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q02-showing-notes",
+  "question": "Can the specialist write showing notes?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T22:52:11+00:00",
+  "map_commit": "e4f91f0e4982ddfe5f7c71d466b95440de4b02b5+dirty",
+  "territory_commit": "702e79cdeed5c4b4b262d5456586cbccee4b0d3f",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "4ef1a0c271e48ace80df487a279159e3fe158fb13b04d7ef7470648549298dd0"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/cards/1.2-the-job-set.md",
+      "sha256": "66204bdc09b6295e8b872dab71554a2bb3ad1e56b3fcd115fbc402d855649069"
+    }
+  ],
+  "listings": [],
+  "turns": 2,
+  "final_stop_reason": "end_turn",
+  "final_answer": "Yes. In v2, Showing notes is one of the specialist's five jobs: Listing, Matching, Pricing, Showing notes and Services lookup. It has its own routing row in `specialist/rules.md:27-31`, which sets the files it reads, and its own output template at `rules.md:41-45`. `rules.md:83` confirms there are five jobs, and `docs/v1-to-v2-spec.md:11` records the change from three jobs in v1 to five in v2. `identity.md` calls it a \"supporting\" job rather than a \"core\" one, but that only ranks the jobs. It doesn't limit what the specialist will do.\n\nThere's a problem in the same file, though. Two sentences were never updated from v1 and still say there are three jobs:\n- `rules.md:7`: \"Listing, matching, or pricing?\"\n- `rules.md:18`: \"No work outside the three jobs\"\n\nThe specialist decides what to do from the routing table, not from these sentences. Still, a model reading `rules.md:18` as a rule could refuse Showing notes, or Services lookup, the other job v2 added. If showing-notes requests are being turned away, that line is the likely cause. The fix is to update both sentences to the five jobs.\n\nI took this from the map's card for the job set (card 1.2), which quotes `rules.md` at commit `702e79c`. I didn't open `rules.md` itself. If the repo has changed since that commit, the file is right and the card may be out of date.",
+  "message_ids": [
+    "msg_011CgTZY9fvz2NpRE6B1MvQF",
+    "msg_011CgTZY9fvz2NpRE6B1MvQF",
+    "msg_011CgTZYNU7q387XSbJ5HX5e",
+    "msg_011CgTZYNU7q387XSbJ5HX5e"
+  ],
+  "session_id": "b1991640-0586-405b-aee9-a22a59703318",
+  "usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 1667,
+    "cache_read_input_tokens": 6624,
+    "output_tokens": 734,
+    "output_tokens_details": {
+      "thinking_tokens": 142
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 1667,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 555,
+        "cache_read_input_tokens": 3664,
+        "cache_creation_input_tokens": 963,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 963
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTZY9fvz2NpRE6B1MvQF",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTZY9fvz2NpRE6B1MvQF",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\cards\\1.2-the-job-set.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTZYNU7q387XSbJ5HX5e",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTZYNU7q387XSbJ5HX5e",
+      "text": "Yes. In v2, Showing notes is one of the specialist's five jobs: Listing, Matching, Pricing, Showing notes and Services lookup. It has its own routing row in `specialist/rules.md:27-31`, which sets the files it reads, and its own output template at `rules.md:41-45`. `rules.md:83` confirms there are five jobs, and `docs/v1-to-v2-spec.md:11` records the change from three jobs in v1 to five in v2. `identity.md` calls it a \"supporting\" job rather than a \"core\" one, but that only ranks the jobs. It doesn't limit what the specialist will do.\n\nThere's a problem in the same file, though. Two sentences were never updated from v1 and still say there are three jobs:\n- `rules.md:7`: \"Listing, matching, or pricing?\"\n- `rules.md:18`: \"No work outside the three jobs\"\n\nThe specialist decides what to do from the routing table, not from these sentences. Still, a model reading `rules.md:18` as a rule could refuse Showing notes, or Services lookup, the other job v2 added. If showing-notes requests are being turned away, that line is the likely cause. The fix is to update both sentences to the five jobs.\n\nI took this from the map's card for the job set (card 1.2), which quotes `rules.md` at commit `702e79c`. I didn't open `rules.md` itself. If the repo has changed since that commit, the file is right and the card may be out of date.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

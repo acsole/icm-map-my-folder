@@ -45,6 +45,18 @@ thought it did is filler. **If you cannot name a plausible wrong reach, do not w
 consumes this slot, and you have not opened a case study"* — actionable, checkable, and it ends the
 read. *"When you understand the architecture"* — unactionable; a cold model will keep going.
 
+Two shapes of question a card must expect, both learned from walks *(added in the revision)*:
+
+- **A card that quotes the territory.** A reader who sees `rules.md:18` quoted will open `rules.md`
+  to check it, unless the stop condition says the quote is from the pinned commit and where its
+  command is. Say so, and say not to re-open the file.
+- **An audit — "what depends on this?"** A careful reader will not stop on a partial list; it will
+  read the territory until it believes the list is complete. A card may answer an audit only if it
+  carries the **complete** list, names the **command** that produced it and the **commit** it ran
+  at, and its stop condition says to answer from the list. If the list is too long for a card, the
+  card names the command and the count and the reader is told to run it — a map that pretends to be
+  complete is worse than one that hands over the search.
+
 ## What a card is not
 
 - Not longer than what it points at. Ever. (Refusal 1, check A.)

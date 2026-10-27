@@ -1,0 +1,4 @@
+# market.md | Seasonality | kind | path:line - planted references the scan must find, and only these
+market.md | Pricing adjustment magnitudes | exact | engine/framework.md:3
+market.md | Seasonality | exact | engine/framework.md:5
+market.md | Pricing adjustment magnitudes | topic | engine/framework.md:7
