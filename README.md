@@ -124,8 +124,14 @@ framing at all — and its pass bar, written before any run is scored.
     QUESTION_FILE=walks/questions/q01-services.md RUNS=5 \
         TERRITORY_DIR=./your-market-realtor python3 reference/checks/cold-run.py
 
+Without a key, the same walk can be recorded through the Claude Code CLI, signed in with a Claude
+subscription: [`cold-run-claude-code.py`](reference/checks/cold-run-claude-code.py), same arguments.
+Its transcripts are marked as a different harness and scored under their own verdict, never pooled
+with API runs. `q01-services` recorded this way **passes**; why it took two attempts is in
+[`CHANGES.md`](CHANGES.md).
+
 The runs in `cold-run-transcript.md` predate the recorder: they survive as excerpts, not raw JSON,
-so the scorer does not count them. Until new runs are recorded, the walk verdict reads `fail`, and
+so the scorer does not count them. Until API runs are recorded, the API verdict reads `fail`, and
 that is the honest reading.
 
 ## Credits

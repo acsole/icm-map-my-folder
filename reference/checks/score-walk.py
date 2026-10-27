@@ -45,6 +45,7 @@ import os
 import posixpath
 import sys
 
+API_HARNESS = "api-runner"  # cold-run.py; transcripts recorded before the field existed count as this
 STRICT = ("W1", "W2", "W5", "W6")
 SPREAD = ("W3", "W4")
 GATES = STRICT[:2] + SPREAD + STRICT[2:]  # W1 W2 W3 W4 W5 W6, in reading order
@@ -169,18 +170,24 @@ def score_question(q, transcripts, roots):
 
 
 def load_transcripts(directory, qid):
-    out = []
+    """Transcripts for one question, grouped by harness. Harnesses are judged apart, never pooled."""
+    out = {API_HARNESS: []}
     for path in sorted(glob.glob(os.path.join(directory, "*.json"))):
         with open(path, encoding="utf-8") as fh:
             t = json.load(fh)
         if t.get("question_id") == qid:
-            out.append((os.path.basename(path), t))
+            out.setdefault(t.get("harness", API_HARNESS), []).append((os.path.basename(path), t))
     return out
 
 
-def render_verdict(q, verdict, rows):
+def verdict_name(qid, harness):
+    return f"{qid}.check.md" if harness == API_HARNESS else f"{qid}.{harness}.check.md"
+
+
+def render_verdict(q, verdict, rows, harness=API_HARNESS):
     lines = [verdict, "", f"# Walk verdict — {q['id']}", "",
              f"**Question:** {q['question']}  ",
+             f"**Harness:** `{harness}` — judged on its own; other harnesses get their own verdict  ",
              f"**Configuration:** `{q['configuration']}` · **expects:** `{q['expect_card']}` · "
              f"**budget:** {q['max_reads']} read(s), {q['territory_reads_allowed']} territory · "
              f"**runs required:** {q['runs_required']}, spread gates on at least {q['spread_min']}", "",
@@ -289,12 +296,14 @@ def main():
     failed = 0
     for path in questions:
         q = read_question(path)
-        transcripts = load_transcripts(os.path.join(args.walks, "transcripts"), q["id"])
-        verdict, rows = score_question(q, transcripts, roots)
-        with open(os.path.join(verdict_dir, f"{q['id']}.check.md"), "w", encoding="utf-8", newline="\n") as fh:
-            fh.write(render_verdict(q, verdict, rows))
-        print(f"{q['id']:<28} {len(rows)} run(s)   {verdict}")
-        failed += verdict != "pass"
+        by_harness = load_transcripts(os.path.join(args.walks, "transcripts"), q["id"])
+        for harness, transcripts in sorted(by_harness.items()):
+            verdict, rows = score_question(q, transcripts, roots)
+            with open(os.path.join(verdict_dir, verdict_name(q["id"], harness)), "w", encoding="utf-8",
+                      newline="\n") as fh:
+                fh.write(render_verdict(q, verdict, rows, harness))
+            print(f"{q['id']:<20} {harness:<22} {len(rows)} run(s)   {verdict}")
+            failed += verdict != "pass"
 
     print(f"\nVerdicts written to {verdict_dir}.")
     return 1 if failed else 0

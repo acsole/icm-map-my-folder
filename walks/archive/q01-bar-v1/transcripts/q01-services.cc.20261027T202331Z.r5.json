@@ -1,0 +1,103 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q01-services",
+  "question": "What is Services?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T20:24:28+00:00",
+  "map_commit": "c2d33cbf371bb5bdb81a4f1bea4daccad9f75a30+dirty",
+  "territory_commit": "702e79cdeed5c4b4b262d5456586cbccee4b0d3f",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "2f1eb95b2e5e52cbdd27c5665f884f46e717649a851c7b22a3e161e5808cb5cc"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/cards/04-the-six-slots.md",
+      "sha256": "6368d69c0c85aa4f2ca177238ec2664f05d42237980ed5bd1327c826209f5dd2"
+    }
+  ],
+  "listings": [],
+  "turns": 2,
+  "final_stop_reason": "end_turn",
+  "final_answer": "In this repo, `services.md` is one of the six standard files that every market's `region/` folder contains. It holds **the agent's vetted list of other people's businesses**: inspectors, lenders, stagers, movers and so on.\n\nIt does **not** describe the agent's own services, even though that's what \"services\" usually means in real estate. That's why it's easy to misread.\n\n- **Where it lives:** the template version is in `specialist/reference/region/services.md`, and each of the four markets has its own copy under `case-studies/<slug>/region/services.md`.\n- **How it's used:** the routing table in `specialist/rules.md` gives it its own row, called \"services lookup\".\n- **History:** it's the newest of the six files. `specialist/README.md:26` calls it \"new in v2\".\n- **One mismatch:** `specialist/identity.md:52` still says `reference/region/` holds **5 files**. That line wasn't updated when `services.md` was added. `README.md`, `CONTRIBUTING.md` and `docs/index.html` all correctly say six.\n\nThis comes from the map's card on the six standard files (card 04). I didn't open the repo files themselves; if they disagree with the map, the files are right.",
+  "message_ids": [
+    "msg_011CgTNH2vvgE8zAiUvQYdwH",
+    "msg_011CgTNH2vvgE8zAiUvQYdwH",
+    "msg_011CgTNHCVPbcEW1d1wUvaCS",
+    "msg_011CgTNHCVPbcEW1d1wUvaCS"
+  ],
+  "session_id": "24a25373-679f-45d8-a6a8-f1ec6fff892d",
+  "usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 1049,
+    "cache_read_input_tokens": 6634,
+    "output_tokens": 577,
+    "output_tokens_details": {
+      "thinking_tokens": 82
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 1049,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 430,
+        "cache_read_input_tokens": 3317,
+        "cache_creation_input_tokens": 1049,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1049
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTNH2vvgE8zAiUvQYdwH",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTNH2vvgE8zAiUvQYdwH",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\cards\\04-the-six-slots.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTNHCVPbcEW1d1wUvaCS",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTNHCVPbcEW1d1wUvaCS",
+      "text": "In this repo, `services.md` is one of the six standard files that every market's `region/` folder contains. It holds **the agent's vetted list of other people's businesses**: inspectors, lenders, stagers, movers and so on.\n\nIt does **not** describe the agent's own services, even though that's what \"services\" usually means in real estate. That's why it's easy to misread.\n\n- **Where it lives:** the template version is in `specialist/reference/region/services.md`, and each of the four markets has its own copy under `case-studies/<slug>/region/services.md`.\n- **How it's used:** the routing table in `specialist/rules.md` gives it its own row, called \"services lookup\".\n- **History:** it's the newest of the six files. `specialist/README.md:26` calls it \"new in v2\".\n- **One mismatch:** `specialist/identity.md:52` still says `reference/region/` holds **5 files**. That line wasn't updated when `services.md` was added. `README.md`, `CONTRIBUTING.md` and `docs/index.html` all correctly say six.\n\nThis comes from the map's card on the six standard files (card 04). I didn't open the repo files themselves; if they disagree with the map, the files are right.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

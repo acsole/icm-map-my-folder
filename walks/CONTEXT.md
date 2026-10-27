@@ -21,6 +21,17 @@ needs nothing and is run by anyone, as often as they like.
 Writes `transcripts/<id>.<timestamp>.r<n>.json`. Never edit a transcript by hand; a walk that went
 badly is recorded as it went.
 
+**Or record through Claude Code, with a subscription instead of a key:**
+
+    QUESTION_FILE=walks/questions/<id>.md RUNS=5 TERRITORY_DIR=<territory> \
+        python3 reference/checks/cold-run-claude-code.py
+
+Same question, same system prompt, same transcript format; the reader runs inside `claude -p` with
+only `Read` and `Glob`. Writes `transcripts/<id>.cc.<timestamp>.r<n>.json`, marked
+`"harness": "claude-code-headless"`. The scorer judges each harness apart and writes its own verdict
+(`verdicts/<id>.claude-code-headless.check.md`); it never pools them. Run with `ISOLATION_PROBE=1`
+first to see what context the reader was given.
+
 ## Step 2 — score (offline)
 
     python3 reference/checks/score-walk.py --walks walks/ --map . --territory <territory>

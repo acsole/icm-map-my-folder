@@ -34,12 +34,13 @@ repo, so nobody could reproduce it.
 | 4. Gates shown failing | **Done.** Both checkers ship broken fixtures and a `--self-test` | [`reference/checks/fixtures/`](reference/checks/fixtures/) |
 | 2. Bigger shelf | **Not yet.** Designed, not built — see *Next* below | — |
 | 3. Business territory | **Not yet.** Designed, not built | — |
-| Real walk recordings | **Not yet.** The recorder exists; recording costs API calls and has not been run. Until it is, the walk verdict reads `fail: 0 of 5 runs recorded` | [`walks/verdicts/`](walks/verdicts/) |
+| Walks recorded through Claude Code | **Done.** `q01-services`, five runs: **pass** | [`q01-services.claude-code-headless.check.md`](walks/verdicts/q01-services.claude-code-headless.check.md) |
+| Walks recorded through the API | **Not yet.** The recorder exists; recording needs a key and has not been run. That verdict reads `fail: 0 of 5 runs recorded` | [`q01-services.check.md`](walks/verdicts/q01-services.check.md) |
 
-The last row is deliberate. The scorer could have been fed the old runs, but those survive only as
-excerpts in [`cold-run-transcript.md`](reference/worked-example/cold-run-transcript.md), not as the
-raw record. Rebuilding them by hand would be inventing evidence. An unrecorded walk is not a passing
-one, so the verdict says so.
+The last row is deliberate. The scorer could have been fed the old API runs, but those survive only
+as excerpts in [`cold-run-transcript.md`](reference/worked-example/cold-run-transcript.md), not as
+the raw record. Rebuilding them by hand would be inventing evidence. An unrecorded walk is not a
+passing one, so the verdict says so — and the Claude Code pass is not counted in its place.
 
 ---
 
@@ -95,6 +96,51 @@ comes back 2/1 is inside the spread"* — now written down and enforced.
 `refusal-checks.py` itself checks exactly what it checked before. Its loop moved into a function so
 the self-test can see which gate each card trips; the output against the real map is unchanged.
 
+### 3. A second way to record walks — through Claude Code, without an API key
+
+The API runner needs a key and pays per token. [`cold-run-claude-code.py`](reference/checks/cold-run-claude-code.py)
+records the same walk through the Claude Code CLI (`claude -p`), signed in with a Claude subscription.
+Same question files, same system prompt, same transcript format, so the same scorer judges it. The
+reader gets only Claude Code's `Read` (a hop) and `Glob` (a listing, free).
+
+**It is a different harness, and it is labelled as one.** Every transcript carries
+`"harness": "claude-code-headless"`, and the scorer writes a separate verdict for each harness
+(`walks/verdicts/<id>.claude-code-headless.check.md`) and never pools them. A pass here is real
+evidence that a cold Claude can use the map; it is not the API run under another name.
+
+**Making the reader cold took three findings.** Tested with a probe that asks the reader what
+context it was given (`ISOLATION_PROBE=1`):
+
+1. Out of the box, the CLI loaded the operator's own global `CLAUDE.md` into the reader's context.
+   `--bare` would stop that, but `--bare` requires an API key, which is what this harness avoids.
+   `CLAUDE_CODE_DISABLE_CLAUDE_MDS=1` and `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` stop it without one.
+2. Run from inside another Claude session, the CLI inherits that session's variables (its working
+   folders, its scratchpad). The runner drops every inherited `CLAUDE*` variable except the ones
+   sign-in needs.
+3. The signed-in account's email still reaches the reader, and nothing short of an API key removes
+   it. It says nothing about the map, so it cannot help a walk; and any email address the reader
+   repeats is replaced with `[email redacted]` before the transcript is written, with the count kept
+   in `"redactions"`.
+
+### 4. The first local walks failed — on the bar, not on the map
+
+Five walks under the first pass bar of `q01-services` failed W6 on four runs. All five landed on card
+04, opened nothing else, stopped, and answered correctly; the bar demanded the word *slot*, the map's
+own term, and four answers said "one of the six standard files" instead. A bar that requires the
+map's jargon tests repetition, not understanding.
+
+The bar was revised once, in the open, with the reason written in the question file. The five runs,
+the old question file and their failing verdict are kept in
+[`walks/archive/q01-bar-v1/`](walks/archive/q01-bar-v1/README.md) and were **not** re-scored — passing
+them now would be scoring the answers that prompted the change. Five new runs were recorded against
+the revised bar.
+
+**Result under the revised bar: pass.** All five runs landed on card 04 and stopped; all five named
+the collision. Four opened only the card. One also opened the blank template's `services.md` in the
+territory, which fails W3 and W4 for that run and is inside the four-of-five spread. That is the same
+spread the original API evidence reported — four runs at one read, one at two with a territory file —
+measured again, by a different harness, without a key. No email address appeared in any transcript.
+
 ---
 
 ## Decisions, and what was rejected
@@ -109,6 +155,8 @@ the self-test can see which gate each card trips; the output against the real ma
 | No automatic fallback to another model in the runner | The API's fallback option | A fallback can switch the model silently mid-measurement. If the model declines, the run is recorded as declined and W5 fails |
 | Default model `claude-opus-5-5`, effort `high`, both recorded | Keep the hard-coded `claude-opus-5` | The original model string was fixed in the code. Both are now settings, and every transcript says which was used |
 | Old runs kept as history, not scored | Reconstruct their JSON | They survive as excerpts. Reconstructing them would be fabricating the record |
+| A separate verdict per harness | One verdict over every transcript of a question | Claude Code adds its own system context and tools around the model. Pooling its runs with API runs would let one stand in for the other |
+| A bar that failed for the wrong reason is revised in the open, and the runs it judged are archived, not re-scored | Quietly loosen the bar and re-score the same five answers | Re-scoring the answers that prompted a change is fitting the bar to the result. Archiving keeps the failure visible and makes the pass come from runs recorded after the change |
 | Plain-language page added | Rewrite the existing docs | The original files are written for someone already inside the method, and they do that well. A newcomer needs a different door, not a different house |
 
 ## What the scorer does not prove
@@ -157,11 +205,12 @@ The map does not edit its territory, and neither does this revision. Both findin
 
 | File | Change |
 |---|---|
-| `reference/checks/score-walk.py` | new — the offline scorer |
+| `reference/checks/score-walk.py` | new — the offline scorer; one verdict per harness |
+| `reference/checks/cold-run-claude-code.py` | new — the recorder through the Claude Code CLI, with the isolation above |
 | `reference/checks/cold-run.py` | rewritten as the recorder; same tools, same prompt, same configurations |
 | `reference/checks/refusal-checks.py` | `--self-test` added; checks unchanged |
 | `reference/checks/fixtures/` | new — broken cards and broken transcripts, each with its expected failure |
-| `walks/` | new — the contract, the first question, and the verdicts it produces |
+| `walks/` | new — the contract, the first question, its transcripts and verdicts, and `archive/q01-bar-v1/` with the runs scored under the first bar |
 | `reference/worked-example/cold-run-transcript.md` | a note at the top: history, not scored evidence |
 | `README.md` | an offline "check it yourself" section, links to this page and `EXPLAINED.md`, credits |
 | `docs/index.html` | the self-test output in place of the unreproducible bad-card output, the offline scorer, credits; the sharing metadata and footer links now point to this repository and its page, with a separate link to the original repository |

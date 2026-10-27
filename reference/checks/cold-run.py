@@ -259,6 +259,7 @@ def walk(client):
 
     return {
         "schema": "map-my-folder/walk/1",
+        "harness": "api-runner",
         "question_id": QUESTION_ID,
         "question": QUESTION,
         "configuration": CONFIGURATION,
@@ -291,7 +292,7 @@ def main():
             json.dump(record, fh, indent=2, ensure_ascii=False)
             fh.write("\n")
         print(f"run {i}/{RUNS}  {len(record['file_reads'])} read(s)  "
-              f"stop={record['final_stop_reason']}  → {os.path.relpath(path)}")
+              f"stop={record['final_stop_reason']}  -> {os.path.relpath(path)}")
     print(f"\nScore offline:  python3 reference/checks/score-walk.py --walks walks/ --map . "
           f"--territory {os.path.relpath(TERRITORY)}")
     return 0
