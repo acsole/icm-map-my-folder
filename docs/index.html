@@ -375,17 +375,23 @@ hit and Done when.</pre>
   <p style="max-width:66ch;color:var(--ink2);font-size:.93rem;margin:1.1rem 0 0"><b>A</b> smaller
   than what it cites · <b>B</b> no verbatim run over 200 characters · <b>C</b> cites a path that
   resolves · <b>D</b> carries Hits, Does not hit, Done when.</p>
-  <h3>and it fails when it should — the same script on two deliberately bad cards</h3>
-  <pre>08-photocopy.md                 1614       1465  <b>FAIL</b>    <b>FAIL</b>    pass    <b>FAIL</b>
-09-nopaths.md                    115          0  <b>FAIL</b>    pass    <b>FAIL</b>    <b>FAIL</b>
+  <h3>and it fails when it should — one broken card per check, shipped in the repo</h3>
+  <pre>$ python3 reference/checks/refusal-checks.py --self-test
 
-<b>FAILED</b> — 6 finding(s):
-  · 08-photocopy.md: 1614 B card &gt;= 1465 B cited (specialist/reference/region/glossary.md)
-  · 08-photocopy.md: 200+ char run shared with specialist/reference/region/glossary.md
-  · 08-photocopy.md: missing required line(s): Does not hit, Done when
-  · 09-nopaths.md: no **Source path:** line
-  · 09-nopaths.md: cites no path that resolves in the territory
-  · 09-nopaths.md: missing required line(s): Does not hit, Done when</pre>
+fixture                      expected  tripped   result
+------------------------------------------------------------
+a-larger-than-source.md      A         A         ok
+b-photocopy.md               B         B         ok
+c-dead-path.md               C         C         ok
+d-missing-line.md            D         D         ok
+ok-control.md                —         —         ok
+------------------------------------------------------------
+
+<i>SELF-TEST PASSED</i> — each of A, B, C and D was shown failing on its own fixture, and the control card passed all four.</pre>
+  <p style="max-width:66ch;color:var(--ink2);font-size:.93rem;margin:1.1rem 0 0">Each broken card is
+  broken in one way only, and the test passes only if it trips <em>exactly</em> that check. The
+  cards live in <code>reference/checks/fixtures/refusal/</code>, so anyone can see the red before
+  trusting the green.</p>
 </div></section>
 
 <section><div class="wrap">
@@ -412,6 +418,15 @@ hit and Done when.</pre>
   line only when you are changing something. Measured, same configuration: <em>“I want to edit
   <code>region/market.md</code> — what else changes?”</em> took one card plus the file itself. The
   same question with no framing at all took twelve.</p>
+  <h3>and now it can be checked without a key</h3>
+  <p style="max-width:68ch;color:var(--ink2);font-size:.95rem">The cold run is two steps.
+  <code>cold-run.py</code> needs the API and is run once: it records each walk as JSON, with the
+  hash of every file the model opened. <code>score-walk.py</code> needs nothing installed: it reads
+  those records and checks six things — that the walk is of this version of the map, that it reached
+  the right card, kept to its budget, stayed out of the territory, stopped on its own, and gave the
+  right answer. Its own <code>--self-test</code> shows each of the six failing on a broken record
+  first. The runs described above predate the recorder, so they are not scored; until new ones are
+  recorded, the verdict says <em>fail</em>, and that is the honest reading.</p>
   <h3>proof from users</h3>
   <!-- TODO: operator — real quotes / adoption only. No invented testimonials, no engagement metrics. -->
   <p style="color:var(--ink3);font-size:.92rem;margin:0">Nothing here yet. This build ships with its
@@ -433,6 +448,18 @@ hit and Done when.</pre>
   </ul>
 </div></section>
 
+<section><div class="wrap">
+  <h2>New to this? Judging the revision?</h2>
+  <p class="lede"><a href="https://github.com/acsole/icm-map-my-folder/blob/main/EXPLAINED.md">The project
+  explained from zero</a> starts with the problem — a labelled fuse box for a folder — then one real
+  example, then the words. <a href="https://github.com/acsole/icm-map-my-folder/blob/main/CHANGES.md">The
+  changes</a> map every note in the Comp #11 feedback to what was done, what was decided, and what is
+  not done yet.</p>
+  <p style="max-width:68ch;color:var(--ink2);font-size:.95rem">Map My Folder was built by Gabriel
+  Azoulay (Gabe — Your AI Specialist). This revision is by Andrés Curcio, made from the judges'
+  feedback with the original author's permission.</p>
+</div></section>
+
 <!-- The Quiet Ai - build-page capture strip. Copy is canon (root-rebuild return
      2026-08-19 section 8). Added because 0 of 24 build pages had a return path. -->
 <section class="tqai-strip" aria-labelledby="tqai-strip-title">
@@ -447,6 +474,7 @@ hit and Done when.</pre>
   <a href="https://github.com/NFTYoginis/map-my-folder/blob/main/reference/worked-example/CATALOG.md">The worked map</a>
   <a href="https://github.com/NFTYoginis/map-my-folder/blob/main/LICENSE">MIT</a>
   <span class="by">By Gabe — Your AI Specialist</span>
+  <a href="https://github.com/acsole/icm-map-my-folder">Revision by Andrés Curcio, with the author's permission</a>
 </div></footer>
 
 </body>

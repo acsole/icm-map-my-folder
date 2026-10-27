@@ -6,6 +6,11 @@ a later reader can change one thing without reading everything.
 
 The later reader is usually a cold model with no memory of how the folder got that way.
 
+> **New to all of this?** [`EXPLAINED.md`](EXPLAINED.md) explains the project from zero — the
+> problem first, one real example, then the words. **Judging the revision?**
+> [`CHANGES.md`](CHANGES.md) maps every note in the Comp #11 feedback to what changed, what was
+> decided and what is not done yet.
+
 > **Reading a map rather than making one?** Go straight to
 > [`reference/worked-example/CATALOG.md`](reference/worked-example/CATALOG.md), find your row, open
 > **one** card, stop. `identity.md` and `rules.md` are the *making* instrument; a reader who opens
@@ -91,23 +96,49 @@ markets, a public site. Seven cards, and the ceiling was reached: everything els
 
 The transcript is not decoration. The first cold run failed — it never found the catalog and started
 re-deriving the map from the territory — and that failure is why `README.md`, `identity.md` and
-`rules.md` now open with a line telling a reader which walk they are on. Re-run it yourself with
-[`reference/checks/cold-run.py`](reference/checks/cold-run.py) (`pip install anthropic`, set
-`TERRITORY_DIR` and `QUESTION`):
+`rules.md` now open with a line telling a reader which walk they are on.
 
-    CATALOG_IN_CONTEXT=1 TERRITORY_DIR=./your-market-realtor QUESTION="What is Services?" \
-        python3 reference/checks/cold-run.py
+## Checking it yourself — offline, nothing installed
 
-**`CATALOG_IN_CONTEXT=1` is the flag that matters.** It puts the catalog in the project — the
-configuration this README tells a reader of an existing map to load, and the one the two-hop number
-is measured in. Drop the flag and the session gets no framing at all: it has to find the map first,
-which costs more reads. Both are real; always say which you ran.
-
-To re-run the checks yourself, clone the territory and point the script at it:
+Clone the territory, then run the checks. Neither needs a network or a package.
 
     git clone https://github.com/NFTYoginis/your-market-realtor.git
+    python3 reference/checks/refusal-checks.py --self-test
     python3 reference/checks/refusal-checks.py \
         --map reference/worked-example --territory ./your-market-realtor
+    python3 reference/checks/score-walk.py --self-test
+    python3 reference/checks/score-walk.py --walks walks/ --map . --territory ./your-market-realtor
+
+**Run the self-tests first.** Each one points its checker at fixtures built to fail
+([`reference/checks/fixtures/`](reference/checks/fixtures/)) and passes only if every gate is shown
+going red on its own fixture. A green on the real map means something once you have seen the red.
+
+The walk evidence is split in two, as [`walks/CONTEXT.md`](walks/CONTEXT.md) describes.
+[`cold-run.py`](reference/checks/cold-run.py) needs the API (`pip install anthropic` and a key) and
+is run once, by whoever made the map: it records each walk as JSON in `walks/transcripts/`, with the
+hash of every file opened. [`score-walk.py`](reference/checks/score-walk.py) judges those transcripts
+offline and writes a verdict per question to `walks/verdicts/`. Each question in `walks/questions/`
+names its configuration — the catalog in the project (what this README tells a reader to load) or no
+framing at all — and its pass bar, written before any run is scored.
+
+    QUESTION_FILE=walks/questions/q01-services.md RUNS=5 \
+        TERRITORY_DIR=./your-market-realtor python3 reference/checks/cold-run.py
+
+The runs in `cold-run-transcript.md` predate the recorder: they survive as excerpts, not raw JSON,
+so the scorer does not count them. Until new runs are recorded, the walk verdict reads `fail`, and
+that is the honest reading.
+
+## Credits
+
+**Map My Folder was built by Gabriel Azoulay** (Gabe — Your AI Specialist,
+[@NFTYoginis](https://github.com/NFTYoginis)) for *Comp #11: The Cartographer*. The instrument, the
+worked example and every finding on the map are his:
+[`NFTYoginis/map-my-folder`](https://github.com/NFTYoginis/map-my-folder) at `d58a746`.
+
+**This revision is by Andrés Curcio** ([@acsole](https://github.com/acsole)), made from the
+competition judges' feedback with the original author's permission. It adds the offline walk scorer,
+the self-tests and their fixtures, `EXPLAINED.md` and `CHANGES.md`. [`CHANGES.md`](CHANGES.md) lists
+every file it touched and why.
 
 ## Licence
 
