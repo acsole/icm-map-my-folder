@@ -2,8 +2,9 @@
 
 **Type + State:** SURFACE · LIVE — `curl -o /dev/null -w '%{http_code}'
 https://nftyoginis.github.io/your-market-realtor/` → **200**, and what it serves is byte-identical to
-`docs/index.html` on disk (both 39,722 B, sha1 `ef9643e0b039…`) with the clone level with origin at
-`702e79c` (`git ls-remote`).
+`docs/index.html` on disk (both 40,323 B, sha1 `404a502fcd3…`) with the clone level with origin at
+`236aae0` (`git ls-remote`). *(Re-verified when the map was re-pinned; at `702e79c` the same check
+read 39,722 B, sha1 `ef9643e0b039…`.)*
 
 **What it is:** the folder GitHub Pages publishes. **`docs/` on disk is the site *root* on the web** —
 the folder name appears in no URL: `/your-market-realtor/` → 200, `/your-market-realtor/docs/` → 404.

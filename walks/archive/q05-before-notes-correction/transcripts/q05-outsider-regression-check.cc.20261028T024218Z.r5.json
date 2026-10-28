@@ -1,0 +1,198 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q05-outsider-regression-check",
+  "question": "Is docs/cold-test-brief.md (or anything else) a regression check I should rerun against the four case studies before changing the universal files in specialist/?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-28T02:45:41+00:00",
+  "map_commit": "8793705e765bd9c2623ab4a0be57fc0ee62bc6cc+dirty",
+  "territory_commit": "236aae0c7b596a60125973bd79d760149a28e259",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "18217ecaef35607b8b8669d2f8accec25785a22e339cd1de5c561cb077d13a58"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/public-edge/cards/7.3-the-working-documents.md",
+      "sha256": "cfd526f2053bfb3a5570fb596df7d3ce7c9e4081f43d662a526ec3ac17e00680"
+    },
+    {
+      "root": "repo",
+      "path": "docs/cold-test-brief.md",
+      "sha256": "3666cc494a1ed6c6d484d98921ae90a4e6cfff54c7f6fbf3b9a3706a2403d7ff"
+    },
+    {
+      "root": "map",
+      "path": "reference/worked-example/notes.md",
+      "sha256": "f00ebff29b946cbcfa265e24e9c17c979077e054071d01e9ae453a4fdd0f5f26"
+    },
+    {
+      "root": "repo",
+      "path": "case-studies/test-results.md",
+      "sha256": "f24e377daa1d077193b60db378d2f7734efbf0732e9176994d37208a1eebe55f"
+    }
+  ],
+  "listings": [
+    "repo:.:**/*"
+  ],
+  "turns": 6,
+  "final_stop_reason": "end_turn",
+  "final_answer": "**No.** Nothing in the repo is a regression check you can rerun across all four case studies. `docs/cold-test-brief.md` isn't one, and the closest thing, `case-studies/test-results.md`, only covers two markets and three of the five jobs.\n\n**`docs/cold-test-brief.md`** is a one-time request to two real agents, one in Jerusalem and one in Novato/Marin. Each runs 3–5 real interactions during a normal work week and sends back transcripts and a free-form reaction. It has no expected outputs and no pass/fail criteria, and it covers two of the four markets. It also runs the opposite way from a regression check. It says \"Findings feed the universal files (never the region files)\" (line 5), so it's meant to produce changes to `specialist/`, not to protect them.\n\n**`case-studies/test-results.md`** is the nearest thing to what you're after, but it's weak:\n- **Simulated, not run.** Its own method says the specialist was dropped into a Project \"mentally — simulated\" (line 28), so the \"expected\" outputs were written by hand.\n- **Two markets only.** It covers Jerusalem and Novato. Khao Lak and Lisbon have never been tested.\n- **Three jobs only.** It ran v1's listing, matching and pricing jobs. The v2 jobs, showing notes and services lookup, \"have not yet been cold-tested\" (line 5), and the results that note says would be added later were never added.\n- **Mostly summaries.** Only Test 1 has the full prompt and output. Tests 2–6 are summaries, so you can't compare against them exactly.\n- **One change still pending.** It says the 3+ language note for `rules.md` is \"Not yet applied\" (line 212).\n\n**Nothing else exists.** The repo contains no test scripts, no CI config and no eval files. The map has no card for `test-results.md`: `notes.md` says it was sorted without being opened, so I read it directly.\n\nIf you want a baseline before editing `specialist/`, you'd have to build one. A reasonable start:\n1. Take the six scenarios from `test-results.md`.\n2. Run them on all four markets.\n3. Add scenarios for showing notes and services lookup.\n4. Use the brief's \"What we're specifically watching for\" list (lines 126–133) as pass/fail checks: does a clear job request skip the menu, does it never address the client directly, does it never invent a vendor, and does an out-of-scope request get a polite redirect?",
+  "message_ids": [
+    "msg_011CgTsK34HZjisus3cppcyY",
+    "msg_011CgTsK34HZjisus3cppcyY",
+    "msg_011CgTsKTWTY1xuV5rwYGJgN",
+    "msg_011CgTsKTWTY1xuV5rwYGJgN",
+    "msg_011CgTsKq5VVs71aSCHatzsQ",
+    "msg_011CgTsKq5VVs71aSCHatzsQ",
+    "msg_011CgTsKq5VVs71aSCHatzsQ",
+    "msg_011CgTsLC2aPNRg1qSGNPjsN",
+    "msg_011CgTsLC2aPNRg1qSGNPjsN",
+    "msg_011CgTsLWP8McHLUqcay7bA6",
+    "msg_011CgTsLWP8McHLUqcay7bA6"
+  ],
+  "session_id": "c4b57a4c-bba3-4e09-80f2-b4c2b606e12e",
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 17612,
+    "cache_read_input_tokens": 34771,
+    "output_tokens": 2188,
+    "output_tokens_details": {
+      "thinking_tokens": 870
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 17612,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1340,
+        "cache_read_input_tokens": 14387,
+        "cache_creation_input_tokens": 7138,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 7138
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTsK34HZjisus3cppcyY",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTsK34HZjisus3cppcyY",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\public-edge\\cards\\7.3-the-working-documents.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTsKTWTY1xuV5rwYGJgN",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTsKTWTY1xuV5rwYGJgN",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\docs\\cold-test-brief.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTsKq5VVs71aSCHatzsQ",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTsKq5VVs71aSCHatzsQ",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "**/*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTsKq5VVs71aSCHatzsQ",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\notes.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTsLC2aPNRg1qSGNPjsN",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 8,
+      "message_id": "msg_011CgTsLC2aPNRg1qSGNPjsN",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\case-studies\\test-results.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 9,
+      "message_id": "msg_011CgTsLWP8McHLUqcay7bA6",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 10,
+      "message_id": "msg_011CgTsLWP8McHLUqcay7bA6",
+      "text": "**No.** Nothing in the repo is a regression check you can rerun across all four case studies. `docs/cold-test-brief.md` isn't one, and the closest thing, `case-studies/test-results.md`, only covers two markets and three of the five jobs.\n\n**`docs/cold-test-brief.md`** is a one-time request to two real agents, one in Jerusalem and one in Novato/Marin. Each runs 3–5 real interactions during a normal work week and sends back transcripts and a free-form reaction. It has no expected outputs and no pass/fail criteria, and it covers two of the four markets. It also runs the opposite way from a regression check. It says \"Findings feed the universal files (never the region files)\" (line 5), so it's meant to produce changes to `specialist/`, not to protect them.\n\n**`case-studies/test-results.md`** is the nearest thing to what you're after, but it's weak:\n- **Simulated, not run.** Its own method says the specialist was dropped into a Project \"mentally — simulated\" (line 28), so the \"expected\" outputs were written by hand.\n- **Two markets only.** It covers Jerusalem and Novato. Khao Lak and Lisbon have never been tested.\n- **Three jobs only.** It ran v1's listing, matching and pricing jobs. The v2 jobs, showing notes and services lookup, \"have not yet been cold-tested\" (line 5), and the results that note says would be added later were never added.\n- **Mostly summaries.** Only Test 1 has the full prompt and output. Tests 2–6 are summaries, so you can't compare against them exactly.\n- **One change still pending.** It says the 3+ language note for `rules.md` is \"Not yet applied\" (line 212).\n\n**Nothing else exists.** The repo contains no test scripts, no CI config and no eval files. The map has no card for `test-results.md`: `notes.md` says it was sorted without being opened, so I read it directly.\n\nIf you want a baseline before editing `specialist/`, you'd have to build one. A reasonable start:\n1. Take the six scenarios from `test-results.md`.\n2. Run them on all four markets.\n3. Add scenarios for showing notes and services lookup.\n4. Use the brief's \"What we're specifically watching for\" list (lines 126–133) as pass/fail checks: does a clear job request skip the menu, does it never address the client directly, does it never invent a vendor, and does an out-of-scope request get a polite redirect?",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

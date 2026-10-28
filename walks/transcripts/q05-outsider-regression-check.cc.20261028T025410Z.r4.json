@@ -1,0 +1,172 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q05-outsider-regression-check",
+  "question": "Is docs/cold-test-brief.md (or anything else) a regression check I should rerun against the four case studies before changing the universal files in specialist/?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-28T02:56:23+00:00",
+  "map_commit": "8793705e765bd9c2623ab4a0be57fc0ee62bc6cc+dirty",
+  "territory_commit": "236aae0c7b596a60125973bd79d760149a28e259",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "18217ecaef35607b8b8669d2f8accec25785a22e339cd1de5c561cb077d13a58"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/public-edge/cards/7.3-the-working-documents.md",
+      "sha256": "cfd526f2053bfb3a5570fb596df7d3ce7c9e4081f43d662a526ec3ac17e00680"
+    },
+    {
+      "root": "repo",
+      "path": "docs/cold-test-brief.md",
+      "sha256": "3666cc494a1ed6c6d484d98921ae90a4e6cfff54c7f6fbf3b9a3706a2403d7ff"
+    },
+    {
+      "root": "repo",
+      "path": "case-studies/test-results.md",
+      "sha256": "f24e377daa1d077193b60db378d2f7734efbf0732e9176994d37208a1eebe55f"
+    }
+  ],
+  "listings": [
+    "repo:.:**/*"
+  ],
+  "turns": 5,
+  "final_stop_reason": "end_turn",
+  "final_answer": "**No. Neither `docs/cold-test-brief.md` nor anything else in the repo is a regression check you can rerun.** There are no test scripts, no CI workflows and no stored expected outputs in the repo. The nearest thing is `case-studies/test-results.md`, and it only partly covers what you'd need.\n\n**`docs/cold-test-brief.md` is a request to two people, not a test.** It asks two practising agents (one in Jerusalem, one in Marin) to load a case study, try the copilot on their own real properties for a week, and send back chat transcripts with a short reaction. Nothing in it is fixed or repeatable:\n- It has no fixed inputs. The prompts are templates like \"[Property specs]\" and \"Pick a listing you wrote copy for *this week*\".\n- It has no expected outputs. Results are judged by questions like \"which would you actually use?\"\n- It covers 2 of the 4 case studies (`jerusalem`, `novato`), not `khao-lak` or `lisbon-portugal`.\n\nIt does have one useful list. The section \"What we're specifically watching for\" names behaviours to check after any change to the shared `specialist/` files: the copilot skips the welcome menu when you open with a clear request, never addresses the client directly, and never invents a vendor.\n\n**`case-studies/test-results.md` is the closest thing to a baseline, with big gaps:**\n- **It was never actually run.** Its own methodology section says \"simulated cold test\", with the Claude Project set up \"mentally\".\n- **It covers 2 markets and 3 jobs.** There are six tests: Jerusalem and Novato, each doing listing, matching and pricing. The v2 note at the top says showing notes and services lookup \"have not yet been cold-tested\", and there's nothing for Khao Lak or Lisbon.\n- **Only Test 1 is complete.** It has the full prompt and the full expected output. Tests 2–6 are a summary of the prompt plus highlights, which gives you some fixed figures (e.g. the ₪5.4M / ₪5.7M / ₪6.0M pricing band in Test 3) but not a full output to compare against.\n- **Its last fix is unclear.** It lists a `rules.md` rule for handling three or more languages as \"Added…\" and then \"(Not yet applied — flagged for next pass)\". Check `rules.md` before relying on it.\n\n**If you want a real check before changing `specialist/`,** you'd have to build one:\n1. Write down Test 1's prompt and the prompts summarised in Tests 2–6 as fixed inputs.\n2. Add prompts for showing notes and services lookup.\n3. Add at least one run each for `khao-lak` and `lisbon-portugal`.\n4. Record what the current version outputs as the baseline to compare against.\n\nThe map's card for `docs/` (7.3) only describes the brief as \"a brief for agents testing it cold\" and doesn't say whether it can be rerun. This answer comes from reading the two files directly.",
+  "message_ids": [
+    "msg_011CgTt8v7fZgCLsgsVEGsh1",
+    "msg_011CgTt8v7fZgCLsgsVEGsh1",
+    "msg_011CgTt99fzQLiugJJXmcur5",
+    "msg_011CgTt99fzQLiugJJXmcur5",
+    "msg_011CgTt99fzQLiugJJXmcur5",
+    "msg_011CgTt9WXNstp5ouFE4Ruka",
+    "msg_011CgTt9WXNstp5ouFE4Ruka",
+    "msg_011CgTt9n6ziYtPrmDZHk3xE",
+    "msg_011CgTt9n6ziYtPrmDZHk3xE"
+  ],
+  "session_id": "e89a7186-9a59-45c8-a239-250132e47511",
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 16051,
+    "cache_read_input_tokens": 25361,
+    "output_tokens": 2231,
+    "output_tokens_details": {
+      "thinking_tokens": 841
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 16051,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1531,
+        "cache_read_input_tokens": 12838,
+        "cache_creation_input_tokens": 7126,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 7126
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTt8v7fZgCLsgsVEGsh1",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTt8v7fZgCLsgsVEGsh1",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\public-edge\\cards\\7.3-the-working-documents.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTt99fzQLiugJJXmcur5",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTt99fzQLiugJJXmcur5",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\docs\\cold-test-brief.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTt99fzQLiugJJXmcur5",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "**/*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTt9WXNstp5ouFE4Ruka",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTt9WXNstp5ouFE4Ruka",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\case-studies\\test-results.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTt9n6ziYtPrmDZHk3xE",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 8,
+      "message_id": "msg_011CgTt9n6ziYtPrmDZHk3xE",
+      "text": "**No. Neither `docs/cold-test-brief.md` nor anything else in the repo is a regression check you can rerun.** There are no test scripts, no CI workflows and no stored expected outputs in the repo. The nearest thing is `case-studies/test-results.md`, and it only partly covers what you'd need.\n\n**`docs/cold-test-brief.md` is a request to two people, not a test.** It asks two practising agents (one in Jerusalem, one in Marin) to load a case study, try the copilot on their own real properties for a week, and send back chat transcripts with a short reaction. Nothing in it is fixed or repeatable:\n- It has no fixed inputs. The prompts are templates like \"[Property specs]\" and \"Pick a listing you wrote copy for *this week*\".\n- It has no expected outputs. Results are judged by questions like \"which would you actually use?\"\n- It covers 2 of the 4 case studies (`jerusalem`, `novato`), not `khao-lak` or `lisbon-portugal`.\n\nIt does have one useful list. The section \"What we're specifically watching for\" names behaviours to check after any change to the shared `specialist/` files: the copilot skips the welcome menu when you open with a clear request, never addresses the client directly, and never invents a vendor.\n\n**`case-studies/test-results.md` is the closest thing to a baseline, with big gaps:**\n- **It was never actually run.** Its own methodology section says \"simulated cold test\", with the Claude Project set up \"mentally\".\n- **It covers 2 markets and 3 jobs.** There are six tests: Jerusalem and Novato, each doing listing, matching and pricing. The v2 note at the top says showing notes and services lookup \"have not yet been cold-tested\", and there's nothing for Khao Lak or Lisbon.\n- **Only Test 1 is complete.** It has the full prompt and the full expected output. Tests 2–6 are a summary of the prompt plus highlights, which gives you some fixed figures (e.g. the ₪5.4M / ₪5.7M / ₪6.0M pricing band in Test 3) but not a full output to compare against.\n- **Its last fix is unclear.** It lists a `rules.md` rule for handling three or more languages as \"Added…\" and then \"(Not yet applied — flagged for next pass)\". Check `rules.md` before relying on it.\n\n**If you want a real check before changing `specialist/`,** you'd have to build one:\n1. Write down Test 1's prompt and the prompts summarised in Tests 2–6 as fixed inputs.\n2. Add prompts for showing notes and services lookup.\n3. Add at least one run each for `khao-lak` and `lisbon-portugal`.\n4. Record what the current version outputs as the baseline to compare against.\n\nThe map's card for `docs/` (7.3) only describes the brief as \"a brief for agents testing it cold\" and doesn't say whether it can be rerun. This answer comes from reading the two files directly.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

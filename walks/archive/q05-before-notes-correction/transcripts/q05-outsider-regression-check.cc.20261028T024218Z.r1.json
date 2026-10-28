@@ -1,0 +1,195 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q05-outsider-regression-check",
+  "question": "Is docs/cold-test-brief.md (or anything else) a regression check I should rerun against the four case studies before changing the universal files in specialist/?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-28T02:43:04+00:00",
+  "map_commit": "8793705e765bd9c2623ab4a0be57fc0ee62bc6cc+dirty",
+  "territory_commit": "236aae0c7b596a60125973bd79d760149a28e259",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "18217ecaef35607b8b8669d2f8accec25785a22e339cd1de5c561cb077d13a58"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/public-edge/cards/7.3-the-working-documents.md",
+      "sha256": "cfd526f2053bfb3a5570fb596df7d3ce7c9e4081f43d662a526ec3ac17e00680"
+    },
+    {
+      "root": "repo",
+      "path": "docs/cold-test-brief.md",
+      "sha256": "3666cc494a1ed6c6d484d98921ae90a4e6cfff54c7f6fbf3b9a3706a2403d7ff"
+    },
+    {
+      "root": "repo",
+      "path": "case-studies/test-results.md",
+      "sha256": "f24e377daa1d077193b60db378d2f7734efbf0732e9176994d37208a1eebe55f"
+    }
+  ],
+  "listings": [
+    "repo:.:**/*{test,check,verify,eval,regress}*",
+    "repo:.:case-studies/*/region/market.md"
+  ],
+  "turns": 6,
+  "final_stop_reason": "end_turn",
+  "final_answer": "**No. Neither `docs/cold-test-brief.md` nor anything else in the repo is a regression check you can rerun.** I didn't find one for all four case studies, and nothing covers Khao Lak or Lisbon at all.\n\n**`docs/cold-test-brief.md`** is a one-off request to two working agents, one in Jerusalem and one in Marin. Each loads their market's files, tries the tool on 3–5 real deals over a week, and emails back chat transcripts with a short free-form reaction. It's meant to shape changes to the files in `specialist/` (\"Findings feed the universal files\"), not to approve them afterwards. It has no pass/fail criteria, only a list of behaviours to watch for, and it only covers Jerusalem and Novato. The map files it as a working document that happens to be published on the site (card 7.3), not as a test.\n\n**`case-studies/test-results.md`** is the closest thing, but it's a record of a past test, not something you can rerun:\n- It calls itself a \"simulated cold test\". The specialist was dropped into a project \"mentally\", and the outputs are written as what the files *should* produce, not copied from real runs.\n- It has six scenarios, all on Jerusalem and Novato, and only for v1's three jobs (listing, matching, pricing). By its own note, the two v2 jobs (showing notes and services lookup) \"have not yet been cold-tested\".\n- Only Test 1 has the full prompt. Tests 2–6 give summaries only, so you'd have to rebuild the inputs.\n- One fix it calls for, a `rules.md` note on what to do when 3+ languages are involved, is marked \"Not yet applied\".\n\n**Coverage gap:** the repo has four markets (`jerusalem`, `novato`, `khao-lak`, `lisbon-portugal`), and nothing has ever been tested against Khao Lak or Lisbon.\n\n**If you want a check before editing `specialist/`,** the best you can do with what's there is a manual smoke test you put together yourself:\n1. Take the six scenarios from `test-results.md`, rebuilding the prompts for Tests 2–6.\n2. Use the brief's \"What we're specifically watching for\" list as your checks: welcome menu doesn't block a direct request, never speaks to the client directly, never invents a vendor, pricing logic you could defend.\n3. Add your own prompts for showing notes and services lookup, and for Khao Lak and Lisbon.\n\nEven then, you'd be comparing against outputs that were imagined, not recorded, so you'd be setting a baseline for the first time, not rerunning one.\n\nI searched by filename for anything test-like (test, check, verify, eval, regress). That turned up only these two files, but I didn't search inside every file.",
+  "message_ids": [
+    "msg_011CgTs7PggS61Mbx3PGnhgY",
+    "msg_011CgTs7PggS61Mbx3PGnhgY",
+    "msg_011CgTs7iP5XgxtGNiMHdnrx",
+    "msg_011CgTs7iP5XgxtGNiMHdnrx",
+    "msg_011CgTs7iP5XgxtGNiMHdnrx",
+    "msg_011CgTs8BkscD4QmA23FwvvX",
+    "msg_011CgTs8BkscD4QmA23FwvvX",
+    "msg_011CgTs8WwH23cZBk4SRKVfD",
+    "msg_011CgTs8WwH23cZBk4SRKVfD",
+    "msg_011CgTs8qHqGD1mngcSZbecH",
+    "msg_011CgTs8qHqGD1mngcSZbecH"
+  ],
+  "session_id": "191cecb6-a456-4433-9f4b-125e0ca656f2",
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 15667,
+    "cache_read_input_tokens": 32081,
+    "output_tokens": 2123,
+    "output_tokens_details": {
+      "thinking_tokens": 680
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15667,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1342,
+        "cache_read_input_tokens": 15281,
+        "cache_creation_input_tokens": 386,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 386
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTs7PggS61Mbx3PGnhgY",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTs7PggS61Mbx3PGnhgY",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\public-edge\\cards\\7.3-the-working-documents.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTs7iP5XgxtGNiMHdnrx",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTs7iP5XgxtGNiMHdnrx",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\docs\\cold-test-brief.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTs7iP5XgxtGNiMHdnrx",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "**/*{test,check,verify,eval,regress}*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTs8BkscD4QmA23FwvvX",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTs8BkscD4QmA23FwvvX",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\case-studies\\test-results.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTs8WwH23cZBk4SRKVfD",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 8,
+      "message_id": "msg_011CgTs8WwH23cZBk4SRKVfD",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "case-studies/*/region/market.md",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 9,
+      "message_id": "msg_011CgTs8qHqGD1mngcSZbecH",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 10,
+      "message_id": "msg_011CgTs8qHqGD1mngcSZbecH",
+      "text": "**No. Neither `docs/cold-test-brief.md` nor anything else in the repo is a regression check you can rerun.** I didn't find one for all four case studies, and nothing covers Khao Lak or Lisbon at all.\n\n**`docs/cold-test-brief.md`** is a one-off request to two working agents, one in Jerusalem and one in Marin. Each loads their market's files, tries the tool on 3–5 real deals over a week, and emails back chat transcripts with a short free-form reaction. It's meant to shape changes to the files in `specialist/` (\"Findings feed the universal files\"), not to approve them afterwards. It has no pass/fail criteria, only a list of behaviours to watch for, and it only covers Jerusalem and Novato. The map files it as a working document that happens to be published on the site (card 7.3), not as a test.\n\n**`case-studies/test-results.md`** is the closest thing, but it's a record of a past test, not something you can rerun:\n- It calls itself a \"simulated cold test\". The specialist was dropped into a project \"mentally\", and the outputs are written as what the files *should* produce, not copied from real runs.\n- It has six scenarios, all on Jerusalem and Novato, and only for v1's three jobs (listing, matching, pricing). By its own note, the two v2 jobs (showing notes and services lookup) \"have not yet been cold-tested\".\n- Only Test 1 has the full prompt. Tests 2–6 give summaries only, so you'd have to rebuild the inputs.\n- One fix it calls for, a `rules.md` note on what to do when 3+ languages are involved, is marked \"Not yet applied\".\n\n**Coverage gap:** the repo has four markets (`jerusalem`, `novato`, `khao-lak`, `lisbon-portugal`), and nothing has ever been tested against Khao Lak or Lisbon.\n\n**If you want a check before editing `specialist/`,** the best you can do with what's there is a manual smoke test you put together yourself:\n1. Take the six scenarios from `test-results.md`, rebuilding the prompts for Tests 2–6.\n2. Use the brief's \"What we're specifically watching for\" list as your checks: welcome menu doesn't block a direct request, never speaks to the client directly, never invents a vendor, pricing logic you could defend.\n3. Add your own prompts for showing notes and services lookup, and for Khao Lak and Lisbon.\n\nEven then, you'd be comparing against outputs that were imagined, not recorded, so you'd be setting a baseline for the first time, not rerunning one.\n\nI searched by filename for anything test-like (test, check, verify, eval, regress). That turned up only these two files, but I didn't search inside every file.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

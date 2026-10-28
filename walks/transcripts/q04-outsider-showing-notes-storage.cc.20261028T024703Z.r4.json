@@ -1,0 +1,311 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q04-outsider-showing-notes-storage",
+  "question": "Where do captured showing notes actually live between chats so later matching and pricing jobs can cite them, given that Claude Projects don't save chat output to project knowledge?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-28T02:50:17+00:00",
+  "map_commit": "8793705e765bd9c2623ab4a0be57fc0ee62bc6cc+dirty",
+  "territory_commit": "236aae0c7b596a60125973bd79d760149a28e259",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "18217ecaef35607b8b8669d2f8accec25785a22e339cd1de5c561cb077d13a58"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/CATALOG.md",
+      "sha256": "e433212d00869c7bed4239da11bd306929527f05489437ca68e702d23f23aa44"
+    },
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/cards/1.2-the-job-set.md",
+      "sha256": "66204bdc09b6295e8b872dab71554a2bb3ad1e56b3fcd115fbc402d855649069"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/rules.md",
+      "sha256": "c16939547fc31798a3a5f28f0d0c0e9827a22052f8d81b17fa1fa8e6972242d3"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/templates/showing-note.md",
+      "sha256": "02c5ded7dde18398c6c787d70a808348a84ba4e83af431195ecc602ba2787ee1"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/frameworks/buyer-fit.md",
+      "sha256": "fe7794241c251f46f4de676fd1158b249417aab5df085deb3cd92378aa767fd6"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/checklists/showing-intake.md",
+      "sha256": "df8d636de874b099f81f5d7025a9ec54250e58488985ae710fbc0020218988ff"
+    },
+    {
+      "root": "repo",
+      "path": "docs/v1-to-v2-spec.md",
+      "sha256": "e05a16967df899342e93baab268278fabde6490ceae70326dfd129190910c93c"
+    },
+    {
+      "root": "repo",
+      "path": "README.md",
+      "sha256": "c78a298848a30dc810c3fbd4f16998374117859dfbdf75bd829a4d8fc04cfe92"
+    }
+  ],
+  "listings": [
+    "repo:.:specialist/**/*",
+    "repo:.:**/*.md"
+  ],
+  "turns": 11,
+  "final_stop_reason": "end_turn",
+  "final_answer": "The repo doesn't give them a home. No file in it says where a showing note goes after the chat ends, and nothing in the engine loads old notes into a new chat.\n\n**What the files say:**\n\n- **The memory rule only looks inside the current chat.** `specialist/rules.md:77` tells the copilot, during a matching or pricing job, to \"check whether prior showing notes are present in the conversation context\" and cite them by tag. If the note isn't in that chat, there's nothing to cite.\n- **The routing table never loads old notes.** The Matching and Pricing rows (`rules.md:28-29`) list region files, frameworks, checklists and templates. Saved showing notes aren't on either row, and `specialist/` has no folder for them.\n- **The only hint about storage points outside Claude.** `templates/showing-note.md:3` says the note is built so the agent can \"copy/paste sections into a CRM or follow-up email.\" The \"Tags for later retrieval\" block (`:48-51`) is there so the agent can find the note again later. It doesn't store anything.\n- **The marketing promises more than the mechanism delivers.** `README.md:41` says notes \"captured today can be cited in a matching job next week,\" and `docs/v1-to-v2-spec.md:205` says the copilot \"accumulates context across the agent's week, not just within one conversation.\" Neither says how. `buyer-fit.md:3` and `:20` just treat prior notes as optional input \"(if any).\"\n\nSo, within this repo, \"cross-job memory\" means: it works if the agent brings the old note back. The agent is the storage. I can't check from these files whether Projects save chat output. But nothing here assumes they do, and nothing tells the agent to save the note anywhere.\n\n**How to make it work.** These are my suggestions; the repo doesn't spell them out:\n1. Paste the earlier showing notes into the new matching or pricing chat. That fits `rules.md:77` exactly.\n2. Save each note as a `.md` file and add it to project knowledge. The README already has people uploading files there (`:96-102`). But no routing row tells the copilot to read those files, so for reliable citations you'd also want to add them to the Matching and Pricing rows.\n3. Keep the notes in your CRM, as the template suggests, and paste back the parts you need.\n\nThe map doesn't cover this. Card 1.2 (the job set) lists the five jobs but says nothing about storage, so I read the repo files directly. A future map revision could log this as a gap in the engine district.",
+  "message_ids": [
+    "msg_011CgTset7pwLzr8vVdmRmmU",
+    "msg_011CgTset7pwLzr8vVdmRmmU",
+    "msg_011CgTsf95FUnBVuxnXEqzkk",
+    "msg_011CgTsf95FUnBVuxnXEqzkk",
+    "msg_011CgTsfWcJRbVtc3smKBZe1",
+    "msg_011CgTsfWcJRbVtc3smKBZe1",
+    "msg_011CgTsfWcJRbVtc3smKBZe1",
+    "msg_011CgTsfobzqJYMGFsq8KaWb",
+    "msg_011CgTsfobzqJYMGFsq8KaWb",
+    "msg_011CgTsfobzqJYMGFsq8KaWb",
+    "msg_011CgTsg7WGV6dC2svf9HBDh",
+    "msg_011CgTsg7WGV6dC2svf9HBDh",
+    "msg_011CgTsg7WGV6dC2svf9HBDh",
+    "msg_011CgTsgRkt8ZjQN2Wk1KJb8",
+    "msg_011CgTsgRkt8ZjQN2Wk1KJb8",
+    "msg_011CgTsgRkt8ZjQN2Wk1KJb8",
+    "msg_011CgTsgRkt8ZjQN2Wk1KJb8",
+    "msg_011CgTsgmHd5yEy1V2d3v7r2",
+    "msg_011CgTsgmHd5yEy1V2d3v7r2"
+  ],
+  "session_id": "605652fc-37d0-447b-a922-e431463773e2",
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 33996,
+    "cache_read_input_tokens": 60966,
+    "output_tokens": 2772,
+    "output_tokens_details": {
+      "thinking_tokens": 905
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 33996,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1352,
+        "cache_read_input_tokens": 18544,
+        "cache_creation_input_tokens": 19369,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 19369
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTset7pwLzr8vVdmRmmU",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTset7pwLzr8vVdmRmmU",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\CATALOG.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTsf95FUnBVuxnXEqzkk",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTsf95FUnBVuxnXEqzkk",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\cards\\1.2-the-job-set.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTsfWcJRbVtc3smKBZe1",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTsfWcJRbVtc3smKBZe1",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "specialist/**/*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTsfWcJRbVtc3smKBZe1",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\rules.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTsfobzqJYMGFsq8KaWb",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 8,
+      "message_id": "msg_011CgTsfobzqJYMGFsq8KaWb",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\templates\\showing-note.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 9,
+      "message_id": "msg_011CgTsfobzqJYMGFsq8KaWb",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\frameworks\\buyer-fit.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 10,
+      "message_id": "msg_011CgTsg7WGV6dC2svf9HBDh",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 11,
+      "message_id": "msg_011CgTsg7WGV6dC2svf9HBDh",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "**/*.md",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 12,
+      "message_id": "msg_011CgTsg7WGV6dC2svf9HBDh",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\checklists\\showing-intake.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 13,
+      "message_id": "msg_011CgTsgRkt8ZjQN2Wk1KJb8",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 14,
+      "message_id": "msg_011CgTsgRkt8ZjQN2Wk1KJb8",
+      "text": "Still checking: the specialist files only say \"in the conversation context,\" so I'm looking at the README and v2 spec for any storage instructions.",
+      "tool_calls": []
+    },
+    {
+      "turn": 15,
+      "message_id": "msg_011CgTsgRkt8ZjQN2Wk1KJb8",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\docs\\v1-to-v2-spec.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 16,
+      "message_id": "msg_011CgTsgRkt8ZjQN2Wk1KJb8",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\README.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 17,
+      "message_id": "msg_011CgTsgmHd5yEy1V2d3v7r2",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 18,
+      "message_id": "msg_011CgTsgmHd5yEy1V2d3v7r2",
+      "text": "The repo doesn't give them a home. No file in it says where a showing note goes after the chat ends, and nothing in the engine loads old notes into a new chat.\n\n**What the files say:**\n\n- **The memory rule only looks inside the current chat.** `specialist/rules.md:77` tells the copilot, during a matching or pricing job, to \"check whether prior showing notes are present in the conversation context\" and cite them by tag. If the note isn't in that chat, there's nothing to cite.\n- **The routing table never loads old notes.** The Matching and Pricing rows (`rules.md:28-29`) list region files, frameworks, checklists and templates. Saved showing notes aren't on either row, and `specialist/` has no folder for them.\n- **The only hint about storage points outside Claude.** `templates/showing-note.md:3` says the note is built so the agent can \"copy/paste sections into a CRM or follow-up email.\" The \"Tags for later retrieval\" block (`:48-51`) is there so the agent can find the note again later. It doesn't store anything.\n- **The marketing promises more than the mechanism delivers.** `README.md:41` says notes \"captured today can be cited in a matching job next week,\" and `docs/v1-to-v2-spec.md:205` says the copilot \"accumulates context across the agent's week, not just within one conversation.\" Neither says how. `buyer-fit.md:3` and `:20` just treat prior notes as optional input \"(if any).\"\n\nSo, within this repo, \"cross-job memory\" means: it works if the agent brings the old note back. The agent is the storage. I can't check from these files whether Projects save chat output. But nothing here assumes they do, and nothing tells the agent to save the note anywhere.\n\n**How to make it work.** These are my suggestions; the repo doesn't spell them out:\n1. Paste the earlier showing notes into the new matching or pricing chat. That fits `rules.md:77` exactly.\n2. Save each note as a `.md` file and add it to project knowledge. The README already has people uploading files there (`:96-102`). But no routing row tells the copilot to read those files, so for reliable citations you'd also want to add them to the Matching and Pricing rows.\n3. Keep the notes in your CRM, as the template suggests, and paste back the parts you need.\n\nThe map doesn't cover this. Card 1.2 (the job set) lists the five jobs but says nothing about storage, so I read the repo files directly. A future map revision could log this as a gap in the engine district.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

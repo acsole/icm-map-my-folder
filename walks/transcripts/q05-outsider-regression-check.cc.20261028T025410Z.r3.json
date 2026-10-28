@@ -1,0 +1,172 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q05-outsider-regression-check",
+  "question": "Is docs/cold-test-brief.md (or anything else) a regression check I should rerun against the four case studies before changing the universal files in specialist/?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-28T02:55:50+00:00",
+  "map_commit": "8793705e765bd9c2623ab4a0be57fc0ee62bc6cc+dirty",
+  "territory_commit": "236aae0c7b596a60125973bd79d760149a28e259",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "18217ecaef35607b8b8669d2f8accec25785a22e339cd1de5c561cb077d13a58"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/public-edge/cards/7.3-the-working-documents.md",
+      "sha256": "cfd526f2053bfb3a5570fb596df7d3ce7c9e4081f43d662a526ec3ac17e00680"
+    },
+    {
+      "root": "repo",
+      "path": "docs/cold-test-brief.md",
+      "sha256": "3666cc494a1ed6c6d484d98921ae90a4e6cfff54c7f6fbf3b9a3706a2403d7ff"
+    },
+    {
+      "root": "repo",
+      "path": "case-studies/test-results.md",
+      "sha256": "f24e377daa1d077193b60db378d2f7734efbf0732e9176994d37208a1eebe55f"
+    }
+  ],
+  "listings": [
+    "repo:.:**/*"
+  ],
+  "turns": 5,
+  "final_stop_reason": "end_turn",
+  "final_answer": "No. There's no regression check in the repo. `docs/cold-test-brief.md` isn't one, and the closest thing, `case-studies/test-results.md`, only covers two of the four markets.\n\n**`docs/cold-test-brief.md` is a one-time field brief.** It's addressed to two people, a Jerusalem agent and a Marin/Novato agent. It asks each to run 3–5 interactions against \"real properties they're working *this week*\" and send back transcripts with a free-form reaction (\"Don't write a report\"). It has no fixed inputs and no expected outputs, so you can't rerun it and compare. It also points the other way from what you need: \"Findings feed the universal files (never the region files).\" It's meant to produce changes to `specialist/`, not to check them afterwards. The map's card for `docs/` (7.3) just calls it \"a brief for agents testing it cold,\" which matches.\n\n**`case-studies/test-results.md` is the closest thing, with big gaps:**\n- **It was never actually run.** The file calls it \"a **simulated cold test**\", meaning the outputs were worked out \"(mentally — simulated)\" from the files, not produced by a model.\n- **It covers two markets: Jerusalem and Novato.** `khao-lak` and `lisbon-portugal` have no tests at all.\n- **It covers three of the five jobs** (listing, matching, pricing). Its own status note says showing notes and services lookup \"have not yet been cold-tested.\"\n- **Only Test 1 has a full prompt and expected output.** Tests 2–6 are a prompt summary plus highlights.\n- **It's out of date.** It says the 3+ languages bilingual fix to `rules.md` was \"Not yet applied — flagged for next pass.\" It also says real-agent findings \"will append below,\" but none have.\n\nBeyond that, there are no scripts, no CI and no `.github/` folder.\n\n**If you want a check before changing `specialist/`, you'd have to put it together from these pieces:**\n1. **The six scenarios in `test-results.md`.** Use them as fixed prompts, with each test's \"Finding\" as the pass condition. Examples: no foreign-buyer framing in the Novato listing, the Tabu/Khevra Meshakenet caveat on the Katamon pricing, the Mello-Roos caveat on the Hamilton pricing.\n2. **The brief's \"What we're specifically watching for\" and \"What NOT to test\" lists.** These work as general pass/fail checks for every market. The brief names these as bugs: a menu that blocks a clear request, output addressed to the client, an invented vendor. The out-of-scope requests should get a clean redirect.\n3. **New tests for Khao Lak and Lisbon, plus showing notes and services lookup.** None exist yet.\n\nTo run a test, do what both documents do: copy one `case-studies/<slug>/region/` into `specialist/reference/region/`, load `specialist/` into a fresh Claude Project, and run the prompts. Repeat for each market.",
+  "message_ids": [
+    "msg_011CgTt6post9hRQAeXVvpmR",
+    "msg_011CgTt6post9hRQAeXVvpmR",
+    "msg_011CgTt6zLNTQ3vz1jVB5NpZ",
+    "msg_011CgTt6zLNTQ3vz1jVB5NpZ",
+    "msg_011CgTt6zLNTQ3vz1jVB5NpZ",
+    "msg_011CgTt7DkWhUZwnEGSHU7ZP",
+    "msg_011CgTt7DkWhUZwnEGSHU7ZP",
+    "msg_011CgTt7NuReTNWkN7SvEiAu",
+    "msg_011CgTt7NuReTNWkN7SvEiAu"
+  ],
+  "session_id": "55871719-b131-42b3-a485-9e4b67ad8c2e",
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 15899,
+    "cache_read_input_tokens": 25178,
+    "output_tokens": 2138,
+    "output_tokens_details": {
+      "thinking_tokens": 743
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15899,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1590,
+        "cache_read_input_tokens": 12698,
+        "cache_creation_input_tokens": 7114,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 7114
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTt6post9hRQAeXVvpmR",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTt6post9hRQAeXVvpmR",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\public-edge\\cards\\7.3-the-working-documents.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTt6zLNTQ3vz1jVB5NpZ",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTt6zLNTQ3vz1jVB5NpZ",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\docs\\cold-test-brief.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTt6zLNTQ3vz1jVB5NpZ",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "**/*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTt7DkWhUZwnEGSHU7ZP",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTt7DkWhUZwnEGSHU7ZP",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\case-studies\\test-results.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTt7NuReTNWkN7SvEiAu",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 8,
+      "message_id": "msg_011CgTt7NuReTNWkN7SvEiAu",
+      "text": "No. There's no regression check in the repo. `docs/cold-test-brief.md` isn't one, and the closest thing, `case-studies/test-results.md`, only covers two of the four markets.\n\n**`docs/cold-test-brief.md` is a one-time field brief.** It's addressed to two people, a Jerusalem agent and a Marin/Novato agent. It asks each to run 3–5 interactions against \"real properties they're working *this week*\" and send back transcripts with a free-form reaction (\"Don't write a report\"). It has no fixed inputs and no expected outputs, so you can't rerun it and compare. It also points the other way from what you need: \"Findings feed the universal files (never the region files).\" It's meant to produce changes to `specialist/`, not to check them afterwards. The map's card for `docs/` (7.3) just calls it \"a brief for agents testing it cold,\" which matches.\n\n**`case-studies/test-results.md` is the closest thing, with big gaps:**\n- **It was never actually run.** The file calls it \"a **simulated cold test**\", meaning the outputs were worked out \"(mentally — simulated)\" from the files, not produced by a model.\n- **It covers two markets: Jerusalem and Novato.** `khao-lak` and `lisbon-portugal` have no tests at all.\n- **It covers three of the five jobs** (listing, matching, pricing). Its own status note says showing notes and services lookup \"have not yet been cold-tested.\"\n- **Only Test 1 has a full prompt and expected output.** Tests 2–6 are a prompt summary plus highlights.\n- **It's out of date.** It says the 3+ languages bilingual fix to `rules.md` was \"Not yet applied — flagged for next pass.\" It also says real-agent findings \"will append below,\" but none have.\n\nBeyond that, there are no scripts, no CI and no `.github/` folder.\n\n**If you want a check before changing `specialist/`, you'd have to put it together from these pieces:**\n1. **The six scenarios in `test-results.md`.** Use them as fixed prompts, with each test's \"Finding\" as the pass condition. Examples: no foreign-buyer framing in the Novato listing, the Tabu/Khevra Meshakenet caveat on the Katamon pricing, the Mello-Roos caveat on the Hamilton pricing.\n2. **The brief's \"What we're specifically watching for\" and \"What NOT to test\" lists.** These work as general pass/fail checks for every market. The brief names these as bugs: a menu that blocks a clear request, output addressed to the client, an invented vendor. The out-of-scope requests should get a clean redirect.\n3. **New tests for Khao Lak and Lisbon, plus showing notes and services lookup.** None exist yet.\n\nTo run a test, do what both documents do: copy one `case-studies/<slug>/region/` into `specialist/reference/region/`, load `specialist/` into a fresh Claude Project, and run the prompts. Repeat for each market.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

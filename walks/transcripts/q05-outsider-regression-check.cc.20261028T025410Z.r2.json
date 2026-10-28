@@ -1,0 +1,192 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q05-outsider-regression-check",
+  "question": "Is docs/cold-test-brief.md (or anything else) a regression check I should rerun against the four case studies before changing the universal files in specialist/?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-28T02:55:22+00:00",
+  "map_commit": "8793705e765bd9c2623ab4a0be57fc0ee62bc6cc+dirty",
+  "territory_commit": "236aae0c7b596a60125973bd79d760149a28e259",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "18217ecaef35607b8b8669d2f8accec25785a22e339cd1de5c561cb077d13a58"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/public-edge/cards/7.3-the-working-documents.md",
+      "sha256": "cfd526f2053bfb3a5570fb596df7d3ce7c9e4081f43d662a526ec3ac17e00680"
+    },
+    {
+      "root": "repo",
+      "path": "docs/cold-test-brief.md",
+      "sha256": "3666cc494a1ed6c6d484d98921ae90a4e6cfff54c7f6fbf3b9a3706a2403d7ff"
+    },
+    {
+      "root": "map",
+      "path": "reference/worked-example/notes.md",
+      "sha256": "93336c0304a7176e950ea636f24b967d0c11dcc121cb464a86f3342d549050fe"
+    },
+    {
+      "root": "repo",
+      "path": "case-studies/test-results.md",
+      "sha256": "f24e377daa1d077193b60db378d2f7734efbf0732e9176994d37208a1eebe55f"
+    }
+  ],
+  "listings": [
+    "repo:.:**/*"
+  ],
+  "turns": 6,
+  "final_stop_reason": "end_turn",
+  "final_answer": "No. Neither `docs/cold-test-brief.md` nor anything else in the repo is a check you can rerun, and none of what exists covers all four case studies.\n\n**`docs/cold-test-brief.md`** is a set of instructions for two real estate agents doing a one-time trial: one in Jerusalem, one in Marin. Each loads their market into a Claude Project, tries five jobs on real properties that week, and emails back chat transcripts with a short reaction. It has no fixed inputs and no expected outputs, so there is nothing to compare against. Its role is to collect feedback for v2.1 (\"Findings feed the universal files\"), not to catch regressions. It only uses `jerusalem` and `novato`.\n\n**`case-studies/test-results.md`** is the only record of a test in the repo, and it's a written log rather than something you can execute:\n- It says it's a **simulated** cold test: the outputs were worked out by following the files by hand, not produced by actually running the specialist.\n- It has six tests, run against **v1's three jobs** (listing, matching, pricing). Its own v2 note says showing notes and services lookup \"have not yet been cold-tested.\"\n- It covers **Jerusalem and Novato only**.\n\n**Nothing else exists.** The repo has no test folder, no scripts and no CI config. Apart from `docs/index.html` and an image, it's all markdown. Khao Lak and Lisbon have never been tested at all.\n\nIf you want a baseline before editing `specialist/`, you'd have to build one. The closest thing to a starting point is the scenarios and findings in `test-results.md`, plus the five prompts in the cold-test brief. You could run those against each of the four markets now, save the outputs, then rerun and compare after your change. That would be a new manual check, not something the project already provides.\n\nOn the map: the catalog sends `docs/` files to card 7.3, but that card only covers whether those documents are publicly served, not whether they test anything. The answer was in the map's `notes.md`, which records a past run asking this same question. I confirmed it against the repo's files.",
+  "message_ids": [
+    "msg_011CgTt4iPcSjj8vifVeJBsi",
+    "msg_011CgTt4iPcSjj8vifVeJBsi",
+    "msg_011CgTt4iPcSjj8vifVeJBsi",
+    "msg_011CgTt4zcSADNFqc65du3Fw",
+    "msg_011CgTt4zcSADNFqc65du3Fw",
+    "msg_011CgTt4zcSADNFqc65du3Fw",
+    "msg_011CgTt5N3XEDKBCcRmSAqzD",
+    "msg_011CgTt5N3XEDKBCcRmSAqzD",
+    "msg_011CgTt5eG6NjRgTqrtoauGC",
+    "msg_011CgTt5eG6NjRgTqrtoauGC"
+  ],
+  "session_id": "64e4520f-903b-4bdb-82cd-0982003ebdec",
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 11811,
+    "cache_read_input_tokens": 30281,
+    "output_tokens": 1819,
+    "output_tokens_details": {
+      "thinking_tokens": 617
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 11811,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 963,
+        "cache_read_input_tokens": 14613,
+        "cache_creation_input_tokens": 1111,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1111
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTt4iPcSjj8vifVeJBsi",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTt4iPcSjj8vifVeJBsi",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\public-edge\\cards\\7.3-the-working-documents.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTt4iPcSjj8vifVeJBsi",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\docs\\cold-test-brief.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTt4zcSADNFqc65du3Fw",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTt4zcSADNFqc65du3Fw",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor",
+            "pattern": "**/*"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTt4zcSADNFqc65du3Fw",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\notes.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTt5N3XEDKBCcRmSAqzD",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTt5N3XEDKBCcRmSAqzD",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\case-studies\\test-results.md",
+            "limit": 40
+          }
+        }
+      ]
+    },
+    {
+      "turn": 8,
+      "message_id": "msg_011CgTt5eG6NjRgTqrtoauGC",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 9,
+      "message_id": "msg_011CgTt5eG6NjRgTqrtoauGC",
+      "text": "No. Neither `docs/cold-test-brief.md` nor anything else in the repo is a check you can rerun, and none of what exists covers all four case studies.\n\n**`docs/cold-test-brief.md`** is a set of instructions for two real estate agents doing a one-time trial: one in Jerusalem, one in Marin. Each loads their market into a Claude Project, tries five jobs on real properties that week, and emails back chat transcripts with a short reaction. It has no fixed inputs and no expected outputs, so there is nothing to compare against. Its role is to collect feedback for v2.1 (\"Findings feed the universal files\"), not to catch regressions. It only uses `jerusalem` and `novato`.\n\n**`case-studies/test-results.md`** is the only record of a test in the repo, and it's a written log rather than something you can execute:\n- It says it's a **simulated** cold test: the outputs were worked out by following the files by hand, not produced by actually running the specialist.\n- It has six tests, run against **v1's three jobs** (listing, matching, pricing). Its own v2 note says showing notes and services lookup \"have not yet been cold-tested.\"\n- It covers **Jerusalem and Novato only**.\n\n**Nothing else exists.** The repo has no test folder, no scripts and no CI config. Apart from `docs/index.html` and an image, it's all markdown. Khao Lak and Lisbon have never been tested at all.\n\nIf you want a baseline before editing `specialist/`, you'd have to build one. The closest thing to a starting point is the scenarios and findings in `test-results.md`, plus the five prompts in the cold-test brief. You could run those against each of the four markets now, save the outputs, then rerun and compare after your change. That would be a new manual check, not something the project already provides.\n\nOn the map: the catalog sends `docs/` files to card 7.3, but that card only covers whether those documents are publicly served, not whether they test anything. The answer was in the map's `notes.md`, which records a past run asking this same question. I confirmed it against the repo's files.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

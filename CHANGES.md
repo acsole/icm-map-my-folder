@@ -32,9 +32,10 @@ repo, so nobody could reproduce it.
 |---|---|---|
 | 1. Offline cold run | **Done.** Runner and scorer are separate; the scorer needs nothing installed | [`score-walk.py`](reference/checks/score-walk.py), [`cold-run.py`](reference/checks/cold-run.py), [`walks/`](walks/CONTEXT.md) |
 | 4. Gates shown failing | **Done.** All three checkers ship broken fixtures and a `--self-test` | [`reference/checks/fixtures/`](reference/checks/fixtures/) |
-| 2. Bigger shelf | **Done in part.** The district rule, its checks, and the engine's district: 12 cards where there were 7. Not yet three times the size — see *Next* | [`districts/engine/`](reference/worked-example/districts/engine/CATALOG.md), [`catalog-checks.py`](reference/checks/catalog-checks.py) |
+| 2. Bigger shelf | **Done in part.** The district rule, its checks, and two districts — the engine and the public edge: 14 cards where there were 7, each catalog still one screen. Not three times the size | [`districts/`](reference/worked-example/districts/), [`catalog-checks.py`](reference/checks/catalog-checks.py) |
+| Freshness | **Done.** A gate that names the cards to re-verify when the territory moves; the map re-pinned with it from `702e79c` to `236aae0` | [`freshness-check.py`](reference/checks/freshness-check.py), § 8 |
 | 3. Business territory | **Not yet.** Designed, not built | — |
-| Walks recorded through Claude Code | **Done.** Three questions, five runs each: `q01` **pass**, `q02` **pass**, `q03` (an outsider's) **fail** — see § 6 | [`walks/verdicts/`](walks/verdicts/) |
+| Walks recorded through Claude Code | **Done.** Five questions, five runs each: the builder's two **pass**; the outsider's three **fail**, each with its reason — see §§ 6–9 | [`walks/verdicts/`](walks/verdicts/) |
 | Walks recorded through the API | **Not yet.** The recorder exists; recording needs a key and has not been run. That verdict reads `fail: 0 of 5 runs recorded` | [`q01-services.check.md`](walks/verdicts/q01-services.check.md) |
 
 The last row is deliberate. The scorer could have been fed the old API runs, but those survive only
@@ -304,6 +305,93 @@ complete at commit `702e79c`." What is left:
 
 The bar for `q03` was not changed at any point. All three rounds are in [`walks/archive/`](walks/archive/).
 
+### 8. The freshness gate, a re-pin, and the public edge's district
+
+**The freshness gate.** [`freshness-check.py`](reference/checks/freshness-check.py) asks git which
+territory files changed between the commit the map is pinned to and another (`--against`, default
+`HEAD`; `origin/main` to compare with what the world sees), and names every card that cites one of
+them. It does not decide that a card is wrong — only which cards must be re-verified, and, as
+important, which need nothing. A short citation (`frameworks/pricing.md`) is matched against every
+file that ends with it, so it can flag a card that did not need it but never miss one that did. Its
+`--self-test` builds a small git territory, changes one file after the pin, and passes only if
+exactly the card citing it is named — and nothing at the pin itself.
+
+**What it found on its first run.** Pinned at `702e79c`, compared with `origin/main` (`236aae0`):
+one file changed, `docs/index.html`, and **three** cards cite it — not only card 07, which the
+revision had already flagged by hand, but cards 01 and 04, whose claims about the page's
+hand-written counts nobody had connected to it. The check found what a person had missed.
+
+**The re-pin, card by card.** Cards 01 and 04 were re-checked (the added block at the page's foot
+holds no count; both stand). Card 07's byte reading was taken again: 40,323 B served, 40,323 B on
+disk, same sha1. Nothing else was touched, because nothing else it cites changed — `specialist/` is
+identical between the two commits, and card 06's ghost is still a ghost. The map is now pinned at
+`236aae0`; the commands are in [`verification-log.md`](reference/worked-example/verification-log.md)
+§ i. A correction on the way: this page's first account of the drift quoted the page at 41,383 B;
+that was the size of a Windows checkout with converted line endings, not the file.
+
+**The public edge's district.** Row 7 of the top catalog now opens
+[`districts/public-edge/`](reference/worked-example/districts/public-edge/CATALOG.md):
+
+| Card | Type · State | What it carries that the map lacked |
+|---|---|---|
+| 7.1 The Public Surface | SURFACE · LIVE | card 07, re-verified at the new pin |
+| 7.2 The Upgrade Path | INSTRUCTION · LIVE | the three README instructions that move a user's region files across versions; they keep every pack, so an engine change can strand them without a word, and a user who copies Lisbon as-is gets no seasonality |
+| 7.3 The Working Documents | SURFACE · LIVE | five working papers the site serves; the README lists four, and the fifth is named by no file in the repo and served anyway |
+
+7.2 is the noun every `q03` walk left the map to read. It was carded here, in the district it
+belongs to, not patched into card 02. Card 02 did gain one clause — that the packs which stop
+matching are the ones users keep on every upgrade (`README.md:272`, card 7.2) — because its own
+claim rested on that fact without citing it. That clause is also what `q03`'s readers went to check,
+so `q03`'s next result is not independent evidence. The outsider's other two questions are: `q04`
+and `q05`, walked for the first time, with their bars written before any run.
+
+### 9. Five questions against the map with both districts — what they showed
+
+| Question | Written by | Verdict | Card reached | What the walks showed |
+|---|---|---|---|---|
+| `q01` What is Services? | builder | **pass** | 04 | — |
+| `q02` Can it write showing notes? | builder | **pass** | 1.2 | — |
+| `q03` Rename a section in a `region/` template file…? | outsider | **fail** | 02, five of five | every run answered *from the card* and said so; then opened the two lines it quotes verbatim and `README.md:272` to confirm them before giving an answer about breaking changes |
+| `q04` Where do showing notes live between chats? | outsider | **fail**, twice | 1.2, not the expected 1.5 | every run found the answer in the territory and said the map has no card for it |
+| `q05` Is anything a regression check to rerun? | outsider | **fail**, twice — the second round after the `notes.md` correction, same result | 7.3, five of five | every run answered correctly — nothing is — but opened `cold-test-brief.md` and `case-studies/test-results.md` to be sure |
+
+**`q03`, fourth round: the map now answers; the reader still checks.** Territory reads fell to three
+per run, all of them confirmations of lines the card quotes ("I didn't search the engine again
+myself"). That is not a gap in the map; it is what a careful reader does before saying a change
+will break other people's work. The bar says no territory reads, and it stays as written. Whether a
+card that quotes the territory should ever be enough for a high-stakes answer is left open.
+
+**`q05`: a note in the original map did not survive.** `notes.md` said `case-studies/test-results.md`
+was classified without being opened because "nothing in the map depends on its contents". A
+question about regression checks depends on exactly that file — the only test record in the repo.
+The classification stands (it fails all seven types), and the line now says what the walk showed,
+with the file's contents checked by the mapmaker, not taken from the reader. Card 7.3 was not
+changed: it is incomplete for this question, not wrong, and a map fitted to every question is a tour.
+
+**`q04`: a misleading card, and a promise the territory does not keep.** First round: four of five
+runs took card 1.2, all left the map, and all found the same thing — the engine looks for prior
+showing notes only "in the conversation context" (`rules.md:77`) and nothing stores them, while the
+README promises a note "cited in a matching job next week" (`README.md:41`). Card 1.5 had called the
+notes "durable input" without that condition. That line was wrong, so it was corrected, with the
+evidence in [`verification-log.md`](reference/worked-example/verification-log.md) § j; the question
+and its bar were not touched. Archived:
+[`walks/archive/q04-before-card-1.5-fix/`](walks/archive/q04-before-card-1.5-fix/README.md).
+
+Second round, against the corrected card: **fail again, and the reason is in the question file.**
+All five runs took card 1.2 and none reached 1.5, so the correction never met a reader ("card 1.2
+lists the five jobs but says nothing about storage"). The mechanism the answer depends on, the
+*Cross-job memory* rule, lives in `rules.md:75-79` — card 1.2's source, not card 1.5's. The bar's
+expected card was the builder's guess, written before any run, and the walks say it was the wrong
+guess. It is **not** changed now: re-pointing the expected card after seeing where readers went is
+the move the bar exists to forbid. The fix is a new question with its bar written first — and,
+before it, a decision about where cross-job memory belongs on the map.
+
+**A record that was not a walk.** The first five `q05` records came back during a subscription
+usage limit: "You've hit your session limit", zero tokens, no file read. Scored, they would have
+read as the map failing. They are kept apart in
+[`walks/archive/q05-not-walks-usage-limit/`](walks/archive/q05-not-walks-usage-limit/README.md), and
+the Claude Code recorder now refuses to write a record in which no model ran.
+
 ---
 
 ## Decisions, and what was rejected
@@ -347,13 +435,14 @@ The map does not edit its territory, and neither does this revision. Both findin
 
 ## Next — designed, not built
 
-- **`q03`, after the public edge district.** Card the upgrade path (`README.md:270-272`, `:217`)
-  where it belongs, then walk `q03` again, bar unchanged — and walk the outsider's other two
-  questions, so the next fix is tested on questions it was not shaped by.
-- **The rest of the bigger map.** The district rule and the engine's district are built (§ 5). Still
-  to do: a district for the public edge — the working documents `docs/` serves, the root README —
-  and a staleness gate that compares the map's pinned commit with the territory's current one and
-  names the cards whose cited files changed.
+- **Cross-job memory.** Decide where it belongs on the map (card 1.2's source holds it), then write
+  a new question about it with its bar first; `q04` keeps its failing verdict and its wrong guess.
+- **Readers who confirm what a card quotes.** `q03` and `q05` fail on confirmation reads, not on
+  gaps. Whether a card that quotes the territory can ever close a high-stakes answer — and whether
+  the zero-territory bar is the right one for such questions — is a design question to settle
+  before the next questions are written, not by loosening these bars.
+- **A mechanical check that the *hand on a file* rows are disjoint.** `q03` showed one file landing
+  on two rows; the rows were fixed by hand, and nothing yet stops it happening again.
 - **A second territory with a business behind it,** mapped with the instrument unchanged. Two
   territories under the same gates show that the instrument generalizes; one shows that it worked
   once.
@@ -375,6 +464,9 @@ The map does not edit its territory, and neither does this revision. Both findin
 | `reference/checks/cold-run-claude-code.py` | new — the recorder through the Claude Code CLI, with the isolation above |
 | `reference/checks/catalog-checks.py` | new — gates E and F for catalogs and districts, with `fixtures/catalog/` |
 | `reference/checks/heading-refs.py` | new — the audit command for section-heading dependencies, with `fixtures/heading-refs/` |
+| `reference/checks/freshness-check.py` | new — the freshness gate; its self-test builds its own git fixture |
+| `reference/worked-example/districts/public-edge/` | new — the public edge's district: its catalog and cards 7.2–7.3 |
+| `reference/worked-example/cards/07-the-public-surface.md` | its byte evidence re-taken at `236aae0`, the old reading kept beside it |
 | `reference/card-shape.md` | how a card answers a question that quotes the territory, and an audit |
 | `identity.md`, `rules.md`, `reference/card-types.md`, `reference/walks.md` | the district rule: seven rows per catalog, a row may open a district one level down |
 | `reference/collisions.md` | a sixth collision, **template** |
@@ -391,5 +483,5 @@ The map does not edit its territory, and neither does this revision. Both findin
 | `EXPLAINED.md`, `CHANGES.md` | new |
 
 Nothing else in the instrument or the worked example was changed: `examples.md`, `state.md`, and
-cards 01, 03, 06 and 07 are as Gabriel wrote them. Cards 02 and 04 keep every line he wrote; what
-the revision added to them is marked as added, with the walk that found it.
+cards 01, 03 and 06 are as Gabriel wrote them. Cards 02, 04 and 07 keep every line he wrote; what
+the revision added to them is marked as added, with the walk or the check that found it.

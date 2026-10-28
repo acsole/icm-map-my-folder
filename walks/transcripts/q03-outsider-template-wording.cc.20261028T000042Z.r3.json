@@ -1,0 +1,173 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q03-outsider-template-wording",
+  "question": "If I rename or restructure a section in a region/ template file, what in rules.md or the framework files depends on that exact wording, and would it break users' existing region packs, which the upgrade path tells them to keep?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-28T00:02:09+00:00",
+  "map_commit": "8793705e765bd9c2623ab4a0be57fc0ee62bc6cc+dirty",
+  "territory_commit": "236aae0c7b596a60125973bd79d760149a28e259",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "18217ecaef35607b8b8669d2f8accec25785a22e339cd1de5c561cb077d13a58"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/cards/02-the-region-blueprint.md",
+      "sha256": "cb44cba83628ff89b3d985af5579143328463e883f7a1611d44b1c7180214a85"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/frameworks/pricing.md",
+      "sha256": "2c42ca0a06b13267ade68c5ed1ca81381d0b705619c33e3cb577c5c74e0f2ad9"
+    },
+    {
+      "root": "repo",
+      "path": "specialist/reference/templates/listing.md",
+      "sha256": "367f03bccd678503a826d49817d9ff5060652c3877b66c8f47cde67d097af0c1"
+    },
+    {
+      "root": "repo",
+      "path": "README.md",
+      "sha256": "c78a298848a30dc810c3fbd4f16998374117859dfbdf75bd829a4d8fc04cfe92"
+    }
+  ],
+  "listings": [],
+  "turns": 5,
+  "final_stop_reason": "end_turn",
+  "final_answer": "**rules.md doesn't depend on any section wording. Four engine files do: two quote a heading word for word, and the rest look for a section by its topic. Your users' region packs won't change. The risk is that a reworded engine stops matching the packs they keep.**\n\nI got this from the map's card for the region blueprint (card 2). It lists every heading reference at the commit the map was built from. I opened three of the lines it cites in the repo, and they match.\n\n**What rules.md uses:** only file names. Lines 27–33 send `region/*.md` lookups to the template folder, and line 59 branches on what it finds there. Renaming a section inside a file doesn't affect it. Renaming one of the six files would.\n\n**Quoted word for word (breaks if you reword the heading):**\n- `frameworks/pricing.md:46` sends the agent to `region/market.md` \"under 'Pricing Adjustment Magnitudes'\". I opened this line and the wording is exact.\n- `templates/listing.md:11` looks in `market.md` for a **\"Buyer-disclosure conventions\"** section (also confirmed). If it's missing, the template just skips it: \"If the section is absent, skip\". So a rename gives no error. Listings quietly stop including the disclosure items.\n\n**Looked up by topic (breaks only if the section disappears):**\n- In `market.md`:\n  - seasonality: `pricing.md:3`, `:80`; `pricing-memo.md:45`\n  - foreign-buyer activity: `international-buyers.md:3`, `:13`, `:82`; `pricing.md:82`\n  - adjustment magnitudes: `pricing.md:3`, `:7`; `pricing-memo.md:39`\n- In `regulations.md`:\n  - ownership: `pricing.md:65`, `listing.md:103`, `pricing-memo.md:52`\n  - foreign-buyer rules: `international-buyers.md:3`, `:59`\n\n**Existing region packs:** yes, they're exposed. `README.md:272` tells users to replace everything in `specialist/` except `reference/region/` and to keep their filled-in `region/` folder. Packs are copies of the template, not links to it, so editing the template never reaches a pack that's already filled in. That leaves two choices:\n- **Rename only in the template:** new markets get the new heading, but the engine still asks for the old one, so new packs stop matching.\n- **Rename in both the template and the engine:** new packs work. Every pack users kept still has the old heading, and after their next upgrade the engine won't find it. The two word-for-word quotes would miss. For \"Buyer-disclosure conventions\", that happens silently.\n\nThe repo already has this mismatch: the map says the Lisbon case study has two reworded headings and no seasonality or buyer-disclosure section.\n\n**What to do:** keep the existing headings as they are. If you need to restructure, make the engine also accept the old wording. You could also add a note to the upgrade instructions telling users to rename the heading in their kept `region/` packs. Removing a section is the bigger risk, because the topic lookups listed above also stop finding it.\n\nThe map was built from commit `236aae0`. If the repo has changed since then, rerun `reference/checks/heading-refs.py` in the map folder to refresh the list.",
+  "message_ids": [
+    "msg_011CgTergVuWeREKuKnje6XR",
+    "msg_011CgTergVuWeREKuKnje6XR",
+    "msg_011CgTeruiA6HNXRbwgnYduQ",
+    "msg_011CgTeruiA6HNXRbwgnYduQ",
+    "msg_011CgTeruiA6HNXRbwgnYduQ",
+    "msg_011CgTeruiA6HNXRbwgnYduQ",
+    "msg_011CgTesPCdbt7biXP4cFsSP",
+    "msg_011CgTesPCdbt7biXP4cFsSP"
+  ],
+  "session_id": "c36839b5-fedd-4a17-96ad-78fac2ae93f5",
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2996,
+    "cache_read_input_tokens": 13555,
+    "output_tokens": 2208,
+    "output_tokens_details": {
+      "thinking_tokens": 615
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 2996,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1282,
+        "cache_read_input_tokens": 5697,
+        "cache_creation_input_tokens": 1228,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1228
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTergVuWeREKuKnje6XR",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTergVuWeREKuKnje6XR",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\cards\\02-the-region-blueprint.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTeruiA6HNXRbwgnYduQ",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTeruiA6HNXRbwgnYduQ",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\frameworks\\pricing.md",
+            "offset": 44,
+            "limit": 4
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTeruiA6HNXRbwgnYduQ",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\specialist\\reference\\templates\\listing.md",
+            "offset": 10,
+            "limit": 2
+          }
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTeruiA6HNXRbwgnYduQ",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\README.md",
+            "offset": 268,
+            "limit": 8
+          }
+        }
+      ]
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTesPCdbt7biXP4cFsSP",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTesPCdbt7biXP4cFsSP",
+      "text": "**rules.md doesn't depend on any section wording. Four engine files do: two quote a heading word for word, and the rest look for a section by its topic. Your users' region packs won't change. The risk is that a reworded engine stops matching the packs they keep.**\n\nI got this from the map's card for the region blueprint (card 2). It lists every heading reference at the commit the map was built from. I opened three of the lines it cites in the repo, and they match.\n\n**What rules.md uses:** only file names. Lines 27–33 send `region/*.md` lookups to the template folder, and line 59 branches on what it finds there. Renaming a section inside a file doesn't affect it. Renaming one of the six files would.\n\n**Quoted word for word (breaks if you reword the heading):**\n- `frameworks/pricing.md:46` sends the agent to `region/market.md` \"under 'Pricing Adjustment Magnitudes'\". I opened this line and the wording is exact.\n- `templates/listing.md:11` looks in `market.md` for a **\"Buyer-disclosure conventions\"** section (also confirmed). If it's missing, the template just skips it: \"If the section is absent, skip\". So a rename gives no error. Listings quietly stop including the disclosure items.\n\n**Looked up by topic (breaks only if the section disappears):**\n- In `market.md`:\n  - seasonality: `pricing.md:3`, `:80`; `pricing-memo.md:45`\n  - foreign-buyer activity: `international-buyers.md:3`, `:13`, `:82`; `pricing.md:82`\n  - adjustment magnitudes: `pricing.md:3`, `:7`; `pricing-memo.md:39`\n- In `regulations.md`:\n  - ownership: `pricing.md:65`, `listing.md:103`, `pricing-memo.md:52`\n  - foreign-buyer rules: `international-buyers.md:3`, `:59`\n\n**Existing region packs:** yes, they're exposed. `README.md:272` tells users to replace everything in `specialist/` except `reference/region/` and to keep their filled-in `region/` folder. Packs are copies of the template, not links to it, so editing the template never reaches a pack that's already filled in. That leaves two choices:\n- **Rename only in the template:** new markets get the new heading, but the engine still asks for the old one, so new packs stop matching.\n- **Rename in both the template and the engine:** new packs work. Every pack users kept still has the old heading, and after their next upgrade the engine won't find it. The two word-for-word quotes would miss. For \"Buyer-disclosure conventions\", that happens silently.\n\nThe repo already has this mismatch: the map says the Lisbon case study has two reworded headings and no seasonality or buyer-disclosure section.\n\n**What to do:** keep the existing headings as they are. If you need to restructure, make the engine also accept the old wording. You could also add a note to the upgrade instructions telling users to rename the heading in their kept `region/` packs. Removing a section is the bigger risk, because the topic lookups listed above also stop finding it.\n\nThe map was built from commit `236aae0`. If the repo has changed since then, rerun `reference/checks/heading-refs.py` in the map folder to refresh the list.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

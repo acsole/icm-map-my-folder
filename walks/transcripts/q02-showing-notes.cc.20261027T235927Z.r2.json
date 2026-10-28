@@ -1,0 +1,103 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q02-showing-notes",
+  "question": "Can the specialist write showing notes?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-27T23:59:57+00:00",
+  "map_commit": "8793705e765bd9c2623ab4a0be57fc0ee62bc6cc+dirty",
+  "territory_commit": "236aae0c7b596a60125973bd79d760149a28e259",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "18217ecaef35607b8b8669d2f8accec25785a22e339cd1de5c561cb077d13a58"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/engine/cards/1.2-the-job-set.md",
+      "sha256": "66204bdc09b6295e8b872dab71554a2bb3ad1e56b3fcd115fbc402d855649069"
+    }
+  ],
+  "listings": [],
+  "turns": 2,
+  "final_stop_reason": "end_turn",
+  "final_answer": "Yes. Showing notes is one of the specialist's five jobs: Listing, Matching, Pricing, Showing notes and Services lookup. `specialist/rules.md:27-31` gives it its own routing row and `:41-45` gives it its own output template. It also appears in the welcome menu (`welcome.md:27-31`) and in the job list in `identity.md:13-24`. `identity.md` calls it a \"supporting\" job rather than a \"core\" one, but that only ranks the jobs. It doesn't limit what the specialist does.\n\nThere's one problem. Two sentences in `rules.md` still use the old three-job list:\n- `rules.md:7` asks \"Listing, matching, or pricing?\"\n- `rules.md:18` says \"No work outside the three jobs\"\n\nThe routing actually follows the table, not these sentences, so showing notes works. But a model reading `rules.md:18` literally could decide to turn down a showing-notes request, because that sentence leaves out the two jobs v2 added. The map reports this and doesn't fix it. If you're hitting that refusal, edit or remove those two lines.\n\nI took these line numbers from the map's card for the job set (card 1.2), which recorded them at commit `236aae0`. I didn't open `rules.md` itself.",
+  "message_ids": [
+    "msg_011CgTehoqgRmhkjfP6u3rT3",
+    "msg_011CgTehoqgRmhkjfP6u3rT3",
+    "msg_011CgTeiAEGRRkfAFTScUzDd",
+    "msg_011CgTeiAEGRRkfAFTScUzDd"
+  ],
+  "session_id": "9090d385-9454-44e9-94b0-75610551223d",
+  "usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 983,
+    "cache_read_input_tokens": 7754,
+    "output_tokens": 643,
+    "output_tokens_details": {
+      "thinking_tokens": 115
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 983,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 444,
+        "cache_read_input_tokens": 3877,
+        "cache_creation_input_tokens": 983,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 983
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTehoqgRmhkjfP6u3rT3",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTehoqgRmhkjfP6u3rT3",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\engine\\cards\\1.2-the-job-set.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTeiAEGRRkfAFTScUzDd",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTeiAEGRRkfAFTScUzDd",
+      "text": "Yes. Showing notes is one of the specialist's five jobs: Listing, Matching, Pricing, Showing notes and Services lookup. `specialist/rules.md:27-31` gives it its own routing row and `:41-45` gives it its own output template. It also appears in the welcome menu (`welcome.md:27-31`) and in the job list in `identity.md:13-24`. `identity.md` calls it a \"supporting\" job rather than a \"core\" one, but that only ranks the jobs. It doesn't limit what the specialist does.\n\nThere's one problem. Two sentences in `rules.md` still use the old three-job list:\n- `rules.md:7` asks \"Listing, matching, or pricing?\"\n- `rules.md:18` says \"No work outside the three jobs\"\n\nThe routing actually follows the table, not these sentences, so showing notes works. But a model reading `rules.md:18` literally could decide to turn down a showing-notes request, because that sentence leaves out the two jobs v2 added. The map reports this and doesn't fix it. If you're hitting that refusal, edit or remove those two lines.\n\nI took these line numbers from the map's card for the job set (card 1.2), which recorded them at commit `236aae0`. I didn't open `rules.md` itself.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

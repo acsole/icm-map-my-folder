@@ -180,7 +180,21 @@ def claude(prompt, system, extra=()):
             continue
     if not any(e.get("type") == "result" for e in events):
         sys.exit(f"claude exited {proc.returncode} with no result event:\n{proc.stderr[-2000:]}")
+    not_a_walk(events)
     return events
+
+
+def not_a_walk(events):
+    """Refuse a record in which no model ran. A usage limit, an auth error or an outage comes back as
+    a result event with a message and zero tokens; scored, it would read as the map failing. Found
+    when five such records were written for q05 (walks/archive/q05-not-walks-usage-limit/)."""
+    result = next(e for e in events if e.get("type") == "result")
+    usage = result.get("usage") or {}
+    tokens = sum(usage.get(k) or 0 for k in ("input_tokens", "output_tokens",
+                                             "cache_creation_input_tokens", "cache_read_input_tokens"))
+    if result.get("is_error") or tokens == 0:
+        sys.exit("refusing to record: no model ran in this session "
+                 f"(is_error={result.get('is_error')}, tokens={tokens}): {str(result.get('result'))[:200]!r}")
 
 
 def to_transcript(events, question_id, question, configuration, catalog_path):

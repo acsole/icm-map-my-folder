@@ -1,0 +1,276 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q05-outsider-regression-check",
+  "question": "Is docs/cold-test-brief.md (or anything else) a regression check I should rerun against the four case studies before changing the universal files in specialist/?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-28T02:57:12+00:00",
+  "map_commit": "8793705e765bd9c2623ab4a0be57fc0ee62bc6cc+dirty",
+  "territory_commit": "236aae0c7b596a60125973bd79d760149a28e259",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "18217ecaef35607b8b8669d2f8accec25785a22e339cd1de5c561cb077d13a58"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/public-edge/cards/7.3-the-working-documents.md",
+      "sha256": "cfd526f2053bfb3a5570fb596df7d3ce7c9e4081f43d662a526ec3ac17e00680"
+    },
+    {
+      "root": "repo",
+      "path": "docs/cold-test-brief.md",
+      "sha256": "3666cc494a1ed6c6d484d98921ae90a4e6cfff54c7f6fbf3b9a3706a2403d7ff"
+    },
+    {
+      "root": "repo",
+      "path": "case-studies/test-results.md",
+      "sha256": "f24e377daa1d077193b60db378d2f7734efbf0732e9176994d37208a1eebe55f"
+    },
+    {
+      "root": "map",
+      "path": "reference/worked-example/cards/03-a-market.md",
+      "sha256": "b7a2d308bf388181f47393e4a59f2f6dea733ec3a04b0639d29f144e0f8da9d9"
+    }
+  ],
+  "listings": [
+    "repo:.:docs/*",
+    "repo:.:**/*.{py,sh,js,ts,yml,yaml,json,ps1}",
+    "repo:.:case-studies/*/*",
+    "repo:.:case-studies/**/*",
+    "repo:.:**/*test*"
+  ],
+  "turns": 10,
+  "final_stop_reason": "end_turn",
+  "final_answer": "No. There's nothing in the repo you can rerun as a regression check, and nothing that covers all four case studies.\n\n**`docs/cold-test-brief.md` is a one-time request to two people.** It asks two practicing real-estate agents, one in Jerusalem and one in Novato, to try the copilot on properties they're working \"this week\". They send back chat transcripts and a paragraph of reaction (\"No template. Free-form.\"). It has no fixed inputs and no expected outputs, and it only covers two markets. It's also published on the public site, because everything in `docs/` is. The map's phrase \"a brief for agents testing it cold\" means human realtors, not AI agents running tests.\n\n**The closest thing to a test suite is `case-studies/test-results.md`, and it has gaps:**\n- **Not actually run.** The tests were \"simulated\", with the instruction to drop the folder into a Claude Project \"(mentally — simulated)\". The outputs are what the author expected, not what a model produced.\n- **Two markets only.** Jerusalem and Novato have three tests each. Khao Lak and Lisbon have never been tested.\n- **Only v1's three jobs.** It covers listing, matching and pricing. Its own note says v2's showing notes and services lookup \"have not yet been cold-tested.\"\n- **Most tests can't be replayed exactly.** Only Test 1 has the full prompt and full expected output. Tests 2–6 have a prompt summary and a few highlights.\n\n**There's no automation either.** The repo has no scripts, no CI and no test config. Searching for code or config files found nothing.\n\nIf you want a check before editing `specialist/`, you'd have to build it, and these two files are the raw material:\n- **Scenarios:** Test 1 is usable as-is. Tests 2–6 need full prompts written from their summaries.\n- **Pass/fail checks** from the results' summary table:\n  - Novato listings contain no international-buyer framing.\n  - Novato pricing raises the Mello-Roos caveat.\n  - Jerusalem pricing raises the Tabu vs. Khevra Meshakenet ownership-registration check.\n  - Jerusalem French + Hebrew output is never interleaved.\n- **More checks** from the brief's \"What we're specifically watching for\" list:\n  - The menu is skipped when the user opens with a clear job.\n  - The copilot never speaks to the client directly.\n  - Services lookup never invents a vendor.\n- **Coverage to add:** the two v2 jobs, plus Khao Lak and Lisbon, which have no scenarios at all.\n\nTo run a test, copy a case study's `region/` into `specialist/reference/region/`, which is the setup the brief describes. Editing `case-studies/` by itself doesn't change what the copilot says.\n\nOne more thing: `test-results.md` lists a 3-language note for the bilingual rule in `rules.md` as \"Not yet applied — flagged for next pass.\" That's still pending if you're about to edit the shared files.\n\nA note on the map: answering this took two cards (7.3 for the brief, 3 for the case studies), and neither one mentions `test-results.md`. The map's own rule says that means it was scoped wrong for this question. A row for \"testing / validation\" would have pointed straight at both files.",
+  "message_ids": [
+    "msg_011CgTtBSpw6jVaXE94H1uqj",
+    "msg_011CgTtBSpw6jVaXE94H1uqj",
+    "msg_011CgTtBhmqoUz2SS46fuers",
+    "msg_011CgTtBhmqoUz2SS46fuers",
+    "msg_011CgTtBhmqoUz2SS46fuers",
+    "msg_011CgTtBzPjSzAyHGqno5X3u",
+    "msg_011CgTtBzPjSzAyHGqno5X3u",
+    "msg_011CgTtBzPjSzAyHGqno5X3u",
+    "msg_011CgTtCMMYWbz8iy7MpUK8Y",
+    "msg_011CgTtCMMYWbz8iy7MpUK8Y",
+    "msg_011CgTtCdHk3zamejbABf6Vg",
+    "msg_011CgTtCdHk3zamejbABf6Vg",
+    "msg_011CgTtCveGvoFV2s2AGcKDN",
+    "msg_011CgTtCveGvoFV2s2AGcKDN",
+    "msg_011CgTtCveGvoFV2s2AGcKDN",
+    "msg_011CgTtDFS8fAhiy9K7gP3yy",
+    "msg_011CgTtDFS8fAhiy9K7gP3yy"
+  ],
+  "session_id": "93a134f5-919b-434e-8ea1-1bb62d8bd834",
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 15000,
+    "cache_read_input_tokens": 58328,
+    "output_tokens": 3236,
+    "output_tokens_details": {
+      "thinking_tokens": 1150
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15000,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1731,
+        "cache_read_input_tokens": 17941,
+        "cache_creation_input_tokens": 972,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 972
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTtBSpw6jVaXE94H1uqj",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTtBSpw6jVaXE94H1uqj",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\public-edge\\cards\\7.3-the-working-documents.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTtBhmqoUz2SS46fuers",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTtBhmqoUz2SS46fuers",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "docs/*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTtBhmqoUz2SS46fuers",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\docs\\cold-test-brief.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTtBzPjSzAyHGqno5X3u",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTtBzPjSzAyHGqno5X3u",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "**/*.{py,sh,js,ts,yml,yaml,json,ps1}",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTtBzPjSzAyHGqno5X3u",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "case-studies/*/*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 8,
+      "message_id": "msg_011CgTtCMMYWbz8iy7MpUK8Y",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "case-studies/**/*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 9,
+      "message_id": "msg_011CgTtCMMYWbz8iy7MpUK8Y",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "**/*test*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 10,
+      "message_id": "msg_011CgTtCdHk3zamejbABf6Vg",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 11,
+      "message_id": "msg_011CgTtCdHk3zamejbABf6Vg",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\case-studies\\test-results.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 12,
+      "message_id": "msg_011CgTtCveGvoFV2s2AGcKDN",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 13,
+      "message_id": "msg_011CgTtCveGvoFV2s2AGcKDN",
+      "text": "I've checked the brief and the one other test file in the repo. Now I'm looking at the map's card for the case studies to see whether it says anything about them.",
+      "tool_calls": []
+    },
+    {
+      "turn": 14,
+      "message_id": "msg_011CgTtCveGvoFV2s2AGcKDN",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\cards\\03-a-market.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 15,
+      "message_id": "msg_011CgTtDFS8fAhiy9K7gP3yy",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 16,
+      "message_id": "msg_011CgTtDFS8fAhiy9K7gP3yy",
+      "text": "No. There's nothing in the repo you can rerun as a regression check, and nothing that covers all four case studies.\n\n**`docs/cold-test-brief.md` is a one-time request to two people.** It asks two practicing real-estate agents, one in Jerusalem and one in Novato, to try the copilot on properties they're working \"this week\". They send back chat transcripts and a paragraph of reaction (\"No template. Free-form.\"). It has no fixed inputs and no expected outputs, and it only covers two markets. It's also published on the public site, because everything in `docs/` is. The map's phrase \"a brief for agents testing it cold\" means human realtors, not AI agents running tests.\n\n**The closest thing to a test suite is `case-studies/test-results.md`, and it has gaps:**\n- **Not actually run.** The tests were \"simulated\", with the instruction to drop the folder into a Claude Project \"(mentally — simulated)\". The outputs are what the author expected, not what a model produced.\n- **Two markets only.** Jerusalem and Novato have three tests each. Khao Lak and Lisbon have never been tested.\n- **Only v1's three jobs.** It covers listing, matching and pricing. Its own note says v2's showing notes and services lookup \"have not yet been cold-tested.\"\n- **Most tests can't be replayed exactly.** Only Test 1 has the full prompt and full expected output. Tests 2–6 have a prompt summary and a few highlights.\n\n**There's no automation either.** The repo has no scripts, no CI and no test config. Searching for code or config files found nothing.\n\nIf you want a check before editing `specialist/`, you'd have to build it, and these two files are the raw material:\n- **Scenarios:** Test 1 is usable as-is. Tests 2–6 need full prompts written from their summaries.\n- **Pass/fail checks** from the results' summary table:\n  - Novato listings contain no international-buyer framing.\n  - Novato pricing raises the Mello-Roos caveat.\n  - Jerusalem pricing raises the Tabu vs. Khevra Meshakenet ownership-registration check.\n  - Jerusalem French + Hebrew output is never interleaved.\n- **More checks** from the brief's \"What we're specifically watching for\" list:\n  - The menu is skipped when the user opens with a clear job.\n  - The copilot never speaks to the client directly.\n  - Services lookup never invents a vendor.\n- **Coverage to add:** the two v2 jobs, plus Khao Lak and Lisbon, which have no scenarios at all.\n\nTo run a test, copy a case study's `region/` into `specialist/reference/region/`, which is the setup the brief describes. Editing `case-studies/` by itself doesn't change what the copilot says.\n\nOne more thing: `test-results.md` lists a 3-language note for the bilingual rule in `rules.md` as \"Not yet applied — flagged for next pass.\" That's still pending if you're about to edit the shared files.\n\nA note on the map: answering this took two cards (7.3 for the brief, 3 for the case studies), and neither one mentions `test-results.md`. The map's own rule says that means it was scoped wrong for this question. A row for \"testing / validation\" would have pointed straight at both files.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

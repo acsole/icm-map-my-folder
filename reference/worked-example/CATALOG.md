@@ -1,7 +1,8 @@
 # Catalog — `NFTYoginis/your-market-realtor`
 
-**Territory:** https://github.com/NFTYoginis/your-market-realtor · mapped at commit `702e79c`
-(`git ls-remote origin refs/heads/main`, 2026-08-18).
+**Territory:** https://github.com/NFTYoginis/your-market-realtor · mapped at commit `236aae0`
+(`git ls-remote origin refs/heads/main`, 2026-10-27). First mapped at `702e79c` (2026-08-18);
+re-pinned after `freshness-check.py` named the cards to re-verify — see `verification-log.md` § i.
 **Class:** a blueprint copied into named instances, shared machinery reading them, a public edge.
 
 **Read the row, then one card. Stop.** If you need a second card, the first was mis-scoped — say so
@@ -15,7 +16,7 @@ rather than reading on.
 | 4 | [The Six Slots](cards/04-the-six-slots.md) | the six filenames inside any `region/` | SLOT | LIVE |
 | 5 | [The Marker Set](cards/05-the-marker-set.md) | `[PLACEHOLDER]`, `[N/A — …]` | MARKER | LIVE |
 | 6 | [The Contributor Path](cards/06-the-contributor-path.md) | `CONTRIBUTING.md` | INSTRUCTION | LIVE → aims at a GHOST |
-| 7 | [The Public Surface](cards/07-the-public-surface.md) | `docs/` | SURFACE | LIVE |
+| 7 | [The Public Edge](districts/public-edge/CATALOG.md) — a district | `docs/`, `README.md` | SURFACE and its parts | LIVE |
 
 ## If your hand is already on a file
 
@@ -31,8 +32,10 @@ rather than reading on.
 | anything else under `specialist/` that is not `reference/region/` | [**1.1**](cards/01-the-engine.md) |
 | anything under `case-studies/` | **3** |
 | a bracketed value — `[PLACEHOLDER]`, `[N/A]`, `[VERIFY]` | **5** |
-| `CONTRIBUTING.md` · `README.md` | **6** |
-| `docs/` · a live URL · anything you are about to publish | **7** |
+| `CONTRIBUTING.md` · the root `README.md`'s *Adding your market* | **6** |
+| the root `README.md` — setup, migrating from v1, updating, using a case study as-is | [**7.2**](districts/public-edge/cards/7.2-the-upgrade-path.md) |
+| `docs/index.html` · a live URL · anything you are about to publish | [**7.1**](cards/07-the-public-surface.md) |
+| any other file under `docs/` | [**7.3**](districts/public-edge/cards/7.3-the-working-documents.md) |
 | a file in none of these rows | [`notes.md`](notes.md) — it may already be there, with the reason it got no card |
 
 ## Collisions

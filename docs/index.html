@@ -402,7 +402,7 @@ ok-control.md                —         —         ok
   <div class="nums">
     <div><span>62</span><small>files enumerated</small></div>
     <div><span>7</span><small>rows, the ceiling of a catalog</small></div>
-    <div><span>12</span><small>cards, with the engine's district</small></div>
+    <div><span>14</span><small>cards, with two districts</small></div>
     <div><span>1</span><small>card, then stop</small></div>
   </div>
   <h3>a district, not an eighth card</h3>
@@ -416,6 +416,13 @@ ok-control.md                —         —         ok
   <code>catalog-checks.py</code>, checks that every card is reached by exactly one row and that no
   catalog grows past seven rows or starts carrying counts — and its self-test shows both checks
   failing first.</p>
+  <p style="max-width:68ch;color:var(--ink2);font-size:.95rem;margin:.9rem 0 0">A second district
+  covers the public edge: the upgrade instructions that keep a user's region files across versions
+  (so an engine change can strand them without a word), and the working papers the site publishes —
+  one of them served though nothing in the repo links to it. And the map now knows when it is out of
+  date: <code>freshness-check.py</code> compares the commit the map is pinned to with the territory
+  today and names the cards to re-verify. On its first run it named three, two of which no one had
+  connected to the change; the map was re-pinned card by card.</p>
   <h3>the cold run ships with it</h3>
   <p style="max-width:68ch;color:var(--ink2);font-size:.95rem">With the catalog loaded — the
   configuration the README specifies — a fresh session with no memory and no coaching was asked
@@ -455,7 +462,15 @@ ok-control.md                —         —         ok
   answers audit questions only with a complete list, the command that produced it and the commit.
   On the third round every walk reached the right card and territory reads fell from up to
   twenty-one to between one and five — but every walk still checked the territory's upgrade
-  instructions, which no card carries yet. The failing verdict ships, with that reason.</p>
+  instructions, which no card carried then. The failing verdict ships, with that reason.</p>
+  <p style="max-width:68ch;color:var(--ink2);font-size:.95rem;margin:.9rem 0 0">The outsider's
+  other two questions were then walked with bars written first. Both fail, and both were worth it.
+  One found that the README promises showing notes "cited in a matching job next week" while the
+  engine only looks in the current conversation — a card that said otherwise was corrected — and
+  showed that the mapmaker's own guess at which card should answer was wrong; the guess was left in
+  place, failing. The other answered correctly from its card and still opened the territory to be
+  sure, refuting a line in the original notes. Five questions in all: the two the mapmaker wrote
+  pass, the three an outsider wrote fail, and every reason is published.</p>
   <h3>proof from users</h3>
   <!-- TODO: operator — real quotes / adoption only. No invented testimonials, no engagement metrics. -->
   <p style="color:var(--ink3);font-size:.92rem;margin:0">Nothing here yet. This build ships with its

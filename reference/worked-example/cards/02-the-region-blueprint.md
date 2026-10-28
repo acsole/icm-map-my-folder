@@ -23,7 +23,7 @@ read-path**: the running specialist, immediately — `specialist/rules.md:27-33`
 here and `:59` branches on what it finds, so an edit changes what a specialist answers for any
 market not yet populated over it. Derive each half from the role it belongs to; do not average them.
 *Added in the revision, after an outsider's walks found it:* the engine also leans on **sections
-inside** two of these files. The complete list at `702e79c` is the output of
+inside** two of these files. The complete list at `236aae0` (identical at `702e79c`) is the output of
 `reference/checks/heading-refs.py`, classified in `verification-log.md` § h:
 **quoted verbatim, breaks if the heading is reworded** — `frameworks/pricing.md:46` ("Pricing
 Adjustment Magnitudes"), `templates/listing.md:11` ("Buyer-disclosure conventions", used only if
@@ -32,7 +32,8 @@ present). **Named by topic, breaks if the section goes** — in `market.md`: sea
 `:13`, `:82`; `pricing.md:82`), adjustment magnitudes (`pricing.md:3`, `:7`; `pricing-memo.md:39`);
 in `regulations.md`: ownership (`pricing.md:65`, `listing.md:103`, `pricing-memo.md:52`) and
 foreign-buyer rules (`international-buyers.md:3`, `:59`). Rename a heading here and new copies stop
-matching the engine; rename it in the engine too and existing markets stop matching instead. Lisbon
+matching the engine; rename it in the engine too and existing markets stop matching instead — the
+packs users keep on every upgrade (`README.md:272`, card 7.2). Lisbon
 already differs: two headings reworded, and no seasonality or disclosure section at all.
 
 **Does not hit:** the instance you would assume was closest to it. Per-file `grep -Fxf` against the

@@ -1,0 +1,172 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q05-outsider-regression-check",
+  "question": "Is docs/cold-test-brief.md (or anything else) a regression check I should rerun against the four case studies before changing the universal files in specialist/?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-28T02:44:13+00:00",
+  "map_commit": "8793705e765bd9c2623ab4a0be57fc0ee62bc6cc+dirty",
+  "territory_commit": "236aae0c7b596a60125973bd79d760149a28e259",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "18217ecaef35607b8b8669d2f8accec25785a22e339cd1de5c561cb077d13a58"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/public-edge/cards/7.3-the-working-documents.md",
+      "sha256": "cfd526f2053bfb3a5570fb596df7d3ce7c9e4081f43d662a526ec3ac17e00680"
+    },
+    {
+      "root": "repo",
+      "path": "docs/cold-test-brief.md",
+      "sha256": "3666cc494a1ed6c6d484d98921ae90a4e6cfff54c7f6fbf3b9a3706a2403d7ff"
+    },
+    {
+      "root": "repo",
+      "path": "case-studies/test-results.md",
+      "sha256": "f24e377daa1d077193b60db378d2f7734efbf0732e9176994d37208a1eebe55f"
+    }
+  ],
+  "listings": [
+    "repo:.:**/*"
+  ],
+  "turns": 5,
+  "final_stop_reason": "end_turn",
+  "final_answer": "**No.** Nothing in the repo is a regression check you can rerun, and nothing covers all four case studies. There are two files close to one, and neither does that job.\n\n**`docs/cold-test-brief.md` is a one-time field-test request for two people.** It asks two practicing agents to copy a region into `specialist/`, use the specialist on their own real deals for a week, and email back chat logs plus a paragraph of reaction. It names only two markets, Jerusalem and Novato. It has no expected outputs and no pass/fail criteria. It says findings \"feed the universal files\" (line 5), so it is a source of changes to `specialist/`, not a check on them. One more thing: the map's card 7.3 notes that everything in `docs/` is served on the public site, so this brief is public.\n\n**`case-studies/test-results.md` is the closer match, but it only describes tests that were done once:**\n- **Simulated.** It says the specialist was dropped into a project \"mentally — simulated\" (line 28). The outputs are labelled \"expected\", written by following the files by hand. They are not recorded runs, and nothing asserts against them.\n- **Two of the four markets.** It covers six scenarios: three for Jerusalem and three for Novato. `khao-lak` and `lisbon-portugal` are never tested.\n- **Three of the five jobs.** Its own header says showing notes and services lookup \"have not yet been cold-tested\" (line 5).\n- **Changes pending.** The one fix it recommends, a `rules.md` note for three or more languages, is marked \"Not yet applied\" (line 212).\n\n**There is no automated testing at all.** The repo contains only markdown files, `docs/index.html` and an image. There are no scripts, no test folder and no CI workflows.\n\n**What you can reuse is a manual baseline you would put together yourself:**\n1. Replay the six prompts in `test-results.md`. Test 1 has the full prompt; tests 2–6 have prompt summaries. Compare your results with the claims in its Summary table, for example \"no foreign-buyer framing in the Novato listing\" and \"Mello-Roos caveat surfaced\".\n2. Add Tests 4 and 5 from the brief to cover showing notes and services lookup. Also check its \"What we're specifically watching for\" list: the specialist skips the menu when you ask for a job directly, never invents a vendor, and never addresses the client directly.\n3. Write your own scenarios for Khao Lak and Lisbon. Nothing exists for those two yet.\n\nRun these before you change the universal files and again after, and compare the two sets of output.\n\nOn the map: its catalog sends `case-studies/` files to card 3. I read `test-results.md` directly instead, because the question was about what that file contains, and the map says the file wins over a card anyway.",
+  "message_ids": [
+    "msg_011CgTsDPuFCSKBM9Mnf1kPK",
+    "msg_011CgTsDPuFCSKBM9Mnf1kPK",
+    "msg_011CgTsDPuFCSKBM9Mnf1kPK",
+    "msg_011CgTsDdV4iSNXBX9KgZrM7",
+    "msg_011CgTsDdV4iSNXBX9KgZrM7",
+    "msg_011CgTsDrSvzV8KcXCsAKiqW",
+    "msg_011CgTsDrSvzV8KcXCsAKiqW",
+    "msg_011CgTsE4RWFVt1TWaE6wk3b",
+    "msg_011CgTsE4RWFVt1TWaE6wk3b"
+  ],
+  "session_id": "7032132a-4a74-41d7-896a-e3c8496f686e",
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 15982,
+    "cache_read_input_tokens": 28351,
+    "output_tokens": 1943,
+    "output_tokens_details": {
+      "thinking_tokens": 626
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15982,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1311,
+        "cache_read_input_tokens": 12740,
+        "cache_creation_input_tokens": 7155,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 7155
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTsDPuFCSKBM9Mnf1kPK",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTsDPuFCSKBM9Mnf1kPK",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\public-edge\\cards\\7.3-the-working-documents.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTsDPuFCSKBM9Mnf1kPK",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\docs\\cold-test-brief.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTsDdV4iSNXBX9KgZrM7",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTsDdV4iSNXBX9KgZrM7",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "**/*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTsDrSvzV8KcXCsAKiqW",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTsDrSvzV8KcXCsAKiqW",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\case-studies\\test-results.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTsE4RWFVt1TWaE6wk3b",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 8,
+      "message_id": "msg_011CgTsE4RWFVt1TWaE6wk3b",
+      "text": "**No.** Nothing in the repo is a regression check you can rerun, and nothing covers all four case studies. There are two files close to one, and neither does that job.\n\n**`docs/cold-test-brief.md` is a one-time field-test request for two people.** It asks two practicing agents to copy a region into `specialist/`, use the specialist on their own real deals for a week, and email back chat logs plus a paragraph of reaction. It names only two markets, Jerusalem and Novato. It has no expected outputs and no pass/fail criteria. It says findings \"feed the universal files\" (line 5), so it is a source of changes to `specialist/`, not a check on them. One more thing: the map's card 7.3 notes that everything in `docs/` is served on the public site, so this brief is public.\n\n**`case-studies/test-results.md` is the closer match, but it only describes tests that were done once:**\n- **Simulated.** It says the specialist was dropped into a project \"mentally — simulated\" (line 28). The outputs are labelled \"expected\", written by following the files by hand. They are not recorded runs, and nothing asserts against them.\n- **Two of the four markets.** It covers six scenarios: three for Jerusalem and three for Novato. `khao-lak` and `lisbon-portugal` are never tested.\n- **Three of the five jobs.** Its own header says showing notes and services lookup \"have not yet been cold-tested\" (line 5).\n- **Changes pending.** The one fix it recommends, a `rules.md` note for three or more languages, is marked \"Not yet applied\" (line 212).\n\n**There is no automated testing at all.** The repo contains only markdown files, `docs/index.html` and an image. There are no scripts, no test folder and no CI workflows.\n\n**What you can reuse is a manual baseline you would put together yourself:**\n1. Replay the six prompts in `test-results.md`. Test 1 has the full prompt; tests 2–6 have prompt summaries. Compare your results with the claims in its Summary table, for example \"no foreign-buyer framing in the Novato listing\" and \"Mello-Roos caveat surfaced\".\n2. Add Tests 4 and 5 from the brief to cover showing notes and services lookup. Also check its \"What we're specifically watching for\" list: the specialist skips the menu when you ask for a job directly, never invents a vendor, and never addresses the client directly.\n3. Write your own scenarios for Khao Lak and Lisbon. Nothing exists for those two yet.\n\nRun these before you change the universal files and again after, and compare the two sets of output.\n\nOn the map: its catalog sends `case-studies/` files to card 3. I read `test-results.md` directly instead, because the question was about what that file contains, and the map says the file wins over a card anyway.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}

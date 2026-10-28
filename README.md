@@ -106,18 +106,28 @@ re-deriving the map from the territory — and that failure is why `README.md`, 
 
 ## Checking it yourself — offline, nothing installed
 
-Clone the territory, then run the checks. Neither needs a network or a package.
+Clone the territory, then run the checks. None needs a network or a package beyond git.
 
     git clone https://github.com/NFTYoginis/your-market-realtor.git
+    python3 reference/checks/freshness-check.py \
+        --map reference/worked-example --territory ./your-market-realtor
     python3 reference/checks/refusal-checks.py --self-test
     python3 reference/checks/refusal-checks.py \
         --map reference/worked-example --territory ./your-market-realtor
     python3 reference/checks/refusal-checks.py \
         --map reference/worked-example/districts/engine --territory ./your-market-realtor
+    python3 reference/checks/refusal-checks.py \
+        --map reference/worked-example/districts/public-edge --territory ./your-market-realtor
     python3 reference/checks/catalog-checks.py --self-test
     python3 reference/checks/catalog-checks.py --map reference/worked-example
+    python3 reference/checks/freshness-check.py --self-test
+    python3 reference/checks/heading-refs.py --self-test
     python3 reference/checks/score-walk.py --self-test
     python3 reference/checks/score-walk.py --walks walks/ --map . --territory ./your-market-realtor
+
+**Run the freshness check first.** The map is pinned to one commit of the territory; if the
+territory has moved since, it names the cards whose evidence may be out of date — and if it says
+FRESH, everything below is being checked against the territory the map describes.
 
 **Run the self-tests first.** Each one points its checker at fixtures built to fail
 ([`reference/checks/fixtures/`](reference/checks/fixtures/)) and passes only if every gate is shown
@@ -137,10 +147,11 @@ framing at all — and its pass bar, written before any run is scored.
 Without a key, the same walk can be recorded through the Claude Code CLI, signed in with a Claude
 subscription: [`cold-run-claude-code.py`](reference/checks/cold-run-claude-code.py), same arguments.
 Its transcripts are marked as a different harness and scored under their own verdict, never pooled
-with API runs. Three questions are recorded this way: two pass, and the third — written by an
-outsider who had seen only the territory's README — fails. Over three rounds it found gaps the
-mapmaker had not seen, each fixed in the map with the bar untouched; what it still finds missing is
-named. Why, run by run, is in [`CHANGES.md`](CHANGES.md) §§ 6–7.
+with API runs. Five questions are recorded this way. The two the mapmaker wrote pass. The three an
+outsider wrote — a fresh session that had seen only the territory's README — fail, and between them
+they found gaps the mapmaker had not seen, a promise the territory does not keep, and a wrong guess
+in one of the mapmaker's own bars. Every fix went into the map; no bar was changed. Why, run by run,
+is in [`CHANGES.md`](CHANGES.md) §§ 6–9.
 
 The runs in `cold-run-transcript.md` predate the recorder: they survive as excerpts, not raw JSON,
 so the scorer does not count them. Until API runs are recorded, the API verdict reads `fail`, and

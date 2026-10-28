@@ -13,7 +13,8 @@ from a clone of `NFTYoginis/your-market-realtor` at `702e79c`, 2026-08-18.
     62
 
 Clone level with origin, so every local check below is a check against the shared truth. 62 files
-enumerated, 7 carded at first and 12 once the revision added the engine's district — the file count
+enumerated, 7 carded at first, 12 once the revision added the engine's district and 14 with the
+public edge's — the file count
 this map states anywhere else comes from that command.
 
 ---
@@ -212,6 +213,61 @@ Classified by the mapmaker — the command reports, the map judges:
 Lisbon has reworded two headings and has no seasonality section at all, though `pricing.md:80`
 applies seasonality "per `region/market.md`". Only Khao Lak carries the disclosure section.
 
+## i) Re-pinned from `702e79c` to `236aae0` — the cards `freshness-check.py` named, re-verified
+
+    $ git ls-remote origin refs/heads/main
+    236aae0c7b59…    refs/heads/main
+    $ python3 reference/checks/freshness-check.py --map reference/worked-example \
+          --territory ./your-market-realtor --against origin/main     # before re-pinning
+    pinned at 702e79c, compared with 236aae0: 1 file(s) changed in the territory
+      changed  docs/index.html
+    STALE  cards/01-the-engine.md  <- docs/index.html
+    STALE  cards/04-the-six-slots.md  <- docs/index.html
+    STALE  cards/07-the-public-surface.md  <- docs/index.html
+
+    $ git diff 702e79c 236aae0 -- docs/index.html     # one block added at the foot of the page
+    +<div id="portfolio-ask-fallback" …> … "Want this one built around your business instead?" …
+    $ for r in 702e79c 236aae0; do git show $r:docs/index.html | grep -ci 'six files'; done
+    3
+    3
+
+Card 01 and card 04 cite the page for its hand-written counts ("six files"); the added block holds
+none, so both claims stand unchanged. Card 07's evidence is a byte reading, so it was taken again:
+
+    $ curl -s https://nftyoginis.github.io/your-market-realtor/ | wc -c ; git show 236aae0:docs/index.html | wc -c
+    40323 / 40323
+    $ … | sha1sum                                   # served, and on disk at 236aae0
+    404a502fcd3… / 404a502fcd3…
+    $ curl -o /dev/null -w '%{http_code}' https://nftyoginis.github.io/your-market-realtor/docs/
+    404
+
+Everything else was left as verified at `702e79c`, because nothing it cites changed:
+
+    $ git diff --quiet 702e79c 236aae0 -- specialist && echo identical
+    identical
+    $ git ls-tree -r --name-only 236aae0 | grep -E '^case-studies/[^/]+/README\.md$'
+    (no output — exit 1)                            # card 06's ghost, still a ghost
+
+After the move, `freshness-check.py --against origin/main` reports FRESH.
+
+## j) Showing notes outlive the chat only if the agent carries them — card 1.5, found by an outsider's walks
+
+    $ sed -n '77p' specialist/rules.md
+    Showing notes are durable input data, not one-shot artifacts. When running a matching or pricing
+    job for the same buyer or property, **check whether prior showing notes are present in the
+    conversation context** …
+    $ sed -n '3p' specialist/reference/templates/showing-note.md
+    … The agent should be able to scan it in 30 seconds and copy/paste sections into a CRM …
+    $ sed -n '41p' README.md ; sed -n '368p' docs/v1-to-v2-spec.md
+    3. **Cross-job memory.** Showing notes you capture today can be cited in a matching job next week. …
+    3. **Cross-job memory.** Showing notes captured today can be cited in a matching job next week. …
+
+The public surface promises a note "cited in a matching job next week"; the engine looks only in the
+current conversation, and no file says to store a note anywhere a later chat can reach (the README
+uploads `specialist/` only, `README.md:96-99`). The promise holds only if the agent pastes the note
+back. Card 1.5 had called the notes "durable input" without that condition; it was corrected. Not
+found by any builder walk — found by `q04`, an outsider's question, on its first round.
+
 ## What was reported, not repaired
 
 - `specialist/identity.md:52` says `reference/region/` holds **5 files**; six exist, and
@@ -220,3 +276,5 @@ applies seasonality "per `region/market.md`". Only Khao Lak carries the disclosu
   the clearest ghost on the map.
 - `specialist/rules.md:7` and `:18` still count three jobs where the engine routes five. Card 1.2 —
   left open for the same reason.
+- `README.md:41` promises showing notes cited "next week"; the engine reads only the current
+  conversation (`rules.md:77`). Card 1.5 — a promise the mechanism does not keep without the agent.

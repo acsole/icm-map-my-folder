@@ -1,0 +1,191 @@
+{
+  "schema": "map-my-folder/walk/1",
+  "harness": "claude-code-headless",
+  "harness_version": "2.1.311 (Claude Code)",
+  "question_id": "q05-outsider-regression-check",
+  "question": "Is docs/cold-test-brief.md (or anything else) a regression check I should rerun against the four case studies before changing the universal files in specialist/?",
+  "configuration": "catalog_in_context",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "recorded_at": "2026-10-28T02:44:59+00:00",
+  "map_commit": "8793705e765bd9c2623ab4a0be57fc0ee62bc6cc+dirty",
+  "territory_commit": "236aae0c7b596a60125973bd79d760149a28e259",
+  "catalog": {
+    "path": "reference/worked-example/CATALOG.md",
+    "sha256": "18217ecaef35607b8b8669d2f8accec25785a22e339cd1de5c561cb077d13a58"
+  },
+  "file_reads": [
+    {
+      "root": "map",
+      "path": "reference/worked-example/districts/public-edge/cards/7.3-the-working-documents.md",
+      "sha256": "cfd526f2053bfb3a5570fb596df7d3ce7c9e4081f43d662a526ec3ac17e00680"
+    },
+    {
+      "root": "repo",
+      "path": "docs/cold-test-brief.md",
+      "sha256": "3666cc494a1ed6c6d484d98921ae90a4e6cfff54c7f6fbf3b9a3706a2403d7ff"
+    },
+    {
+      "root": "repo",
+      "path": "case-studies/test-results.md",
+      "sha256": "f24e377daa1d077193b60db378d2f7734efbf0732e9176994d37208a1eebe55f"
+    },
+    {
+      "root": "map",
+      "path": "reference/worked-example/notes.md",
+      "sha256": "f00ebff29b946cbcfa265e24e9c17c979077e054071d01e9ae453a4fdd0f5f26"
+    }
+  ],
+  "listings": [
+    "repo:.:**/*"
+  ],
+  "turns": 6,
+  "final_stop_reason": "end_turn",
+  "final_answer": "**No. Nothing in the repo is a regression check you can rerun.** There are no test scripts, no CI, and no saved outputs to compare against. Two documents look like they might be one, but neither is.\n\n**`docs/cold-test-brief.md` is a request for field testing by two people, not a test suite.** It's written for \"the two practicing agents\": one in Jerusalem, one in Marin. It asks them to run 3–5 interactions on \"real properties they're working *this week*\" and send back transcripts with free-form notes. It only covers two markets, the inputs change every time, there's no pass/fail standard, and it needs a working agent to run it. It does say \"Findings feed the universal files (never the region files),\" so it's input for changing `specialist/`, not a guard on those changes. The map's card 7.3 lists it among the \"working papers\" under `docs/` and says those files don't affect the engine.\n\n**`case-studies/test-results.md` is the closest thing, but it records one past run.**\n- **It was simulated.** The method (lines 24–33) says the outputs were \"produced by following the loaded files… as the specialist would\", and the Project was dropped in \"mentally — simulated\". So the outputs are written as \"expected\", not captured from real runs. There's nothing real to compare new output against.\n- **It covers only two of the four case studies.** Jerusalem and Novato were tested; Khao Lak and Lisbon never were, by anything in the repo.\n- **It covers only three of the five jobs.** The v2 note at line 5 says it tested v1's listing, matching and pricing jobs, and that showing notes and services lookup \"have not yet been cold-tested.\"\n- The map's `notes.md` calls it \"a record of a past test run\" that nothing depends on.\n\n**If you want a check before changing `specialist/`, you'd have to build one.** The parts are there:\n1. **Prompts:** the six scenarios in `test-results.md` (the test summary table and the per-test prompts), plus the brief's prompts for showing notes and services lookup.\n2. **Procedure:** the method in `test-results.md` lines 28–33. Copy one `case-studies/<slug>/region/` into `specialist/reference/region/`, load it into a fresh Project, and run every job. Do this for all four markets, not just two.\n3. **Baseline:** save real transcripts from the current `specialist/` *before* you edit anything. The repo has no captured outputs to compare with.\n4. **What to check:** the brief's \"What we're specifically watching for\" list (lines 128–133) works as a pass/fail list. It covers things like never inventing a vendor, not addressing the client directly, and skipping the menu when you start with a clear job request. `test-results.md` adds two Novato checks: no foreign-buyer framing in a Novato listing, and the specific Mello-Roos caveat in Novato pricing.\n\nThe map's catalog sent me to card 7.3 for `docs/` files, but that card is about which files are published, so it couldn't answer this. I also read `notes.md` and both source files directly.",
+  "message_ids": [
+    "msg_011CgTsFjRpJHMWPpPane9bL",
+    "msg_011CgTsFjRpJHMWPpPane9bL",
+    "msg_011CgTsGAhq8xVaNdAhThCAr",
+    "msg_011CgTsGAhq8xVaNdAhThCAr",
+    "msg_011CgTsGAhq8xVaNdAhThCAr",
+    "msg_011CgTsGZyJuquUQ77Q46GJZ",
+    "msg_011CgTsGZyJuquUQ77Q46GJZ",
+    "msg_011CgTsGZyJuquUQ77Q46GJZ",
+    "msg_011CgTsH9FoVBpsJt64yPSqG",
+    "msg_011CgTsH9FoVBpsJt64yPSqG"
+  ],
+  "session_id": "750e877f-14ca-4b7a-b22b-472d81c7ec51",
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 17652,
+    "cache_read_input_tokens": 25380,
+    "output_tokens": 2419,
+    "output_tokens_details": {
+      "thinking_tokens": 925
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 17652,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1575,
+        "cache_read_input_tokens": 12846,
+        "cache_creation_input_tokens": 8719,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 8719
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "transcript": [
+    {
+      "turn": 0,
+      "message_id": "msg_011CgTsFjRpJHMWPpPane9bL",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 1,
+      "message_id": "msg_011CgTsFjRpJHMWPpPane9bL",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\districts\\public-edge\\cards\\7.3-the-working-documents.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message_id": "msg_011CgTsGAhq8xVaNdAhThCAr",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 3,
+      "message_id": "msg_011CgTsGAhq8xVaNdAhThCAr",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\docs\\cold-test-brief.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "message_id": "msg_011CgTsGAhq8xVaNdAhThCAr",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Glob",
+          "input": {
+            "pattern": "**/*",
+            "path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "message_id": "msg_011CgTsGZyJuquUQ77Q46GJZ",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 6,
+      "message_id": "msg_011CgTsGZyJuquUQ77Q46GJZ",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\your-market-realtor\\case-studies\\test-results.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 7,
+      "message_id": "msg_011CgTsGZyJuquUQ77Q46GJZ",
+      "text": "",
+      "tool_calls": [
+        {
+          "name": "Read",
+          "input": {
+            "file_path": "C:\\Users\\andre\\Desktop\\AI-CLAUDE\\ICM\\icm-map-my-folder\\reference\\worked-example\\notes.md"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 8,
+      "message_id": "msg_011CgTsH9FoVBpsJt64yPSqG",
+      "text": "",
+      "tool_calls": []
+    },
+    {
+      "turn": 9,
+      "message_id": "msg_011CgTsH9FoVBpsJt64yPSqG",
+      "text": "**No. Nothing in the repo is a regression check you can rerun.** There are no test scripts, no CI, and no saved outputs to compare against. Two documents look like they might be one, but neither is.\n\n**`docs/cold-test-brief.md` is a request for field testing by two people, not a test suite.** It's written for \"the two practicing agents\": one in Jerusalem, one in Marin. It asks them to run 3–5 interactions on \"real properties they're working *this week*\" and send back transcripts with free-form notes. It only covers two markets, the inputs change every time, there's no pass/fail standard, and it needs a working agent to run it. It does say \"Findings feed the universal files (never the region files),\" so it's input for changing `specialist/`, not a guard on those changes. The map's card 7.3 lists it among the \"working papers\" under `docs/` and says those files don't affect the engine.\n\n**`case-studies/test-results.md` is the closest thing, but it records one past run.**\n- **It was simulated.** The method (lines 24–33) says the outputs were \"produced by following the loaded files… as the specialist would\", and the Project was dropped in \"mentally — simulated\". So the outputs are written as \"expected\", not captured from real runs. There's nothing real to compare new output against.\n- **It covers only two of the four case studies.** Jerusalem and Novato were tested; Khao Lak and Lisbon never were, by anything in the repo.\n- **It covers only three of the five jobs.** The v2 note at line 5 says it tested v1's listing, matching and pricing jobs, and that showing notes and services lookup \"have not yet been cold-tested.\"\n- The map's `notes.md` calls it \"a record of a past test run\" that nothing depends on.\n\n**If you want a check before changing `specialist/`, you'd have to build one.** The parts are there:\n1. **Prompts:** the six scenarios in `test-results.md` (the test summary table and the per-test prompts), plus the brief's prompts for showing notes and services lookup.\n2. **Procedure:** the method in `test-results.md` lines 28–33. Copy one `case-studies/<slug>/region/` into `specialist/reference/region/`, load it into a fresh Project, and run every job. Do this for all four markets, not just two.\n3. **Baseline:** save real transcripts from the current `specialist/` *before* you edit anything. The repo has no captured outputs to compare with.\n4. **What to check:** the brief's \"What we're specifically watching for\" list (lines 128–133) works as a pass/fail list. It covers things like never inventing a vendor, not addressing the client directly, and skipping the menu when you start with a clear job request. `test-results.md` adds two Novato checks: no foreign-buyer framing in a Novato listing, and the specific Mello-Roos caveat in Novato pricing.\n\nThe map's catalog sent me to card 7.3 for `docs/` files, but that card is about which files are published, so it couldn't answer this. I also read `notes.md` and both source files directly.",
+      "tool_calls": []
+    }
+  ],
+  "redactions": 0
+}
